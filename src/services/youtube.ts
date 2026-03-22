@@ -3,7 +3,7 @@ import { generateColorFromUsername } from '../utils/color';
 
 const YOUTUBE_API_BASE = 'https://www.googleapis.com/youtube/v3';
 const POLLING_INTERVAL_MS = 5000; // YouTube recommends polling every 5 seconds
-const MAX_TRIES = 5;
+const MAX_TRIES = 3;
 
 // YouTube author badge types we can map
 interface YouTubeAuthorDetails {
