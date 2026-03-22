@@ -1,3 +1,5 @@
+export type Platform = 'twitch' | 'youtube';
+
 export type MessagePart = 
   | { type: 'text'; content: string }
   | { type: 'emote'; id: string; name: string };
@@ -15,4 +17,6 @@ export interface ChatMessage {
   badges: UserBadge[];
   parts: MessagePart[];
   isSamePreviousUser?: boolean;
+  platform: Platform;
+  timestamp: number;
 }

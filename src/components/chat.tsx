@@ -1,0 +1,225 @@
+import { useMemo, useRef } from "react";
+import { useAutoScroll } from "../hooks/useAutoScroll";
+import type { ChatMessage } from "../types/chat";
+import { useTwitchChat } from "../hooks/useTwitchChat";
+import { useYouTubeChat } from "../hooks/useYouTubeChat";
+import { cn } from "../utils/cn";
+
+// Platform icons
+export const TwitchIcon = () => (
+  <svg className="size-5" viewBox="0 0 24 24" fill="currentColor">
+    <path d="M11.571 4.714h1.715v5.143H11.57zm4.715 0H18v5.143h-1.714zM6 0L1.714 4.286v15.428h5.143V24l4.286-4.286h3.428L22.286 12V0zm14.571 11.143l-3.428 3.428h-3.429l-3 3v-3H6.857V1.714h13.714Z"/>
+  </svg>
+);
+
+export const YouTubeIcon = () => (
+  <svg className="size-5" viewBox="0 0 24 24" fill="currentColor">
+    <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
+  </svg>
+);
+
+export function Chat({
+  twitchChannel,
+  youtubeChannel,
+  youtubeApiKey,
+  fade,
+  ignoredUsers,
+  notificationSound,
+  chatAlignment,
+  showPlatform,
+}: {
+  twitchChannel: string,
+  youtubeChannel: string,
+  youtubeApiKey: string,
+  fade: number,
+  ignoredUsers: string[],
+  notificationSound: boolean,
+  chatAlignment: string,
+  showPlatform: boolean,
+}) {
+  // Determine which platforms are enabled
+  const enableTwitch = Boolean(twitchChannel);
+  const enableYouTube = Boolean(youtubeChannel && youtubeApiKey);
+
+  // Connect to Twitch chat
+  const { messages: twitchMessages } = useTwitchChat(
+    twitchChannel,
+    fade,
+    ignoredUsers,
+    notificationSound
+  );
+
+  // Connect to YouTube chat
+  const { messages: youtubeMessages } = useYouTubeChat(
+    youtubeChannel,
+    youtubeApiKey,
+    fade,
+    ignoredUsers,
+    notificationSound,
+    enableYouTube
+  );
+
+  // Merge and sort messages by timestamp (using message ID as proxy for order)
+  const allMessages = useMemo(() => {
+    const messages: ChatMessage[] = [];
+    
+    if (enableTwitch) {
+      messages.push(...twitchMessages);
+    }
+    if (enableYouTube) {
+      messages.push(...youtubeMessages);
+    }
+
+    // Sort by timestamp
+    // Messages from the same array are already ordered, so we just interleave them
+    return messages.toSorted((a, b) => a.timestamp - b.timestamp);
+  }, [twitchMessages, youtubeMessages, enableTwitch, enableYouTube]);
+
+  // Handle auto-scroll to bottom of chat
+  const chatContainerRef = useRef<HTMLDivElement>(null);
+  useAutoScroll(chatContainerRef, [allMessages]);
+
+  return (
+    <div className="relative w-full">
+      {/* Connection Status */}
+      {/*(enableTwitch || enableYouTube) && (
+        <div className="absolute top-2 right-2 flex gap-2 z-50">
+          {enableTwitch && (
+            <div className="flex items-center gap-1.5 px-2 py-1 bg-purple-600/80 rounded-full text-xs font-medium text-white backdrop-blur-sm">
+              <TwitchIcon />
+              <span>Twitch</span>
+            </div>
+          )}
+          {enableYouTube && (
+            <div className={cn(
+              "flex items-center gap-1.5 px-2 py-1 rounded-full text-xs font-medium text-white backdrop-blur-sm",
+              youtubeError ? "bg-red-600/80" : "bg-red-500/80"
+            )}>
+              <YouTubeIcon />
+              <span>{youtubeError ? 'Error' : 'YouTube'}</span>
+            </div>
+          )}
+        </div>
+      )*/}
+
+      {/* Error Display */}
+      {/*youtubeError && (
+        <div className="absolute top-10 right-2 max-w-[250px] z-50">
+          <div className="bg-red-600/90 text-white text-xs p-2 rounded-lg backdrop-blur-sm">
+            YouTube: {youtubeError}
+          </div>
+        </div>
+      )*/}
+      
+      <div 
+        className="w-full max-h-dvh overflow-hidden mask-y-from-[calc(100%-var(--spacing)*4)] p-4 space-y-4 text-[1.25rem] text-shadow-md text-shadow-black/40 font-semibold leading-[1.4] wrap-break-word" 
+        data-slot="chat-container"
+        ref={chatContainerRef}
+        style={{
+          "--align": chatAlignment,
+        } as React.CSSProperties}
+      >
+        {allMessages.map((msg, i) => (
+          <div 
+            key={`${msg.platform}-${msg.id}`}
+            data-slot="chat-message"
+            data-platform={msg.platform}
+            className="origin-bottom-left will-change-[transform,opacity] relative"
+            style={{
+              "--color": msg.color,
+              animation: fade > 0 ? `slideIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards, fadeOut 0.5s ease-out forwards ${fade - 0.5}s` : `slideIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards`,
+            } as React.CSSProperties}
+          >
+            {(!msg.isSamePreviousUser || i == 0) && (
+              <div
+                data-slot="chat-message-user"
+                className={cn(
+                  "flex items-center gap-3 pl-1 pr-3 py-1 w-fit absolute z-10 text-[1.125rem] rounded-xl shadow-[0_4px_16px_rgba(0,0,0,0.3)]",
+                  msg.platform === 'youtube' && "ring-1 ring-red-400/30"
+                )}
+                style={{
+                  backgroundColor: 'color-mix(in oklab, var(--color) 80%, black)',
+                  left: 'if(style(--align: left): 0; else: auto)',
+                  right: 'if(style(--align: right): 0; else: auto)',
+                } as React.CSSProperties}
+              >
+                {/* Platform Indicator */}
+                {showPlatform && (
+                  <span
+                    aria-label={msg.platform}
+                    data-slot="chat-message-user-platform"
+                    className={cn(
+                      "flex items-center bg-white p-1.5 -m-1 mr-0 rounded-lg shadow-[0_4px_16px_rgba(0,0,0,0.3)]",
+                      msg.platform === 'twitch' ? "text-purple-500" : "text-red-500"
+                    )}
+                  >
+                    {msg.platform === 'twitch' ? <TwitchIcon /> : <YouTubeIcon />}
+                  </span>
+                )}
+                
+                {msg.badges && msg.badges.length > 0 && (
+                  <span data-slot="chat-message-user-badges" className="flex items-center gap-1">
+                    {msg.badges.map((badge, index) => (
+                      <img 
+                        data-slot="chat-message-badge"
+                        key={`${msg.id}-badge-${index}`}
+                        src={badge.url}
+                        srcSet={`${badge.url.slice(0,-1)}1 1x, ${badge.url.slice(0,-1)}2 2x, ${badge.url.slice(0,-1)}3 4x`}
+                        alt={badge.id}
+                        title={badge.id}
+                        className="size-[20px] drop-shadow-sm drop-shadow-black/50"
+                        onError={(e) => {
+                          e.currentTarget.style.display = 'none';
+                        }}
+                      />
+                    ))}
+                  </span>
+                )}
+                <span data-slot="chat-message-user-name" className="font-bold">{msg.username}</span>
+              </div>
+            )}
+
+            <div
+              data-slot="chat-message-text"
+              className={cn(msg.isSamePreviousUser && i > 0 ? "-mt-2" : "pt-7", "px-2 w-fit text-pretty")}
+              style={{
+                marginLeft: 'if(style(--align: left): 0; else: auto)',
+                marginRight: 'if(style(--align: right): 0; else: auto)',
+              } as React.CSSProperties}
+            >
+              <div
+                className={cn(
+                  "px-5 py-3 w-fit rounded-2xl shadow-[0_3px_12px_rgba(0,0,0,0.4)]",
+                  msg.platform === 'youtube' && "ring-1 ring-red-400/10"
+                )}
+                style={{
+                  backgroundColor: 'color-mix(in oklab, var(--color) 20%, var(--color-neutral-900))',
+                } as React.CSSProperties}
+              >
+                {msg.parts.map((part, index) => {
+                  if (part.type === 'emote') {
+                    return (
+                      <img
+                        data-slot="chat-message-text-emote"
+                        key={index}
+                        src={`https://static-cdn.jtvnw.net/emoticons/v2/${part.id}/default/dark/1.0`}
+                        srcSet={`https://static-cdn.jtvnw.net/emoticons/v2/${part.id}/default/dark/1.0 1x, https://static-cdn.jtvnw.net/emoticons/v2/${part.id}/default/dark/2.0 2x, https://static-cdn.jtvnw.net/emoticons/v2/${part.id}/default/dark/3.0 4x`}
+                        alt={part.name}
+                        title={part.name}
+                        className="inline-block align-middle -mt-1 px-[2px] h-[28px] drop-shadow-md drop-shadow-black/50"
+                        onError={(e) => {
+                          e.currentTarget.style.display = 'none';
+                        }}
+                      />
+                    );
+                  }
+                  return <span data-slot="chat-message-text-part" key={index}>{part.content}</span>;
+                })}
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}

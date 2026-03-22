@@ -2,8 +2,8 @@ import tmi from 'tmi.js';
 import { parseEmotes } from '../utils/emotes';
 import { parseBadges } from '../utils/badges';
 import type { ChatMessage } from '../types/chat';
+import { generateColorFromUsername } from '../utils/color';
 
-const FALLBACK_COLOR = '#3fa0fa';
 const FALLBACK_USERNAME = 'Anonymous';
 
 export function createTwitchClient(channel: string, onMessage: (msg: ChatMessage) => void) {
@@ -22,7 +22,7 @@ export function createTwitchClient(channel: string, onMessage: (msg: ChatMessage
     if (self) return;
 
     const username = tags['display-name'] || tags.username || FALLBACK_USERNAME;
-    const color = tags.color || FALLBACK_COLOR;
+    const color = tags.color || generateColorFromUsername(username);
     const messageId = tags.id || Math.random().toString(36).substring(2, 9);
     
     const parts = parseEmotes(message, tags.emotes);
@@ -30,9 +30,7 @@ export function createTwitchClient(channel: string, onMessage: (msg: ChatMessage
     const isSamePreviousUser = lastSender === username;
     lastSender = username;
 
-    console.log(username);
-
-    onMessage({ id: messageId, username, color, parts, badges, isSamePreviousUser });
+    onMessage({ id: messageId, username, color, parts, badges, isSamePreviousUser, platform: 'twitch', timestamp: Date.now() });
   });
 
   return {

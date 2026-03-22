@@ -62,7 +62,7 @@ export function parseBadges(badges?: ChatUserstate['badges']): UserBadge[] {
       parsedBadges.push({
         id: badgeName,
         version: version,
-        url: `https://static-cdn.jtvnw.net/badges/v1/${globalId}/1`
+        url: `https://static-cdn.jtvnw.net/badges/v${version}/${globalId}/1`
       });
     } else {
       // For channel-specific badges (like subscribers, founders, or custom bits tiers), 
