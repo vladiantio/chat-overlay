@@ -1,4 +1,4 @@
-import type { ChatMessage, MessagePart, UserBadge } from '../types/chat';
+import type { ChatMessage, UserBadge } from '../types/chat';
 import { generateColorFromUsername } from '../utils/color';
 
 const YOUTUBE_API_BASE = 'https://www.googleapis.com/youtube/v3';
@@ -60,14 +60,6 @@ interface YouTubeVideoResponse {
   }>;
 }
 
-// Parse message text into parts (YouTube doesn't have native emotes like Twitch)
-function parseYouTubeMessage(message: string): MessagePart[] {
-  // For now, treat the entire message as text
-  // YouTube messages don't have a structured emote format like Twitch
-  // We could add emoji parsing here in the future
-  return [{ type: 'text', content: message }];
-}
-
 // Convert YouTube message to our ChatMessage format
 function convertYouTubeMessage(
   ytMessage: YouTubeLiveChatMessage,
@@ -116,7 +108,7 @@ function convertYouTubeMessage(
     id,
     username: authorDetails.displayName,
     color,
-    parts: parseYouTubeMessage(messageText),
+    message: messageText,
     badges,
     isSamePreviousUser,
     platform: 'youtube',

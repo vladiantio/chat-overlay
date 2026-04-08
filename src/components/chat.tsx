@@ -4,6 +4,7 @@ import type { ChatMessage } from "../types/chat";
 import { useTwitchChat } from "../hooks/useTwitchChat";
 import { useYouTubeChat } from "../hooks/useYouTubeChat";
 import { cn } from "../utils/cn";
+import { MessageRenderer } from "./message-renderer";
 
 // Platform icons
 export const TwitchIcon = () => (
@@ -196,25 +197,7 @@ export function Chat({
                   backgroundColor: 'color-mix(in oklab, var(--color) 20%, var(--color-neutral-900))',
                 } as React.CSSProperties}
               >
-                {msg.parts.map((part, index) => {
-                  if (part.type === 'emote') {
-                    return (
-                      <img
-                        data-slot="chat-message-text-emote"
-                        key={index}
-                        src={`https://static-cdn.jtvnw.net/emoticons/v2/${part.id}/default/dark/1.0`}
-                        srcSet={`https://static-cdn.jtvnw.net/emoticons/v2/${part.id}/default/dark/1.0 1x, https://static-cdn.jtvnw.net/emoticons/v2/${part.id}/default/dark/2.0 2x, https://static-cdn.jtvnw.net/emoticons/v2/${part.id}/default/dark/3.0 4x`}
-                        alt={part.name}
-                        title={part.name}
-                        className="inline-block align-middle -mt-1 px-[2px] h-[28px] drop-shadow-md drop-shadow-black/50"
-                        onError={(e) => {
-                          e.currentTarget.style.display = 'none';
-                        }}
-                      />
-                    );
-                  }
-                  return <span data-slot="chat-message-text-part" key={index}>{part.content}</span>;
-                })}
+                <MessageRenderer message={msg.message} emotes={msg.emotes} />
               </div>
             </div>
           </div>

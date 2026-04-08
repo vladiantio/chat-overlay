@@ -1,3 +1,5 @@
+import type { ChatUserstate } from "tmi.js";
+
 export type Platform = 'twitch' | 'youtube';
 
 export type MessagePart = 
@@ -15,7 +17,8 @@ export interface ChatMessage {
   username: string;
   color: string;
   badges: UserBadge[];
-  parts: MessagePart[];
+  message: string;
+  emotes?: ChatUserstate['emotes'];
   isSamePreviousUser?: boolean;
   platform: Platform;
   timestamp: number;

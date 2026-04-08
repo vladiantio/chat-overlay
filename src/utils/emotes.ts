@@ -1,9 +1,16 @@
 import type { ChatUserstate } from 'tmi.js';
 import type { MessagePart } from '../types/chat';
 
-export function parseEmotes(message: string, emotes?: ChatUserstate['emotes']): MessagePart[] {
+const getEmoteImageSrc = (id: string) => `https://static-cdn.jtvnw.net/emoticons/v2/${id}/default/dark/1.0`
+
+export const parseEmoteImageSrcSet = (src: string) => {
+  if (!src.startsWith('https://static-cdn.jtvnw.net/emoticons/v2/')) return undefined;
+  return `${src} 1x, ${src.slice(0,-4)}/2.0 2x, ${src.slice(0,-4)}/3.0 4x`
+}
+
+export function parseEmotes(message: string, emotes?: ChatUserstate['emotes']): string {
   if (!emotes) {
-    return [{ type: 'text', content: message }];
+    return message;
   }
 
   // Parse emotes object into a flat, sorted array of boundaries
@@ -46,5 +53,5 @@ export function parseEmotes(message: string, emotes?: ChatUserstate['emotes']): 
     parts.push({ type: 'text', content: textChunk });
   }
 
-  return parts;
+  return parts.map((part) => part.type === 'emote' ? `![${part.name}](${getEmoteImageSrc(part.id)})` : part.content).join('');
 }
