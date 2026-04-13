@@ -5,7 +5,7 @@ import { generateColorFromUsername } from '../utils/color';
 
 const FALLBACK_USERNAME = 'Anonymous';
 
-export function createTwitchClient(channel: string, onMessage: (msg: ChatMessage) => void) {
+export function createTwitchClient(channel: string, onMessage: (msg: ChatMessage) => void, onDeleted: (deletedMessageId: string) => void) {
   let lastSender: string | null = null
   const client = new tmi.Client({
     connection: {
@@ -29,6 +29,13 @@ export function createTwitchClient(channel: string, onMessage: (msg: ChatMessage
     lastSender = username;
 
     onMessage({ id: messageId, username, color, message, emotes: tags.emotes, badges, isSamePreviousUser, platform: 'twitch', timestamp: Date.now() });
+  });
+
+  client.on('messagedeleted', (_channel, _username, _deletedMessage, userstate) => {
+    const deletedMessageId = userstate['target-msg-id'];
+    if (deletedMessageId) {
+      onDeleted(deletedMessageId);
+    }
   });
 
   return {

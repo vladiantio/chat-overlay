@@ -66,6 +66,9 @@ export function useTwitchChat(channel: string, fadeSeconds: number = 0, ignoredU
 
         timeoutsRef.current.add(timeout);
       }
+    }, (deletedMessageId) => {
+      // Remove deleted message from chat
+      setMessages(prevMessages => prevMessages.filter(msg => msg.id !== deletedMessageId));
     });
 
     return () => {
