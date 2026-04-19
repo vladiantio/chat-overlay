@@ -18,7 +18,7 @@ const ignoreParam = urlParams.get('ignore') || IGNORE_USERS || '';
 const chatAlignment = urlParams.get('chatAlignment') || CHAT_ALIGNMENT || 'left';
 
 // URL parameters for both platforms
-const notificationSound = Boolean(Number(urlParams.get('notificationSound')) || NOTIFICATION_SOUND);
+const notificationSound = Boolean(urlParams.has('notificationSound') ? Number(urlParams.get('notificationSound')) : NOTIFICATION_SOUND);
 const showPlatform = Boolean(Number(urlParams.get('showPlatform')) || 1);
 const ignoredUsers = ignoreParam ? ignoreParam.split(',').map(u => u.trim().toLowerCase()) : [];
 
