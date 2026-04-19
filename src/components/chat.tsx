@@ -164,10 +164,10 @@ export function Chat({
                       <img 
                         data-slot="chat-message-badge"
                         key={`${msg.id}-badge-${index}`}
-                        src={badge.url}
+                        src={`${badge.url.slice(0,-1)}1`}
                         srcSet={`${badge.url.slice(0,-1)}1 1x, ${badge.url.slice(0,-1)}2 2x, ${badge.url.slice(0,-1)}3 4x`}
-                        alt={badge.id}
-                        title={badge.id}
+                        alt={badge.description}
+                        title={badge.description}
                         className="size-[20px] drop-shadow-sm drop-shadow-black/50"
                         onError={(e) => {
                           e.currentTarget.style.display = 'none';

@@ -1,5 +1,5 @@
 import tmi from 'tmi.js';
-import { parseBadges } from '../utils/badges';
+import { parseBadges } from '../features/badges/parse-badges';
 import type { ChatMessage } from '../types/chat';
 import { generateColorFromUsername } from '../utils/color';
 
