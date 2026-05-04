@@ -2,8 +2,15 @@ import Markdown, { ReactRenderer } from 'marked-react';
 import type { ChatUserstate } from 'tmi.js';
 import { parseEmoteImageSrcSet, parseEmotes } from '../utils/emotes';
 import { cn } from '../utils/cn';
+import { isValidElement } from 'react';
 
 const renderer: Partial<ReactRenderer> = {
+  paragraph(children) {
+    const hasOnlyImages = typeof children !== "string" && Array.from(children as Iterable<React.ReactNode>).every(child => (typeof child == "string" && child.trim().length === 0) || (isValidElement(child) && child.type === "img"))
+    return (
+      <p className={cn(hasOnlyImages && "[&>img]:h-[2lh] [&>img]:my-[0.25lh]")}>{children}</p>
+    )
+  },
   blockquote(children) {
     return (
       <div className="border-l-3 pl-3 opacity-80">{children}</div>
