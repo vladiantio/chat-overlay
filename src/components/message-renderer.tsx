@@ -56,7 +56,7 @@ const renderer: Partial<ReactRenderer> = {
   },
   link(_href, text) {
     return (
-      <span className="text-purple-300 underline">{text}</span>
+      <span className="text-(--tint-color) underline">{text}</span>
     );
   },
 };
