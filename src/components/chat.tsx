@@ -184,7 +184,7 @@ export function Chat({
             <div
               data-slot="chat-message-text"
               className={cn(
-                "relative font-medium text-pretty w-fit px-4 py-2 rounded-xl shadow-[0_3px_12px_rgba(0,0,0,0.4)] bg-(--subtle-color) border-2 border-transparent group-last:border-(--tint-color)",
+                "relative font-medium text-pretty w-fit px-3 py-2 rounded-xl shadow-[0_3px_12px_rgba(0,0,0,0.4)] bg-(--subtle-color) border-2 border-transparent group-last:border-(--tint-color)",
                 msg.isSamePreviousUser && i > 0 ? "-mt-3" : "-mt-1",
               )}
               style={{
