@@ -47,7 +47,7 @@ const renderer: Partial<ReactRenderer> = {
         srcSet={parseEmoteImageSrcSet(src)}
         alt={alt}
         title={title ?? undefined}
-        className="inline-block align-middle -mt-[0.25lh] px-[2px] h-lh drop-shadow-md drop-shadow-black/50"
+        className="inline-block align-middle -mt-[0.25lh] px-[2px] h-lh"
         onError={(e) => {
           e.currentTarget.style.display = 'none';
         }}
