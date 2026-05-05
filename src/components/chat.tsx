@@ -81,37 +81,7 @@ export function Chat({
   useAutoScroll(chatContainerRef, [allMessages]);
 
   return (
-    <div className="relative w-full">
-      {/* Connection Status */}
-      {/*(enableTwitch || enableYouTube) && (
-        <div className="absolute top-2 right-2 flex gap-2 z-50">
-          {enableTwitch && (
-            <div className="flex items-center gap-1.5 px-2 py-1 bg-purple-600/80 rounded-full text-xs font-medium text-white backdrop-blur-sm">
-              <TwitchIcon />
-              <span>Twitch</span>
-            </div>
-          )}
-          {enableYouTube && (
-            <div className={cn(
-              "flex items-center gap-1.5 px-2 py-1 rounded-full text-xs font-medium text-white backdrop-blur-sm",
-              youtubeError ? "bg-red-600/80" : "bg-red-500/80"
-            )}>
-              <YouTubeIcon />
-              <span>{youtubeError ? 'Error' : 'YouTube'}</span>
-            </div>
-          )}
-        </div>
-      )*/}
-
-      {/* Error Display */}
-      {/*youtubeError && (
-        <div className="absolute top-10 right-2 max-w-[250px] z-50">
-          <div className="bg-red-600/90 text-white text-xs p-2 rounded-lg backdrop-blur-sm">
-            YouTube: {youtubeError}
-          </div>
-        </div>
-      )*/}
-      
+    <div className="relative w-full">      
       <div 
         className="w-full max-h-dvh overflow-hidden mask-y-from-[calc(100%-var(--spacing)*4)] p-4 space-y-4 text-[1.25rem] leading-[1.4] wrap-break-word" 
         data-slot="chat-container"
