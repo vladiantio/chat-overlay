@@ -125,7 +125,7 @@ export function Chat({
             key={`${msg.platform}-${msg.id}`}
             data-slot="chat-message"
             data-platform={msg.platform}
-            className="origin-bottom-left will-change-[transform,opacity] relative"
+            className="group origin-bottom-left will-change-[transform,opacity] relative"
             style={{
               "--color": msg.color,
               animation: fade > 0 ? `slideIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards, fadeOut 0.5s ease-out forwards ${fade - 0.5}s` : `slideIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards`,
@@ -190,7 +190,7 @@ export function Chat({
             >
               <div
                 className={cn(
-                  "px-5 py-3 w-fit rounded-2xl shadow-[0_3px_12px_rgba(0,0,0,0.4)]",
+                  "px-5 py-3 w-fit rounded-2xl shadow-[0_3px_12px_rgba(0,0,0,0.4)] border-2 border-transparent group-last:border-(--color)",
                   msg.platform === 'youtube' && "ring-1 ring-red-400/10"
                 )}
                 style={{
