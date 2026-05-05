@@ -128,7 +128,10 @@ export function Chat({
             className="group origin-bottom-left will-change-[transform,opacity] relative"
             style={{
               "--color": msg.color,
-              animation: fade > 0 ? `slideIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards, fadeOut 0.5s ease-out forwards ${fade - 0.5}s` : `slideIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards`,
+              animation: [
+                `slideIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards`,
+                fade > 0 ? `fadeOut 0.5s ease-out forwards ${fade - 0.5}s` : undefined
+              ].filter(s => s).join(', '),
             } as React.CSSProperties}
           >
             {(!msg.isSamePreviousUser || i == 0) && (
