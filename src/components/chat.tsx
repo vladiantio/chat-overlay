@@ -197,7 +197,7 @@ export function Chat({
                   msg.platform === 'youtube' && "ring-1 ring-red-400/10"
                 )}
                 style={{
-                  backgroundColor: 'color-mix(in oklab, var(--color) 20%, var(--color-neutral-900))',
+                  backgroundColor: 'color-mix(in oklab, var(--color) 10%, var(--color-neutral-900))',
                 } as React.CSSProperties}
               >
                 <MessageRenderer message={msg.message} emotes={msg.emotes} />
