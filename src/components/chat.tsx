@@ -192,10 +192,7 @@ export function Chat({
               } as React.CSSProperties}
             >
               <div
-                className={cn(
-                  "px-5 py-3 w-fit rounded-2xl shadow-[0_3px_12px_rgba(0,0,0,0.4)] border-2 border-transparent group-last:border-(--color)",
-                  msg.platform === 'youtube' && "ring-1 ring-red-400/10"
-                )}
+                className="px-5 py-3 w-fit rounded-2xl shadow-[0_3px_12px_rgba(0,0,0,0.4)] border-2 border-transparent group-last:border-(--color)"
                 style={{
                   backgroundColor: 'color-mix(in oklab, var(--color) 10%, var(--color-neutral-900))',
                 } as React.CSSProperties}
