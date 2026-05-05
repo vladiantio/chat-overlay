@@ -113,7 +113,7 @@ export function Chat({
       )*/}
       
       <div 
-        className="w-full max-h-dvh overflow-hidden mask-y-from-[calc(100%-var(--spacing)*4)] p-4 space-y-4 text-[1.25rem] text-shadow-md text-shadow-black/40 font-semibold leading-[1.4] wrap-break-word" 
+        className="w-full max-h-dvh overflow-hidden mask-y-from-[calc(100%-var(--spacing)*4)] p-4 space-y-4 text-[1.25rem] leading-[1.4] wrap-break-word" 
         data-slot="chat-container"
         ref={chatContainerRef}
         style={{
@@ -128,6 +128,8 @@ export function Chat({
             className="group origin-bottom-left will-change-[transform,opacity] relative"
             style={{
               "--color": msg.color,
+              "--subtle-color": "color-mix(in oklab, var(--color) 10%, var(--color-neutral-900))",
+              "--tint-color": "color-mix(in oklab, var(--color) 60%, #fff)",
               animation: [
                 `slideIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards`,
                 fade > 0 ? `fadeOut 0.5s ease-out forwards ${fade - 0.5}s` : undefined
@@ -138,11 +140,10 @@ export function Chat({
               <div
                 data-slot="chat-message-user"
                 className={cn(
-                  "flex items-center gap-3 pl-1 pr-3 py-1 w-fit absolute z-10 text-[1.125rem] rounded-xl shadow-[0_4px_16px_rgba(0,0,0,0.3)]",
+                  "bg-(--subtle-color) flex items-center gap-1 pr-1 w-fit relative z-1 font-semibold text-[1.125rem] rounded-xl shadow-[0_4px_16px_rgba(0,0,0,0.3)]",
                   msg.platform === 'youtube' && "ring-1 ring-red-400/30"
                 )}
                 style={{
-                  backgroundColor: 'color-mix(in oklab, var(--color) 80%, black)',
                   left: 'if(style(--align: left): 0; else: auto)',
                   right: 'if(style(--align: right): 0; else: auto)',
                 } as React.CSSProperties}
@@ -152,10 +153,7 @@ export function Chat({
                   <span
                     aria-label={msg.platform}
                     data-slot="chat-message-user-platform"
-                    className={cn(
-                      "flex items-center bg-white p-1.5 -m-1 mr-0 rounded-lg shadow-[0_4px_16px_rgba(0,0,0,0.3)]",
-                      msg.platform === 'twitch' ? "text-purple-500" : "text-red-500"
-                    )}
+                    className="flex items-center p-1.5"
                   >
                     {msg.platform === 'twitch' ? <TwitchIcon /> : <YouTubeIcon />}
                   </span>
@@ -171,7 +169,7 @@ export function Chat({
                         srcSet={`${badge.url.slice(0,-1)}1 1x, ${badge.url.slice(0,-1)}2 2x, ${badge.url.slice(0,-1)}3 4x`}
                         alt={badge.description}
                         title={badge.description}
-                        className="size-[20px] drop-shadow-sm drop-shadow-black/50"
+                        className="size-[24px] drop-shadow-sm drop-shadow-black/30"
                         onError={(e) => {
                           e.currentTarget.style.display = 'none';
                         }}
@@ -179,26 +177,22 @@ export function Chat({
                     ))}
                   </span>
                 )}
-                <span data-slot="chat-message-user-name" className="font-bold">{msg.username}</span>
+                <span data-slot="chat-message-user-name" className="px-2 text-(--tint-color)">{msg.username}</span>
               </div>
             )}
 
             <div
               data-slot="chat-message-text"
-              className={cn(msg.isSamePreviousUser && i > 0 ? "-mt-2" : "pt-7", "px-2 w-fit text-pretty")}
+              className={cn(
+                "relative font-medium text-pretty w-fit px-4 py-2 rounded-xl shadow-[0_3px_12px_rgba(0,0,0,0.4)] bg-(--subtle-color) border-2 border-transparent group-last:border-(--tint-color)",
+                msg.isSamePreviousUser && i > 0 ? "-mt-3" : "-mt-1",
+              )}
               style={{
                 marginLeft: 'if(style(--align: left): 0; else: auto)',
                 marginRight: 'if(style(--align: right): 0; else: auto)',
               } as React.CSSProperties}
             >
-              <div
-                className="px-5 py-3 w-fit rounded-2xl shadow-[0_3px_12px_rgba(0,0,0,0.4)] border-2 border-transparent group-last:border-(--color)"
-                style={{
-                  backgroundColor: 'color-mix(in oklab, var(--color) 10%, var(--color-neutral-900))',
-                } as React.CSSProperties}
-              >
-                <MessageRenderer message={msg.message} emotes={msg.emotes} />
-              </div>
+              <MessageRenderer message={msg.message} emotes={msg.emotes} />
             </div>
           </div>
         ))}
