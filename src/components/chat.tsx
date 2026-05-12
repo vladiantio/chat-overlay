@@ -110,12 +110,13 @@ export function Chat({
               <div
                 data-slot="chat-message-user"
                 className={cn(
-                  "bg-(--subtle-color) flex items-center gap-1 pr-1 w-fit relative z-1 font-semibold text-[1.125rem] rounded-xl shadow-[0_4px_16px_rgba(0,0,0,0.3)]",
+                  "bg-(--tint-color) flex items-center gap-1 pr-1 w-fit relative z-1 font-semibold text-[1.125rem] rounded-xl shadow-[0_4px_16px_rgba(0,0,0,0.3)]",
                   msg.platform === 'youtube' && "ring-1 ring-red-400/30"
                 )}
                 style={{
                   left: 'if(style(--align: left): 0; else: auto)',
                   right: 'if(style(--align: right): 0; else: auto)',
+                  color: 'contrast-color(var(--tint-color))',
                 } as React.CSSProperties}
               >
                 {/* Platform Indicator */}
@@ -147,7 +148,7 @@ export function Chat({
                     ))}
                   </span>
                 )}
-                <span data-slot="chat-message-user-name" className="px-2 text-(--tint-color)">{msg.username}</span>
+                <span data-slot="chat-message-user-name" className="px-2">{msg.username}</span>
               </div>
             )}
 
