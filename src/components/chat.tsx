@@ -109,10 +109,7 @@ export function Chat({
             {(!msg.isSamePreviousUser || i == 0) && (
               <div
                 data-slot="chat-message-user"
-                className={cn(
-                  "bg-(--tint-color) flex items-center gap-1 pr-1 w-fit relative z-1 font-semibold text-[1.125rem] rounded-xl shadow-[0_4px_16px_rgba(0,0,0,0.3)]",
-                  msg.platform === 'youtube' && "ring-1 ring-red-400/30"
-                )}
+                className="bg-(--tint-color) flex items-center gap-1 pr-1 w-fit relative z-1 font-semibold text-[1.125rem] rounded-xl shadow-[0_4px_16px_rgba(0,0,0,0.3)]"
                 style={{
                   left: 'if(style(--align: left): 0; else: auto)',
                   right: 'if(style(--align: right): 0; else: auto)',
