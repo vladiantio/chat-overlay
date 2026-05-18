@@ -1,13 +1,16 @@
 {
   "name": "feedback-chat-twitch",
-  "private": true,
   "version": "0.0.0",
+  "private": true,
   "type": "module",
   "scripts": {
     "dev": "vite",
     "download-badges": "node scripts/download-badges.js",
     "build": "tsc -b && vite build",
-    "lint": "eslint .",
+    "format": "oxfmt",
+    "format:check": "oxfmt --check",
+    "lint": "oxlint",
+    "lint:fix": "oxlint --fix",
     "preview": "vite preview"
   },
   "dependencies": {
@@ -21,16 +24,14 @@
     "tmi.js": "^1.8.5"
   },
   "devDependencies": {
-    "@eslint/js": "^9.39.1",
     "@types/node": "^24.10.1",
     "@types/react": "19.2.14",
     "@types/react-dom": "19.2.3",
     "@types/tmi.js": "^1.8.6",
     "@vitejs/plugin-react": "6.0.2",
-    "eslint": "^9.39.1",
-    "eslint-plugin-react-hooks": "^7.0.1",
-    "eslint-plugin-react-refresh": "^0.4.24",
     "globals": "^16.5.0",
+    "oxfmt": "0.50.0",
+    "oxlint": "1.65.0",
     "typescript": "6.0.3",
     "typescript-eslint": "^8.48.0",
     "vite": "8.0.13"
