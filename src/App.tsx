@@ -20,9 +20,11 @@ const chatAlignment =
 
 // URL parameters for both platforms
 const notificationSound = Boolean(
-  urlParams.has("notificationSound")
-    ? Number(urlParams.get("notificationSound"))
-    : NOTIFICATION_SOUND,
+  Number(
+    urlParams.has("notificationSound")
+      ? urlParams.get("notificationSound")
+      : NOTIFICATION_SOUND,
+  ),
 );
 const showPlatform = Boolean(Number(urlParams.get("showPlatform")) || 1);
 const ignoredUsers = ignoreParam
