@@ -15,6 +15,9 @@ export function parseMarkdown(
   message: string,
   emotes?: ChatUserstate["emotes"],
 ): string {
+  // Add codespan to commands that start with "!"
+  message = message.replace(/^(!\S+)/, "`$1`");
+
   if (!emotes) {
     return message;
   }
