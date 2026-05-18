@@ -25,6 +25,13 @@ const renderer: Partial<ReactRenderer> = {
   blockquote(children) {
     return <div className="border-l-3 pl-3 opacity-80">{children}</div>;
   },
+  codespan(code) {
+    return (
+      <code className="inline-block rounded-md bg-(--tint-color)/10 px-2 font-bold text-(--tint-color)">
+        {code}
+      </code>
+    );
+  },
   em(children) {
     return <em style={{ fontFamily: "Poppins" }}>{children}</em>;
   },
@@ -81,6 +88,6 @@ interface MessageRendererProps {
 
 export function MessageRenderer({ message, emotes }: MessageRendererProps) {
   return (
-    <Markdown value={parseMarkdown(message, emotes)} renderer={renderer} />
+    <Markdown renderer={renderer} value={parseMarkdown(message, emotes)} />
   );
 }
