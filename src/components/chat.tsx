@@ -2,12 +2,11 @@ import { useMemo, useRef } from "react";
 
 import type { ChatMessage } from "@/types/chat";
 
+import { MessageRenderer } from "@/features/messages/message-renderer";
 import { useAutoScroll } from "@/hooks/useAutoScroll";
 import { useTwitchChat } from "@/hooks/useTwitchChat";
 import { useYouTubeChat } from "@/hooks/useYouTubeChat";
 import { cn } from "@/utils/cn";
-
-import { MessageRenderer } from "./message-renderer";
 
 // Platform icons
 export const TwitchIcon = () => (

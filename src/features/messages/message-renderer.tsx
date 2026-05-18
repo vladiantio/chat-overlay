@@ -4,7 +4,8 @@ import Markdown, { ReactRenderer } from "marked-react";
 import { isValidElement } from "react";
 
 import { cn } from "@/utils/cn";
-import { parseEmoteImageSrcSet, parseEmotes } from "@/utils/emotes";
+
+import { parseEmoteImageSrcSet, parseMarkdown } from "./parsers";
 
 const renderer: Partial<ReactRenderer> = {
   paragraph(children) {
@@ -79,5 +80,7 @@ interface MessageRendererProps {
 }
 
 export function MessageRenderer({ message, emotes }: MessageRendererProps) {
-  return <Markdown value={parseEmotes(message, emotes)} renderer={renderer} />;
+  return (
+    <Markdown value={parseMarkdown(message, emotes)} renderer={renderer} />
+  );
 }

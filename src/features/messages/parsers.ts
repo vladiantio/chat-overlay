@@ -11,7 +11,7 @@ export const parseEmoteImageSrcSet = (src: string) => {
   return `${src} 1x, ${src.slice(0, -4)}/2.0 2x, ${src.slice(0, -4)}/3.0 4x`;
 };
 
-export function parseEmotes(
+export function parseMarkdown(
   message: string,
   emotes?: ChatUserstate["emotes"],
 ): string {
