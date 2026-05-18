@@ -41,7 +41,7 @@ Copy `.env` to `.env.local` and fill in your configuration:
 # Twitch Configuration
 VITE_CHANNEL=your_twitch_channel
 
-# YouTube Configuration  
+# YouTube Configuration
 VITE_YOUTUBE_API_KEY=your_youtube_api_key
 VITE_YOUTUBE_CHANNEL_ID=UCxxxxxxxxxxxxxxxxxxx
 ```
@@ -78,21 +78,22 @@ http://localhost:5173/?twitch=shroud&youtube=UCxxxxxxxxxxxxxxxxxxx&youtubeKey=yo
 3. Copy the ID starting with `UC`
 
 Alternatively, if you have a custom URL (`@handle`), you can:
+
 - View page source and search for `"channelId":"UC`
 - Or use a [Channel ID finder tool](https://www.streamweasels.com/tools/youtube-channel-id-and-user-id-convertor/)
 
 ## URL Parameters
 
-| Parameter | Description | Default |
-|-----------|-------------|---------|
-| `twitch` | Twitch channel name | - |
-| `youtube` | YouTube Channel ID (UC...) | - |
-| `youtubeKey` | YouTube Data API Key | - |
-| `fade` | Message fade time in seconds | `0` (no fade) |
-| `ignore` | Comma-separated list of users to ignore | - |
-| `notificationSound` | Enable sound notifications (`1` or `0`) | `1` |
-| `chatAlignment` | Text alignment (`left` or `right`) | `left` |
-| `showPlatform` | Show platform icons (`1` or `0`) | `1` |
+| Parameter           | Description                             | Default       |
+| ------------------- | --------------------------------------- | ------------- |
+| `twitch`            | Twitch channel name                     | -             |
+| `youtube`           | YouTube Channel ID (UC...)              | -             |
+| `youtubeKey`        | YouTube Data API Key                    | -             |
+| `fade`              | Message fade time in seconds            | `0` (no fade) |
+| `ignore`            | Comma-separated list of users to ignore | -             |
+| `notificationSound` | Enable sound notifications (`1` or `0`) | `1`           |
+| `chatAlignment`     | Text alignment (`left` or `right`)      | `left`        |
+| `showPlatform`      | Show platform icons (`1` or `0`)        | `1`           |
 
 ### Example URLs
 
@@ -200,7 +201,10 @@ The overlay uses Tailwind CSS. Modify `src/index.css` or use custom CSS in OBS:
 The default font is Outfit (loaded from Google Fonts). Change it in `index.html`:
 
 ```html
-<link href="https://fonts.googleapis.com/css2?family=Your+Font&display=swap" rel="stylesheet">
+<link
+  href="https://fonts.googleapis.com/css2?family=Your+Font&display=swap"
+  rel="stylesheet"
+/>
 ```
 
 ## Browser Support

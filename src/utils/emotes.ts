@@ -1,14 +1,20 @@
-import type { ChatUserstate } from 'tmi.js';
-import type { MessagePart } from '../types/chat';
+import type { ChatUserstate } from "tmi.js";
 
-const getEmoteImageSrc = (id: string) => `https://static-cdn.jtvnw.net/emoticons/v2/${id}/default/dark/1.0`
+import type { MessagePart } from "@/types/chat";
+
+const getEmoteImageSrc = (id: string) =>
+  `https://static-cdn.jtvnw.net/emoticons/v2/${id}/default/dark/1.0`;
 
 export const parseEmoteImageSrcSet = (src: string) => {
-  if (!src.startsWith('https://static-cdn.jtvnw.net/emoticons/v2/')) return undefined;
-  return `${src} 1x, ${src.slice(0,-4)}/2.0 2x, ${src.slice(0,-4)}/3.0 4x`
-}
+  if (!src.startsWith("https://static-cdn.jtvnw.net/emoticons/v2/"))
+    return undefined;
+  return `${src} 1x, ${src.slice(0, -4)}/2.0 2x, ${src.slice(0, -4)}/3.0 4x`;
+};
 
-export function parseEmotes(message: string, emotes?: ChatUserstate['emotes']): string {
+export function parseEmotes(
+  message: string,
+  emotes?: ChatUserstate["emotes"],
+): string {
   if (!emotes) {
     return message;
   }
@@ -18,7 +24,7 @@ export function parseEmotes(message: string, emotes?: ChatUserstate['emotes']): 
 
   for (const [id, positions] of Object.entries(emotes)) {
     for (const position of positions) {
-      const [start, end] = position.split('-');
+      const [start, end] = position.split("-");
       emoteBoundaries.push({
         id,
         start: parseInt(start, 10),
@@ -37,12 +43,12 @@ export function parseEmotes(message: string, emotes?: ChatUserstate['emotes']): 
     // If there's text before the emote, push it
     if (boundary.start > currentPos) {
       const textChunk = message.slice(currentPos, boundary.start);
-      parts.push({ type: 'text', content: textChunk });
+      parts.push({ type: "text", content: textChunk });
     }
 
     // Push the emote itself
     const emoteName = message.slice(boundary.start, boundary.end + 1);
-    parts.push({ type: 'emote', id: boundary.id, name: emoteName });
+    parts.push({ type: "emote", id: boundary.id, name: emoteName });
 
     currentPos = boundary.end + 1;
   }
@@ -50,8 +56,14 @@ export function parseEmotes(message: string, emotes?: ChatUserstate['emotes']): 
   // If there's trailing text after the last emote, push it
   if (currentPos < message.length) {
     const textChunk = message.slice(currentPos);
-    parts.push({ type: 'text', content: textChunk });
+    parts.push({ type: "text", content: textChunk });
   }
 
-  return parts.map((part) => part.type === 'emote' ? `![${part.name}](${getEmoteImageSrc(part.id)})` : part.content).join('');
+  return parts
+    .map((part) =>
+      part.type === "emote"
+        ? `![${part.name}](${getEmoteImageSrc(part.id)})`
+        : part.content,
+    )
+    .join("");
 }

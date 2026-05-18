@@ -1,7 +1,8 @@
-import type { ChatMessage, UserBadge } from '../types/chat';
-import { generateColorFromUsername } from '../utils/color';
+import type { ChatMessage, UserBadge } from "@/types/chat";
 
-const YOUTUBE_API_BASE = 'https://www.googleapis.com/youtube/v3';
+import { generateColorFromUsername } from "@/utils/color";
+
+const YOUTUBE_API_BASE = "https://www.googleapis.com/youtube/v3";
 const POLLING_INTERVAL_MS = 5000; // YouTube recommends polling every 5 seconds
 const MAX_TRIES = 3;
 
@@ -19,7 +20,13 @@ interface YouTubeAuthorDetails {
 interface YouTubeLiveChatMessage {
   id: string;
   snippet: {
-    type: 'textMessageEvent' | 'memberMilestoneChatEvent' | 'superChatEvent' | 'superStickerEvent' | 'membershipGiftingEvent' | 'giftMembershipReceivedEvent';
+    type:
+      | "textMessageEvent"
+      | "memberMilestoneChatEvent"
+      | "superChatEvent"
+      | "superStickerEvent"
+      | "membershipGiftingEvent"
+      | "giftMembershipReceivedEvent";
     liveChatId: string;
     authorChannelId: string;
     publishedAt: string;
@@ -63,11 +70,12 @@ interface YouTubeVideoResponse {
 // Convert YouTube message to our ChatMessage format
 function convertYouTubeMessage(
   ytMessage: YouTubeLiveChatMessage,
-  isSamePreviousUser: boolean
+  isSamePreviousUser: boolean,
 ): ChatMessage {
   const { snippet, authorDetails, id } = ytMessage;
-  const messageText = snippet.textMessageDetails?.messageText || snippet.displayMessage || '';
-  
+  const messageText =
+    snippet.textMessageDetails?.messageText || snippet.displayMessage || "";
+
   // Generate a consistent color for the user
   const color = generateColorFromUsername(authorDetails.displayName);
 
@@ -111,7 +119,7 @@ function convertYouTubeMessage(
     message: messageText,
     badges,
     isSamePreviousUser,
-    platform: 'youtube',
+    platform: "youtube",
     timestamp: Date.now(),
   };
 }
@@ -119,34 +127,34 @@ function convertYouTubeMessage(
 // Fetch active live stream for a channel
 async function fetchLiveStream(
   apiKey: string,
-  channelId: string
+  channelId: string,
 ): Promise<string | null> {
   try {
     // Search for live broadcasts on the channel
     const searchUrl = new URL(`${YOUTUBE_API_BASE}/search`);
-    searchUrl.searchParams.set('key', apiKey);
-    searchUrl.searchParams.set('channelId', channelId);
-    searchUrl.searchParams.set('eventType', 'live');
-    searchUrl.searchParams.set('type', 'video');
-    searchUrl.searchParams.set('part', 'id');
-    searchUrl.searchParams.set('maxResults', '1');
+    searchUrl.searchParams.set("key", apiKey);
+    searchUrl.searchParams.set("channelId", channelId);
+    searchUrl.searchParams.set("eventType", "live");
+    searchUrl.searchParams.set("type", "video");
+    searchUrl.searchParams.set("part", "id");
+    searchUrl.searchParams.set("maxResults", "1");
 
     const response = await fetch(searchUrl.toString());
     const data = await response.json();
 
     if (data.error) {
-      console.error('YouTube API error:', data.error);
+      console.error("YouTube API error:", data.error);
       return null;
     }
 
     if (!data.items || data.items.length === 0) {
-      console.warn('No live stream found for channel:', channelId);
+      console.warn("No live stream found for channel:", channelId);
       return null;
     }
 
     return data.items[0].id.videoId;
   } catch (error) {
-    console.error('Error fetching live stream:', error);
+    console.error("Error fetching live stream:", error);
     return null;
   }
 }
@@ -154,13 +162,13 @@ async function fetchLiveStream(
 // Fetch live chat ID from video
 async function fetchLiveChatId(
   apiKey: string,
-  videoId: string
+  videoId: string,
 ): Promise<string | null> {
   try {
     const videoUrl = new URL(`${YOUTUBE_API_BASE}/videos`);
-    videoUrl.searchParams.set('key', apiKey);
-    videoUrl.searchParams.set('id', videoId);
-    videoUrl.searchParams.set('part', 'liveStreamingDetails');
+    videoUrl.searchParams.set("key", apiKey);
+    videoUrl.searchParams.set("id", videoId);
+    videoUrl.searchParams.set("part", "liveStreamingDetails");
 
     const response = await fetch(videoUrl.toString());
     const data: YouTubeVideoResponse = await response.json();
@@ -173,10 +181,10 @@ async function fetchLiveChatId(
       }
     }
 
-    console.warn('No active live chat found for video:', videoId);
+    console.warn("No active live chat found for video:", videoId);
     return null;
   } catch (error) {
-    console.error('Error fetching live chat ID:', error);
+    console.error("Error fetching live chat ID:", error);
     return null;
   }
 }
@@ -185,29 +193,29 @@ async function fetchLiveChatId(
 async function pollLiveChat(
   apiKey: string,
   liveChatId: string,
-  pageToken?: string
+  pageToken?: string,
 ): Promise<YouTubeLiveChatResponse | null> {
   try {
     const chatUrl = new URL(`${YOUTUBE_API_BASE}/liveChat/messages`);
-    chatUrl.searchParams.set('key', apiKey);
-    chatUrl.searchParams.set('liveChatId', liveChatId);
-    chatUrl.searchParams.set('part', 'snippet,authorDetails');
-    chatUrl.searchParams.set('maxResults', '200');
+    chatUrl.searchParams.set("key", apiKey);
+    chatUrl.searchParams.set("liveChatId", liveChatId);
+    chatUrl.searchParams.set("part", "snippet,authorDetails");
+    chatUrl.searchParams.set("maxResults", "200");
     if (pageToken) {
-      chatUrl.searchParams.set('pageToken', pageToken);
+      chatUrl.searchParams.set("pageToken", pageToken);
     }
 
     const response = await fetch(chatUrl.toString());
     const data: YouTubeLiveChatResponse = await response.json();
 
     if (data.error) {
-      console.error('YouTube Live Chat API error:', data.error);
+      console.error("YouTube Live Chat API error:", data.error);
       return null;
     }
 
     return data;
   } catch (error) {
-    console.error('Error polling live chat:', error);
+    console.error("Error polling live chat:", error);
     return null;
   }
 }
@@ -220,7 +228,7 @@ export function createYouTubeClient(
   apiKey: string,
   channelId: string,
   onMessage: (msg: ChatMessage) => void,
-  onError?: (error: string) => void
+  onError?: (error: string) => void,
 ): YouTubeChatClient {
   let isConnected = false;
   let pollTimeout: ReturnType<typeof setTimeout> | null = null;
@@ -243,17 +251,17 @@ export function createYouTubeClient(
     const data = await pollLiveChat(apiKey, liveChatId, nextPageToken);
 
     if (!data) {
-      onError?.('Failed to fetch live chat messages');
+      onError?.("Failed to fetch live chat messages");
       // Retry after error
-      console.log(`Retrying in ${POLLING_INTERVAL_MS / 1000} secs...`)
+      console.log(`Retrying in ${POLLING_INTERVAL_MS / 1000} secs...`);
       pollTimeout = setTimeout(startPolling, POLLING_INTERVAL_MS);
       return;
     }
 
     // Check if stream went offline
     if (data.offlineAt) {
-      console.log('[YouTube] Stream went offline at:', data.offlineAt);
-      onError?.('Stream has ended');
+      console.log("[YouTube] Stream went offline at:", data.offlineAt);
+      onError?.("Stream has ended");
       stopPolling();
       return;
     }
@@ -262,7 +270,7 @@ export function createYouTubeClient(
     if (data.items && data.items.length > 0) {
       // Filter for text messages only (skip superchats, memberships, etc. for now)
       const textMessages = data.items.filter(
-        msg => msg.snippet.type === 'textMessageEvent'
+        (msg) => msg.snippet.type === "textMessageEvent",
       );
 
       for (const ytMessage of textMessages) {
@@ -270,7 +278,10 @@ export function createYouTubeClient(
         const isSamePreviousUser = lastSender === username;
         lastSender = username;
 
-        const chatMessage = convertYouTubeMessage(ytMessage, isSamePreviousUser);
+        const chatMessage = convertYouTubeMessage(
+          ytMessage,
+          isSamePreviousUser,
+        );
         onMessage(chatMessage);
       }
     }
@@ -291,29 +302,32 @@ export function createYouTubeClient(
     try {
       // Try to get the live stream video ID
       const videoId = await fetchLiveStream(apiKey, channelId);
-      
+
       if (!videoId) {
-        throw new Error('No active live stream found for this channel');
+        throw new Error("No active live stream found for this channel");
       }
 
       // Get the live chat ID from the video
       liveChatId = await fetchLiveChatId(apiKey, videoId);
 
       if (!liveChatId) {
-        throw new Error('No active live chat found');
+        throw new Error("No active live chat found");
       }
 
       isConnected = true;
-      console.log('[YouTube] Connected to live chat');
-      
+      console.log("[YouTube] Connected to live chat");
+
       // Start polling
       startPolling();
     } catch (error) {
-      console.error('[YouTube] Initialization error:', error);
-      onError?.((error as Error).message || 'Failed to initialize YouTube chat connection');
+      console.error("[YouTube] Initialization error:", error);
+      onError?.(
+        (error as Error).message ||
+          "Failed to initialize YouTube chat connection",
+      );
       // Retry after error
       if (tries > 0) {
-        console.log(`Retrying in ${POLLING_INTERVAL_MS / 1000} secs...`)
+        console.log(`Retrying in ${POLLING_INTERVAL_MS / 1000} secs...`);
         pollTimeout = setTimeout(initialize, POLLING_INTERVAL_MS);
         tries--;
       }
@@ -325,7 +339,7 @@ export function createYouTubeClient(
 
   return {
     disconnect: () => {
-      console.log('[YouTube] Disconnecting from live chat');
+      console.log("[YouTube] Disconnecting from live chat");
       stopPolling();
     },
   };
@@ -334,7 +348,7 @@ export function createYouTubeClient(
 // Helper function to extract channel ID from various YouTube URL formats
 export function extractChannelId(input: string): string | null {
   // Direct channel ID
-  if (input.startsWith('UC') && input.length === 24) {
+  if (input.startsWith("UC") && input.length === 24) {
     return input;
   }
 
@@ -351,7 +365,7 @@ export function extractChannelId(input: string): string | null {
     if (match) {
       // For @handles, c/, and user/ URLs, we'd need to resolve to channel ID
       // For now, only channel/ URLs with UC... IDs work directly
-      if (match[1].startsWith('UC')) {
+      if (match[1].startsWith("UC")) {
         return match[1];
       }
     }

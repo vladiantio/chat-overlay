@@ -2,7 +2,7 @@ import type { ChatUserstate } from "tmi.js";
 
 export type Platform = "twitch" | "youtube";
 
-export type MessagePart = 
+export type MessagePart =
   | { type: "text"; content: string }
   | { type: "emote"; id: string; name: string };
 

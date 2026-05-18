@@ -1,8 +1,8 @@
-import { useEffect, type RefObject } from 'react';
+import { useEffect, type RefObject } from "react";
 
 export function useAutoScroll(
   ref: RefObject<HTMLElement | null>,
-  trigger: unknown
+  trigger: unknown,
 ) {
   useEffect(() => {
     if (ref.current) {

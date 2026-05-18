@@ -1,7 +1,9 @@
-import { useEffect, useState, useRef } from 'react';
-import { createYouTubeClient, extractChannelId } from '../services/youtube';
-import { playNotificationSound } from '../utils/audio';
-import type { ChatMessage } from '../types/chat';
+import { useEffect, useState, useRef } from "react";
+
+import type { ChatMessage } from "@/types/chat";
+
+import { createYouTubeClient, extractChannelId } from "@/services/youtube";
+import { playNotificationSound } from "@/utils/audio";
 
 const MAX_MESSAGES = 10;
 
@@ -11,7 +13,7 @@ export function useYouTubeChat(
   fadeSeconds: number = 0,
   ignoredUsers: string[] = [],
   notificationSound: boolean = true,
-  enabled: boolean = true
+  enabled: boolean = true,
 ) {
   const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [error, setError] = useState<string | null>(null);
@@ -28,7 +30,7 @@ export function useYouTubeChat(
     const timeouts = timeoutsRef.current;
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     if ((window as any).obsstudio) {
-      window.addEventListener('obsSceneChanged', () => {
+      window.addEventListener("obsSceneChanged", () => {
         setMessages([]);
         timeouts.forEach(clearTimeout);
       });
@@ -45,7 +47,7 @@ export function useYouTubeChat(
     // Validate and extract channel ID
     const extractedChannelId = extractChannelId(channelId);
     if (!extractedChannelId) {
-      setError('Invalid YouTube channel ID or URL');
+      setError("Invalid YouTube channel ID or URL");
       return;
     }
 
@@ -77,25 +79,35 @@ export function useYouTubeChat(
 
         // Schedule removal of the message if fade is enabled
         if (fadeSeconds > 0) {
-          const timeout = setTimeout(() => {
-            setMessages((prev) => prev.filter((m) => m.id !== msg.id));
-            timeoutsRef.current.delete(timeout);
-          }, fadeSeconds * 1000 + 1000); // Wait until after fade animation
+          const timeout = setTimeout(
+            () => {
+              setMessages((prev) => prev.filter((m) => m.id !== msg.id));
+              timeoutsRef.current.delete(timeout);
+            },
+            fadeSeconds * 1000 + 1000,
+          ); // Wait until after fade animation
 
           timeoutsRef.current.add(timeout);
         }
       },
       (err) => {
-        console.error('[YouTube Chat Error]:', err);
+        console.error("[YouTube Chat Error]:", err);
         setError(err);
-      }
+      },
     );
 
     return () => {
       connectedRef.current = false;
       disconnect();
     };
-  }, [channelId, apiKey, fadeSeconds, ignoredUsers, notificationSound, enabled]);
+  }, [
+    channelId,
+    apiKey,
+    fadeSeconds,
+    ignoredUsers,
+    notificationSound,
+    enabled,
+  ]);
 
   return { messages, error };
 }
