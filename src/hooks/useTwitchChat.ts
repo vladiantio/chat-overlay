@@ -11,7 +11,7 @@ export function useTwitchChat(
   channel: string,
   fadeSeconds: number = 0,
   ignoredUsers: string[] = [],
-  notificationSound: boolean = true,
+  notificationSound: boolean = false,
 ) {
   const [messages, setMessages] = useState<ChatMessage[]>([]);
   // const lastSenderRef = useRef<string | null>(null);
