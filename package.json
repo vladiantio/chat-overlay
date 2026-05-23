@@ -12,6 +12,7 @@
     "lint": "oxlint",
     "lint:fix": "oxlint --fix",
     "lint:github": "oxlint --format=github",
+    "postinstall": "pnpm download-badges",
     "preview": "vite preview"
   },
   "dependencies": {
