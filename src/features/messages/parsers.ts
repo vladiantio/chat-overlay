@@ -2,16 +2,11 @@ import type { ChatUserstate } from "tmi.js";
 
 import type { MessagePart } from "@/types/chat";
 
-const getEmoteImageSrc = (id: string) =>
-  `https://static-cdn.jtvnw.net/emoticons/v2/${id}/default/dark/1.0`;
+const getEmoteImageSrc = (id: string, size: number = 1) =>
+  `https://static-cdn.jtvnw.net/emoticons/v2/${id}/default/dark/${size.toFixed(1)}`;
 
 export const isEmoteImage = (src: string) =>
   src.startsWith("https://static-cdn.jtvnw.net/emoticons/");
-
-export const parseEmoteImageSrcSet = (src: string) =>
-  isEmoteImage(src)
-    ? `${src} 1x, ${src.slice(0, -4)}/2.0 2x, ${src.slice(0, -4)}/3.0 4x`
-    : undefined;
 
 export function parseMarkdown(
   message: string,
@@ -67,7 +62,7 @@ export function parseMarkdown(
   return parts
     .map((part) =>
       part.type === "emote"
-        ? `![${part.name}](${getEmoteImageSrc(part.id)})`
+        ? `![${part.name}](${getEmoteImageSrc(part.id, 2)})`
         : part.content,
     )
     .join("");

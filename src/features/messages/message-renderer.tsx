@@ -5,7 +5,7 @@ import { isValidElement } from "react";
 
 import { cn } from "@/utils/cn";
 
-import { isEmoteImage, parseEmoteImageSrcSet, parseMarkdown } from "./parsers";
+import { isEmoteImage, parseMarkdown } from "./parsers";
 
 const renderer: Partial<ReactRenderer> = {
   paragraph(children) {
@@ -66,7 +66,6 @@ const renderer: Partial<ReactRenderer> = {
     return (
       <img
         src={src}
-        srcSet={parseEmoteImageSrcSet(src)}
         alt={alt}
         title={title ?? undefined}
         className={cn(
