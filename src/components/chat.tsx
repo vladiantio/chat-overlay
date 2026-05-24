@@ -30,6 +30,8 @@ export function Chat({
   notificationSound,
   chatAlignment,
   showPlatform,
+  className,
+  ...props
 }: {
   twitchChannel: string;
   youtubeChannel: string;
@@ -39,7 +41,7 @@ export function Chat({
   notificationSound: boolean;
   chatAlignment: string;
   showPlatform: boolean;
-}) {
+} & React.HTMLAttributes<HTMLDivElement>) {
   // Determine which platforms are enabled
   const enableTwitch = Boolean(twitchChannel);
   const enableYouTube = Boolean(youtubeChannel && youtubeApiKey);
@@ -85,8 +87,12 @@ export function Chat({
 
   return (
     <div
-      className="flex h-dvh flex-col-reverse overflow-hidden mask-y-from-[calc(100%-var(--spacing)*4)]"
+      className={cn(
+        "flex flex-col-reverse overflow-hidden mask-y-from-[calc(100%-var(--spacing)*4)]",
+        className,
+      )}
       ref={chatContainerRef}
+      {...props}
     >
       <div
         className="space-y-4 p-4 leading-[1.4] wrap-break-word"
