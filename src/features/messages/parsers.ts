@@ -16,7 +16,7 @@ export function parseMarkdown(
   message = message.replace(/^(!\S+)/, "`$1`");
 
   // Add strong to mentions "@"
-  message = message.replace(/(@\S+)/, "**$1**");
+  message = message.replace(/(@\S+)/g, "**$1**");
 
   if (!emotes) {
     return message;
