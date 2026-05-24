@@ -68,13 +68,10 @@ export function useTwitchChat(
 
         // Schedule removal of the message if fade is enabled
         if (fadeSeconds > 0) {
-          const timeout = setTimeout(
-            () => {
-              setMessages((prev) => prev.filter((m) => m.id !== msg.id));
-              timeoutsRef.current.delete(timeout);
-            },
-            fadeSeconds * 1000 + 1000,
-          ); // Wait until after fade animation
+          const timeout = setTimeout(() => {
+            setMessages((prev) => prev.filter((m) => m.id !== msg.id));
+            timeoutsRef.current.delete(timeout);
+          }, fadeSeconds * 1000); // Wait until after fade animation
 
           timeoutsRef.current.add(timeout);
         }
