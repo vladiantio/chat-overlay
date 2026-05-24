@@ -83,11 +83,13 @@ export function Chat({
   useAutoScroll(chatContainerRef, [allMessages]);
 
   return (
-    <div className="relative w-full">
+    <div
+      className="flex h-dvh flex-col-reverse overflow-hidden mask-y-from-[calc(100%-var(--spacing)*4)]"
+      ref={chatContainerRef}
+    >
       <div
-        className="max-h-dvh w-full space-y-4 overflow-hidden mask-y-from-[calc(100%-var(--spacing)*4)] p-4 text-[1.25rem] leading-[1.4] wrap-break-word"
+        className="space-y-4 p-4 text-[1.25rem] leading-[1.4] wrap-break-word"
         data-slot="chat-container"
-        ref={chatContainerRef}
         style={
           {
             "--align": chatAlignment,
@@ -99,33 +101,33 @@ export function Chat({
             key={`${msg.platform}-${msg.id}`}
             data-slot="chat-message"
             data-platform={msg.platform}
-            className="group relative origin-bottom-left will-change-[transform,opacity]"
+            className="group relative"
             style={
               {
                 "--color": msg.color,
                 "--subtle-color":
                   "color-mix(in oklab, var(--color) 10%, var(--color-neutral-900))",
                 "--tint-color": "color-mix(in oklab, var(--color) 60%, #fff)",
-                animation: [
-                  `slideIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards`,
+                animation:
                   fade > 0
-                    ? `fadeOut 0.5s ease-out forwards ${fade - 0.5}s`
+                    ? `fadeOut 250ms cubic-bezier(0.4, 0, 0.2, 1) forwards ${fade * 1000 - 250}ms`
                     : undefined,
-                ]
-                  .filter((s) => s)
-                  .join(", "),
+                transformOrigin:
+                  "if(style(--align: right): 100% 100%; else: 0 100%)",
               } as React.CSSProperties
             }
           >
             {(!msg.isSamePreviousUser || i == 0) && (
               <div
                 data-slot="chat-message-user"
-                className="relative z-1 flex w-fit items-center gap-1 rounded-xl bg-(--tint-color) pr-1 text-[1.125rem] font-semibold shadow-[0_4px_16px_rgba(0,0,0,0.3)]"
+                className="relative z-1 flex w-fit animate-slide-in items-center rounded-xl bg-(--tint-color) pr-1 text-[1.125rem] font-semibold shadow-[0_4px_16px_rgba(0,0,0,0.3)]"
                 style={
                   {
-                    left: "if(style(--align: left): 0; else: auto)",
-                    right: "if(style(--align: right): 0; else: auto)",
                     color: "contrast-color(var(--tint-color))",
+                    marginLeft: "if(style(--align: right): auto; else: 0)",
+                    marginRight: "if(style(--align: right): 0; else: auto)",
+                    transformOrigin:
+                      "if(style(--align: right): 100% 50%; else: 0 50%)",
                   } as React.CSSProperties
                 }
               >
@@ -147,7 +149,7 @@ export function Chat({
                 {msg.badges && msg.badges.length > 0 && (
                   <span
                     data-slot="chat-message-user-badges"
-                    className="flex items-center gap-1"
+                    className="flex items-center gap-1 pr-1.5"
                   >
                     {msg.badges.map((badge, index) => (
                       <img
@@ -165,7 +167,7 @@ export function Chat({
                     ))}
                   </span>
                 )}
-                <span data-slot="chat-message-user-name" className="px-2">
+                <span data-slot="chat-message-user-name" className="pr-1.5">
                   {msg.username}
                 </span>
               </div>
@@ -174,13 +176,15 @@ export function Chat({
             <div
               data-slot="chat-message-text"
               className={cn(
-                "relative w-fit rounded-xl bg-(--subtle-color) px-3 py-2 font-medium text-pretty shadow-[0_3px_12px_rgba(0,0,0,0.4)] group-last:ring-2 group-last:ring-(--tint-color)",
+                "relative w-fit animate-slide-in rounded-xl bg-(--subtle-color) px-3 py-2 font-medium text-pretty shadow-[0_3px_12px_rgba(0,0,0,0.4)] group-last:ring-2 group-last:ring-(--tint-color)",
                 msg.isSamePreviousUser && i > 0 ? "-mt-3" : "-mt-1",
               )}
               style={
                 {
-                  marginLeft: "if(style(--align: left): 0; else: auto)",
+                  marginLeft: "if(style(--align: right): auto; else: 0)",
                   marginRight: "if(style(--align: right): 0; else: auto)",
+                  transformOrigin:
+                    "if(style(--align: right): 100% 100%; else: 0 100%)",
                 } as React.CSSProperties
               }
             >
