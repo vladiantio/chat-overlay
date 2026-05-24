@@ -12,6 +12,7 @@ export function useTwitchChat(
   fadeSeconds: number = 0,
   ignoredUsers: string[] = [],
   notificationSound: boolean = false,
+  enabled: boolean = true,
 ) {
   const [messages, setMessages] = useState<ChatMessage[]>([]);
   // const lastSenderRef = useRef<string | null>(null);
@@ -27,7 +28,7 @@ export function useTwitchChat(
   }, []);
 
   useEffect(() => {
-    if (!channel) return;
+    if (!enabled || !channel) return;
     if (connectedRef.current) return;
 
     connectedRef.current = true;
@@ -80,7 +81,7 @@ export function useTwitchChat(
       connectedRef.current = false;
       disconnect();
     };
-  }, [channel, fadeSeconds, ignoredUsers, notificationSound]);
+  }, [channel, enabled, fadeSeconds, ignoredUsers, notificationSound]);
 
   return { messages };
 }

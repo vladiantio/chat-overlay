@@ -50,6 +50,7 @@ export function Chat({
     fade,
     ignoredUsers,
     notificationSound,
+    enableTwitch,
   );
 
   // Connect to YouTube chat
