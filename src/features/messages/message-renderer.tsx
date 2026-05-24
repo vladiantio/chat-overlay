@@ -32,9 +32,6 @@ const renderer: Partial<ReactRenderer> = {
       </code>
     );
   },
-  em(children) {
-    return <em style={{ fontFamily: "Poppins" }}>{children}</em>;
-  },
   heading(children, level) {
     let className = "";
     switch (level) {

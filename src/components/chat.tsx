@@ -88,7 +88,7 @@ export function Chat({
       ref={chatContainerRef}
     >
       <div
-        className="space-y-4 p-4 text-[1.25rem] leading-[1.4] wrap-break-word"
+        className="space-y-4 p-4 leading-[1.4] wrap-break-word"
         data-slot="chat-container"
         style={
           {
@@ -120,7 +120,7 @@ export function Chat({
             {(!msg.isSamePreviousUser || i == 0) && (
               <div
                 data-slot="chat-message-user"
-                className="relative z-1 flex w-fit animate-slide-in items-center rounded-xl bg-(--tint-color) pr-1 text-[1.125rem] font-semibold shadow-[0_4px_16px_rgba(0,0,0,0.3)]"
+                className="relative z-1 flex w-fit animate-slide-in items-center rounded-xl bg-(--tint-color) pr-1 font-bold shadow-[0_4px_16px_rgba(0,0,0,0.3)]"
                 style={
                   {
                     color: "contrast-color(var(--tint-color))",
