@@ -26,13 +26,14 @@ const notificationSound = Boolean(
       : NOTIFICATION_SOUND,
   ),
 );
-const showPlatform = Boolean(Number(urlParams.get("showPlatform")) || 1);
 const ignoredUsers = ignoreParam
   ? ignoreParam.split(",").map((u) => u.trim().toLowerCase())
   : [];
 
 const enableTwitch = Boolean(twitchChannel);
 const enableYouTube = Boolean(youtubeChannel && youtubeApiKey);
+
+const showPlatform = enableTwitch && enableYouTube;
 
 export function App() {
   // Show setup screen if no channels configured
