@@ -47,7 +47,6 @@
     background: transparent; /* Transparent background for OBS */
     color: rgba(255, 255, 255, 0.95);
     font-size: 18px;
-    overflow: hidden; /* Prevent scrolling bars in OBS */
     font-synthesis: none;
     text-rendering: optimizeLegibility;
     -webkit-font-smoothing: antialiased;
