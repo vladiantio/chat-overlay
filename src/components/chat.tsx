@@ -95,7 +95,7 @@ export function Chat({
       {...props}
     >
       <div
-        className="space-y-4 p-4 leading-[1.4] wrap-break-word"
+        className="space-y-4 p-4 leading-[1.4] wrap-anywhere"
         data-slot="chat-container"
         style={
           {
