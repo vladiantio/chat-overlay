@@ -15,6 +15,9 @@ export function parseMarkdown(
   // Add codespan to commands that start with "!"
   message = message.replace(/^(!\S+)/, "`$1`");
 
+  // Add strong to mentions "@"
+  message = message.replace(/(@\S+)/, "**$1**");
+
   if (!emotes) {
     return message;
   }
