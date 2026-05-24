@@ -27,7 +27,7 @@ const renderer: Partial<ReactRenderer> = {
   },
   codespan(code) {
     return (
-      <code className="inline-block rounded-md bg-(--tint-color)/10 px-2 font-bold text-(--tint-color)">
+      <code className="-my-0.5 inline-block rounded-md bg-white/10 px-2 py-0.5">
         {code}
       </code>
     );
