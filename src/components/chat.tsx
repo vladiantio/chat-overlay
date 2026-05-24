@@ -127,7 +127,7 @@ export function Chat({
             {(!msg.isSamePreviousUser || i == 0) && (
               <div
                 data-slot="chat-message-user"
-                className="relative z-1 flex w-fit animate-slide-in items-center rounded-xl bg-(--tint-color) pr-1 font-bold shadow-[0_4px_16px_rgba(0,0,0,0.3)]"
+                className="relative z-1 flex w-fit animate-slide-in items-center gap-1.5 rounded-xl bg-(--tint-color) px-2 py-1 font-bold shadow-[0_4px_16px_rgba(0,0,0,0.3)]"
                 style={
                   {
                     color: "contrast-color(var(--tint-color))",
@@ -143,7 +143,7 @@ export function Chat({
                   <span
                     aria-label={msg.platform}
                     data-slot="chat-message-user-platform"
-                    className="flex items-center p-1.5"
+                    className="flex items-center"
                   >
                     {msg.platform === "twitch" ? (
                       <TwitchIcon />
@@ -152,11 +152,10 @@ export function Chat({
                     )}
                   </span>
                 )}
-
                 {msg.badges && msg.badges.length > 0 && (
                   <span
                     data-slot="chat-message-user-badges"
-                    className="flex items-center gap-1 pr-1.5"
+                    className="flex items-center gap-1"
                   >
                     {msg.badges.map((badge, index) => (
                       <img
@@ -173,9 +172,7 @@ export function Chat({
                     ))}
                   </span>
                 )}
-                <span data-slot="chat-message-user-name" className="pr-1.5">
-                  {msg.username}
-                </span>
+                <span data-slot="chat-message-user-name">{msg.username}</span>
               </div>
             )}
 
