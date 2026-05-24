@@ -18,7 +18,7 @@ export function parseBadges(userBadges?: ChatUserstate["badges"]): UserBadge[] {
         id: badgeName,
         version,
         description: badge.description,
-        url: badge.image,
+        url: badge.image.slice(0, -1) + "2",
       });
     } else {
       console.warn(

@@ -155,8 +155,7 @@ export function Chat({
                       <img
                         data-slot="chat-message-badge"
                         key={`${msg.id}-badge-${index}`}
-                        src={`${badge.url.slice(0, -1)}1`}
-                        srcSet={`${badge.url.slice(0, -1)}1 1x, ${badge.url.slice(0, -1)}2 2x, ${badge.url.slice(0, -1)}3 4x`}
+                        src={badge.url}
                         alt={badge.description}
                         title={badge.description}
                         className="size-[24px] drop-shadow-sm drop-shadow-black/30"
