@@ -20,14 +20,6 @@ export function useTwitchChat(
 
   useEffect(() => {
     const timeouts = timeoutsRef.current;
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    if ((window as any).obsstudio) {
-      // Clear messages when scene changes
-      window.addEventListener("obsSceneChanged", () => {
-        setMessages([]);
-        timeouts.forEach(clearTimeout);
-      });
-    }
     // Cleanup timeouts on unmount
     return () => {
       timeouts.forEach(clearTimeout);
