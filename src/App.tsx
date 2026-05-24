@@ -13,7 +13,7 @@ const urlParams = new URLSearchParams(window.location.search);
 const twitchChannel = urlParams.get("twitch")?.toLowerCase() || CHANNEL;
 const youtubeChannel = urlParams.get("youtube") || YOUTUBE_CHANNEL_ID;
 const youtubeApiKey = urlParams.get("youtubeKey") || YOUTUBE_API_KEY;
-const fade = Number(urlParams.get("fade")) || FADE || 0;
+const fadeSeconds = Number(urlParams.get("fade")) || FADE || 0;
 const ignoreParam = urlParams.get("ignore") || IGNORE_USERS || "";
 const chatAlignment =
   urlParams.get("chatAlignment") || CHAT_ALIGNMENT || "left";
@@ -45,7 +45,7 @@ export function App() {
       twitchChannel={twitchChannel}
       youtubeChannel={youtubeChannel}
       youtubeApiKey={youtubeApiKey}
-      fade={fade}
+      fadeSeconds={fadeSeconds}
       ignoredUsers={ignoredUsers}
       notificationSound={notificationSound}
       chatAlignment={chatAlignment}

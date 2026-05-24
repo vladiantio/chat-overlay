@@ -7,14 +7,21 @@ import { playNotificationSound } from "@/utils/audio";
 
 const MAX_MESSAGES = 10;
 
-export function useYouTubeChat(
-  channelId: string,
-  apiKey: string,
-  fadeSeconds: number = 0,
-  ignoredUsers: string[] = [],
-  notificationSound: boolean = true,
-  enabled: boolean = true,
-) {
+export function useYouTubeChat({
+  channelId,
+  apiKey,
+  fadeSeconds = 0,
+  ignoredUsers = [],
+  notificationSound = true,
+  enabled = true,
+}: {
+  channelId: string;
+  apiKey: string;
+  fadeSeconds: number;
+  ignoredUsers: string[];
+  notificationSound: boolean;
+  enabled: boolean;
+}) {
   const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [error, setError] = useState<string | null>(null);
   const connectedRef = useRef(false);

@@ -25,7 +25,7 @@ export function Chat({
   twitchChannel,
   youtubeChannel,
   youtubeApiKey,
-  fade,
+  fadeSeconds,
   ignoredUsers,
   notificationSound,
   chatAlignment,
@@ -34,7 +34,7 @@ export function Chat({
   twitchChannel: string;
   youtubeChannel: string;
   youtubeApiKey: string;
-  fade: number;
+  fadeSeconds: number;
   ignoredUsers: string[];
   notificationSound: boolean;
   chatAlignment: string;
@@ -45,23 +45,23 @@ export function Chat({
   const enableYouTube = Boolean(youtubeChannel && youtubeApiKey);
 
   // Connect to Twitch chat
-  const { messages: twitchMessages } = useTwitchChat(
-    twitchChannel,
-    fade,
+  const { messages: twitchMessages } = useTwitchChat({
+    channel: twitchChannel,
+    fadeSeconds,
     ignoredUsers,
     notificationSound,
-    enableTwitch,
-  );
+    enabled: enableTwitch,
+  });
 
   // Connect to YouTube chat
-  const { messages: youtubeMessages } = useYouTubeChat(
-    youtubeChannel,
-    youtubeApiKey,
-    fade,
+  const { messages: youtubeMessages } = useYouTubeChat({
+    channelId: youtubeChannel,
+    apiKey: youtubeApiKey,
+    fadeSeconds,
     ignoredUsers,
     notificationSound,
-    enableYouTube,
-  );
+    enabled: enableYouTube,
+  });
 
   // Merge and sort messages by timestamp (using message ID as proxy for order)
   const allMessages = useMemo(() => {
@@ -110,8 +110,8 @@ export function Chat({
                   "color-mix(in oklab, var(--color) 10%, var(--color-neutral-900))",
                 "--tint-color": "color-mix(in oklab, var(--color) 60%, #fff)",
                 animation:
-                  fade > 0
-                    ? `fadeOut 250ms cubic-bezier(0.4, 0, 0.2, 1) forwards ${fade * 1000 - 250}ms`
+                  fadeSeconds > 0
+                    ? `fadeOut 250ms cubic-bezier(0.4, 0, 0.2, 1) forwards ${fadeSeconds * 1000 - 250}ms`
                     : undefined,
                 transformOrigin:
                   "if(style(--align: right): 100% 100%; else: 0 100%)",

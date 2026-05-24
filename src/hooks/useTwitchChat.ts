@@ -7,13 +7,19 @@ import { playNotificationSound } from "@/utils/audio";
 
 const MAX_MESSAGES = 10;
 
-export function useTwitchChat(
-  channel: string,
-  fadeSeconds: number = 0,
-  ignoredUsers: string[] = [],
-  notificationSound: boolean = false,
-  enabled: boolean = true,
-) {
+export function useTwitchChat({
+  channel,
+  fadeSeconds = 0,
+  ignoredUsers = [],
+  notificationSound = false,
+  enabled = true,
+}: {
+  channel: string;
+  fadeSeconds: number;
+  ignoredUsers: string[];
+  notificationSound: boolean;
+  enabled: boolean;
+}) {
   const [messages, setMessages] = useState<ChatMessage[]>([]);
   // const lastSenderRef = useRef<string | null>(null);
   const connectedRef = useRef(false);
