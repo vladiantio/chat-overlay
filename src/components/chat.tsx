@@ -160,7 +160,7 @@ export function Chat({
                         title={badge.description}
                         className="size-[24px] drop-shadow-sm drop-shadow-black/30"
                         onError={(e) => {
-                          e.currentTarget.style.display = "none";
+                          e.currentTarget.style.opacity = "0";
                         }}
                       />
                     ))}
