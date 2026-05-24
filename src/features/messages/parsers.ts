@@ -5,11 +5,13 @@ import type { MessagePart } from "@/types/chat";
 const getEmoteImageSrc = (id: string) =>
   `https://static-cdn.jtvnw.net/emoticons/v2/${id}/default/dark/1.0`;
 
-export const parseEmoteImageSrcSet = (src: string) => {
-  if (!src.startsWith("https://static-cdn.jtvnw.net/emoticons/v2/"))
-    return undefined;
-  return `${src} 1x, ${src.slice(0, -4)}/2.0 2x, ${src.slice(0, -4)}/3.0 4x`;
-};
+export const isEmoteImage = (src: string) =>
+  src.startsWith("https://static-cdn.jtvnw.net/emoticons/");
+
+export const parseEmoteImageSrcSet = (src: string) =>
+  isEmoteImage(src)
+    ? `${src} 1x, ${src.slice(0, -4)}/2.0 2x, ${src.slice(0, -4)}/3.0 4x`
+    : undefined;
 
 export function parseMarkdown(
   message: string,

@@ -5,7 +5,7 @@ import { isValidElement } from "react";
 
 import { cn } from "@/utils/cn";
 
-import { parseEmoteImageSrcSet, parseMarkdown } from "./parsers";
+import { isEmoteImage, parseEmoteImageSrcSet, parseMarkdown } from "./parsers";
 
 const renderer: Partial<ReactRenderer> = {
   paragraph(children) {
@@ -69,9 +69,12 @@ const renderer: Partial<ReactRenderer> = {
         srcSet={parseEmoteImageSrcSet(src)}
         alt={alt}
         title={title ?? undefined}
-        className="-mt-[0.25lh] inline-block h-lh px-[2px] align-middle"
+        className={cn(
+          "mx-[2px] -mt-[0.25lh] inline-block h-lh align-middle",
+          isEmoteImage(src) && "aspect-square object-contain",
+        )}
         onError={(e) => {
-          e.currentTarget.style.display = "none";
+          e.currentTarget.style.opacity = "0";
         }}
       />
     );
