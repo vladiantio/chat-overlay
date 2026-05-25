@@ -70,8 +70,9 @@ export function Setup() {
             showPlatform={false}
           />
         ) : (
-          <p>
-            Enter a Twitch channel and click "Preview" to see the chat overlay.
+          <p className="text-center">
+            Enter a Twitch channel and click "Preview Chat" to see the chat
+            overlay.
           </p>
         )}
       </div>
