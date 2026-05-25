@@ -98,14 +98,21 @@ function OG() {
             alignItems: "flex-end",
             justifyContent: "center",
             flex: 1,
-            fontSize: 48,
-            fontWeight: 700,
+            fontSize: 32,
             color: "#fafafa",
-            marginBottom: 32,
+            textAlign: "right",
             height: "100%",
           }}
         >
-          <p>Chat Overlay</p>
+          <p
+            style={{
+              fontSize: 48,
+              fontWeight: 700,
+            }}
+          >
+            Chat Overlay
+          </p>
+          <p>A sleek chat overlay for OBS Studio</p>
         </div>
         <div
           style={{
