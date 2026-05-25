@@ -3,12 +3,14 @@ import { useMemo, useState } from "react";
 import { cn } from "@/utils/cn";
 
 import { ChatSection } from "./chat-section";
+import { Snippet } from "./snippet";
 
 export function Setup() {
   const [inputTwitch, setInputTwitch] = useState("");
   const [previewTwitch, setPreviewTwitch] = useState("");
 
   const url = useMemo(() => {
+    if (!inputTwitch) return;
     const newUrlParams = new URLSearchParams();
 
     if (inputTwitch.trim()) {
@@ -41,7 +43,7 @@ export function Setup() {
             className="font-inherit box-border w-full rounded-xl border border-white/20 bg-white/5 px-5 py-[14px] text-base text-white transition-all duration-300 ease-in-out outline-none focus:border-purple-400 focus:bg-white/10 focus:ring-2 focus:ring-purple-400"
           />
 
-          <p>URL: {url}</p>
+          <Snippet text={url} placeholder="Enter a Twitch Channel" />
 
           <button
             type="submit"
