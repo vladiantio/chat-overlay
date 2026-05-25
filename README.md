@@ -1,13 +1,11 @@
-# Multi-Stream Chat Overlay
+# Chat Overlay
 
-A sleek, transparent chat overlay for OBS that supports both **Twitch** and **YouTube Live** chat simultaneously. Built with React, TypeScript, and Vite.
-
-![Screenshot](https://via.placeholder.com/800x400/2a2a2a/ffffff?text=Multi-Stream+Chat+Overlay)
+A sleek, transparent chat overlay for OBS that supports both **Twitch** and _experimental_ **YouTube Live** chat simultaneously. Built with React, TypeScript, and Vite.
 
 ## Features
 
 - 🔴 **Twitch Chat** - Real-time chat via TMI.js
-- ▶️ **YouTube Live Chat** - Real-time chat via YouTube Data API
+- ▶️ **YouTube Live Chat (experimental)** - Real-time chat via YouTube Data API
 - 🔄 **Multi-Stream Support** - Connect to both platforms simultaneously
 - 🎨 **Beautiful UI** - Modern, glass-morphism design with smooth animations
 - 🔊 **Notification Sounds** - Optional audio alerts for new messages
@@ -15,7 +13,7 @@ A sleek, transparent chat overlay for OBS that supports both **Twitch** and **Yo
 - 🎯 **Platform Indicators** - Visual badges showing message source
 - 🎮 **OBS Optimized** - Transparent background, no scrollbars
 
-## Quick Start
+## Development
 
 ### 1. Installation
 
@@ -61,7 +59,7 @@ http://localhost:5173/?youtube=UCxxxxxxxxxxxxxxxxxxx&youtubeKey=your_api_key
 http://localhost:5173/?twitch=shroud&youtube=UCxxxxxxxxxxxxxxxxxxx&youtubeKey=your_api_key
 ```
 
-### 3. Getting a YouTube Data API Key
+### 3. Getting a YouTube Data API Key (optional)
 
 1. Go to the [Google Cloud Console](https://console.cloud.google.com/)
 2. Create a new project or select an existing one
@@ -71,7 +69,7 @@ http://localhost:5173/?twitch=shroud&youtube=UCxxxxxxxxxxxxxxxxxxx&youtubeKey=yo
 
 > ⚠️ **Note:** The YouTube API has quota limits. The default polling interval is 5 seconds, which is well within the free tier limits.
 
-### 4. Finding Your YouTube Channel ID
+### 4. Finding Your YouTube Channel ID (optional)
 
 1. Go to your YouTube channel
 2. Look at the URL: `youtube.com/channel/UCxxxxxxxxxxxxxxxxxxx`
@@ -93,7 +91,6 @@ Alternatively, if you have a custom URL (`@handle`), you can:
 | `ignore`            | Comma-separated list of users to ignore | -             |
 | `notificationSound` | Enable sound notifications (`1` or `0`) | `1`           |
 | `chatAlignment`     | Text alignment (`left` or `right`)      | `left`        |
-| `showPlatform`      | Show platform icons (`1` or `0`)        | `1`           |
 
 ### Example URLs
 
@@ -106,9 +103,6 @@ Alternatively, if you have a custom URL (`@handle`), you can:
 
 # Both platforms with ignored users
 /?twitch=shroud&youtube=UCxxx&youtubeKey=key&ignore=bot1,bot2
-
-# Minimal setup (no platform icons)
-/?twitch=shroud&showPlatform=0
 ```
 
 ## OBS Setup
