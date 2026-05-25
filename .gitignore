@@ -26,3 +26,6 @@ dist-ssr
 
 # Global badges
 badges.json
+
+# OG
+public/og.jpg
