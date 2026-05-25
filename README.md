@@ -198,7 +198,7 @@ The overlay uses Tailwind CSS. Modify `src/index.css` or use custom CSS in OBS:
 
 ### Fonts
 
-The default font is Outfit (loaded from Google Fonts). Change it in `index.html`:
+The default font is Figtree (loaded from Google Fonts). Change it in `index.html`:
 
 ```html
 <link
