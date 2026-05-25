@@ -35,7 +35,7 @@ export function Setup() {
         <form onSubmit={handleSetup} className="flex w-full flex-col gap-4">
           <input
             type="text"
-            placeholder="Enter Twitch Channel (e.g., shroud)"
+            placeholder="Enter Twitch Channel (e.g., vladiantio)"
             value={inputTwitch}
             onChange={(e) => setInputTwitch(e.target.value)}
             autoFocus
@@ -43,7 +43,7 @@ export function Setup() {
             className="font-inherit box-border w-full rounded-xl border border-white/20 bg-white/5 px-5 py-[14px] text-base text-white transition-all duration-300 ease-in-out outline-none focus:border-purple-400 focus:bg-white/10 focus:ring-2 focus:ring-purple-400"
           />
 
-          <Snippet text={url} placeholder="Enter a Twitch Channel" />
+          <Snippet text={url} placeholder={location.href} />
 
           <button
             type="submit"
