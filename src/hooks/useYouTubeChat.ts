@@ -32,16 +32,8 @@ export function useYouTubeChat({
     setError(null);
   }, [channelId]);
 
-  // Handle OBS scene changes
   useEffect(() => {
     const timeouts = timeoutsRef.current;
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    if ((window as any).obsstudio) {
-      window.addEventListener("obsSceneChanged", () => {
-        setMessages([]);
-        timeouts.forEach(clearTimeout);
-      });
-    }
     return () => {
       timeouts.forEach(clearTimeout);
     };
@@ -50,6 +42,9 @@ export function useYouTubeChat({
   useEffect(() => {
     if (!enabled || !channelId || !apiKey) return;
     if (connectedRef.current) return;
+
+    // Clear previous messages
+    setMessages([]);
 
     // Validate and extract channel ID
     const extractedChannelId = extractChannelId(channelId);

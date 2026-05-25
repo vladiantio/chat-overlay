@@ -36,8 +36,10 @@ export function useTwitchChat({
   useEffect(() => {
     if (!enabled || !channel) return;
     if (connectedRef.current) return;
-
     connectedRef.current = true;
+
+    // Clear previous messages
+    setMessages([]);
 
     const { disconnect } = createTwitchClient(
       channel,
