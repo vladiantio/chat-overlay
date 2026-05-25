@@ -2,7 +2,7 @@ import { useMemo, useState } from "react";
 
 import { cn } from "@/utils/cn";
 
-import { Chat } from "./chat";
+import { ChatSection } from "./chat-section";
 
 export function Setup() {
   const [inputTwitch, setInputTwitch] = useState("");
@@ -50,13 +50,13 @@ export function Setup() {
               "w-full cursor-pointer rounded-xl bg-purple-800 px-5 py-[14px] font-semibold text-white transition-[translate,box-shadow] duration-200 hover:-translate-y-[2px] hover:shadow-[0_8px_20px_rgba(168,85,247,0.4)] active:translate-y-0 disabled:cursor-not-allowed disabled:opacity-50 disabled:hover:translate-y-0 disabled:hover:shadow-none",
             )}
           >
-            Preview Chat
+            Preview
           </button>
         </form>
       </div>
       <div className="flex flex-col items-center justify-center gap-4 rounded-3xl border bg-neutral-900 p-6 shadow-[0_20px_40px_rgba(0,0,0,0.4)]">
         {previewTwitch ? (
-          <Chat
+          <ChatSection
             className="h-[calc(100dvh-var(--spacing)*28)] w-full"
             twitchChannel={previewTwitch}
             youtubeChannel=""
@@ -68,7 +68,9 @@ export function Setup() {
             showPlatform={false}
           />
         ) : (
-          <p>Enter a Twitch channel and click "Preview" to see the chat overlay.</p>
+          <p>
+            Enter a Twitch channel and click "Preview" to see the chat overlay.
+          </p>
         )}
       </div>
     </div>

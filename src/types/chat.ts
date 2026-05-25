@@ -17,7 +17,7 @@ export interface ChatMessage {
   id: string;
   username: string;
   color: string;
-  badges: UserBadge[];
+  badges?: UserBadge[];
   message: string;
   emotes?: ChatUserstate["emotes"];
   isSamePreviousUser?: boolean;

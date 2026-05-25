@@ -1,4 +1,4 @@
-import { Chat } from "./components/chat";
+import { ChatSection } from "./components/chat-section";
 import { Setup } from "./components/setup";
 
 const CHANNEL = import.meta.env.VITE_CHANNEL;
@@ -42,7 +42,7 @@ export function App() {
   }
 
   return (
-    <Chat
+    <ChatSection
       className="h-dvh"
       twitchChannel={twitchChannel}
       youtubeChannel={youtubeChannel}
