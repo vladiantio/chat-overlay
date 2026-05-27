@@ -4,7 +4,7 @@ import sharp from "sharp";
 
 import type { ChatMessage } from "./types/chat";
 
-import { OgChatPreview } from "./components/chat-og";
+import { OgChatPreview } from "./features/chat/chat-og";
 
 const FONT_PATH = "./src/assets/fonts";
 

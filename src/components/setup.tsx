@@ -1,8 +1,8 @@
 import { useMemo, useState } from "react";
 
+import { ChatSection } from "@/features/chat/chat-section";
 import { cn } from "@/utils/cn";
 
-import { ChatSection } from "./chat-section";
 import { Snippet } from "./snippet";
 
 export function Setup() {
@@ -71,8 +71,7 @@ export function Setup() {
           />
         ) : (
           <p className="text-center">
-            Enter a Twitch channel and click "Preview Chat" to see the chat
-            overlay.
+            Enter a Twitch channel and click "Preview" to see the chat overlay.
           </p>
         )}
       </div>
