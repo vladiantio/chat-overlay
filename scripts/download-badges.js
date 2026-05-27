@@ -1,4 +1,15 @@
-import { writeFile } from "node:fs/promises";
+import fs from "node:fs/promises";
+
+const BADGE_PATH = "./src/features/badges/badges.json";
+
+async function fileExists(path) {
+  try {
+    await fs.access(path);
+    return true;
+  } catch {
+    return false;
+  }
+}
 
 async function getAPIData() {
   const res = await fetch(
@@ -31,13 +42,21 @@ function transformResponse(data) {
     });
 }
 async function saveToFS(badges) {
-  await writeFile(
-    "./src/features/badges/badges.json",
-    JSON.stringify({ badges }, null, "\t"),
-  );
+  await fs.writeFile(BADGE_PATH, JSON.stringify({ badges }, null, "\t"));
 }
 
 try {
+  if (await fileExists(BADGE_PATH)) {
+    if (process.argv.includes("--force")) {
+      console.log("✔ Forcing overwrite...");
+    } else {
+      console.log(
+        `✔ File already exists: ${BADGE_PATH}. Overwrite using --force`,
+      );
+      process.exit(0);
+    }
+  }
+
   console.log("Fetching badges from API...");
   const APIData = await getAPIData();
   console.log(`✔ Fetched ${APIData.length} badges.`);
@@ -46,7 +65,7 @@ try {
   console.log(`✔ Transformed ${transformedResponse.length} entries.`);
 
   await saveToFS(transformedResponse);
-  console.log("✔ Saved to src/features/badges/badges.json");
+  console.log(`✔ Saved to ${BADGE_PATH}`);
 } catch (err) {
   console.error("✖ Error:", err.message);
   process.exit(1);

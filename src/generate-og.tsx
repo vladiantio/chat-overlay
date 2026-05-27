@@ -6,6 +6,8 @@ import type { ChatMessage } from "./types/chat";
 
 import { OgChatPreview } from "./features/chat/chat-og";
 
+const OG_PATH = "./public/og.jpg";
+
 const FONT_PATH = "./src/assets/fonts";
 
 const messages: ChatMessage[] = [
@@ -62,6 +64,15 @@ function getIconCode(emoji: string) {
     .map((c) => c.codePointAt(0)!.toString(16))
     .join("-");
   return codePoints;
+}
+
+async function fileExists(path: string) {
+  try {
+    await fs.access(path);
+    return true;
+  } catch {
+    return false;
+  }
 }
 
 function OG() {
@@ -140,6 +151,15 @@ function OG() {
 }
 
 try {
+  if (await fileExists(OG_PATH)) {
+    if (process.argv.includes("--force")) {
+      console.log("✔ Forcing overwrite...");
+    } else {
+      console.log(`✔ File already exists: ${OG_PATH}. Overwrite using --force`);
+      process.exit(0);
+    }
+  }
+
   const fonts: Font[] = [
     {
       name: "Figtree",
@@ -176,8 +196,8 @@ try {
     .jpeg({ mozjpeg: true, progressive: true, quality: 90 })
     .toBuffer();
 
-  await fs.writeFile("./public/og.jpg", imgBuffer);
-  console.log("✔ Wrote public/og.jpg");
+  await fs.writeFile(OG_PATH, imgBuffer);
+  console.log(`✔ Wrote ${OG_PATH}`);
 } catch (err) {
   console.error("✖ Error:", (err as Error).message);
   process.exit(1);
