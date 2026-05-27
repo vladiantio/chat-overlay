@@ -6,11 +6,12 @@ import { cn } from "@/utils/cn";
 
 interface SnippetProps {
   text?: string;
+  title: string;
   placeholder?: string;
   onCopy?: () => void;
 }
 
-export const Snippet = ({ text, placeholder, onCopy }: SnippetProps) => {
+export const Snippet = ({ text, title, placeholder, onCopy }: SnippetProps) => {
   const [animation, setAnimation] = useState<boolean>(false);
   const animationTimeout = useRef<NodeJS.Timeout>(null);
 
@@ -26,27 +27,31 @@ export const Snippet = ({ text, placeholder, onCopy }: SnippetProps) => {
   };
 
   return (
-    <div className="flex w-full rounded-xl border bg-neutral-800 p-1">
+    <div className="flex w-full overflow-hidden rounded-xl border bg-neutral-800">
       <pre
-        className={cn("mr-3 flex-1 px-3 py-1.5 text-sm", !text && "opacity-50")}
+        className={cn(
+          "flex-1 overflow-x-auto px-4 py-2.5 text-sm",
+          !text && "opacity-50",
+        )}
       >
         {text || placeholder}
       </pre>
       <button
         type="button"
         disabled={!text}
+        title={title}
         onClick={onClick}
-        className="relative flex cursor-pointer items-center justify-center rounded-lg px-2 transition-colors hover:bg-white/10 disabled:pointer-events-none disabled:opacity-50"
+        className="relative m-1 flex size-8 cursor-pointer items-center justify-center rounded-lg transition-colors hover:bg-white/10 disabled:pointer-events-none disabled:opacity-50"
       >
         <Copy
           className={cn(
-            "size-[1.2rem] scale-100 rotate-0 transition-all",
+            "size-4 scale-100 rotate-0 transition-all",
             animation && "scale-0 -rotate-90",
           )}
         />
         <Check
           className={cn(
-            "absolute size-[1.2rem] scale-0 rotate-90 text-green-500 transition-all",
+            "absolute size-4 scale-0 rotate-90 text-green-500 transition-all",
             animation && "scale-100 rotate-0",
           )}
         />
