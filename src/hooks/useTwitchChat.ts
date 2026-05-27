@@ -25,9 +25,14 @@ export function useTwitchChat({
   const connectedRef = useRef(false);
   const timeoutsRef = useRef<Set<ReturnType<typeof setTimeout>>>(new Set());
 
+  // Clear messages when channel changes
+  useEffect(() => {
+    setMessages([]);
+  }, [channel]);
+
+  // Cleanup timeouts on unmount
   useEffect(() => {
     const timeouts = timeoutsRef.current;
-    // Cleanup timeouts on unmount
     return () => {
       timeouts.forEach(clearTimeout);
     };
@@ -37,9 +42,6 @@ export function useTwitchChat({
     if (!enabled || !channel) return;
     if (connectedRef.current) return;
     connectedRef.current = true;
-
-    // Clear previous messages
-    setMessages([]);
 
     const { disconnect } = createTwitchClient(
       channel,

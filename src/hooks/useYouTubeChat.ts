@@ -27,11 +27,13 @@ export function useYouTubeChat({
   const connectedRef = useRef(false);
   const timeoutsRef = useRef<Set<ReturnType<typeof setTimeout>>>(new Set());
 
-  // Clear error when channel changes
+  // Clear error and messages when channel changes
   useEffect(() => {
     setError(null);
-  }, [channelId]);
+    setMessages([]);
+  }, [channelId, apiKey]);
 
+  // Cleanup timeouts on unmount
   useEffect(() => {
     const timeouts = timeoutsRef.current;
     return () => {
@@ -42,9 +44,6 @@ export function useYouTubeChat({
   useEffect(() => {
     if (!enabled || !channelId || !apiKey) return;
     if (connectedRef.current) return;
-
-    // Clear previous messages
-    setMessages([]);
 
     // Validate and extract channel ID
     const extractedChannelId = extractChannelId(channelId);
