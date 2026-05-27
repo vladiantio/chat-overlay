@@ -30,20 +30,25 @@ export function Setup() {
     <div className="container mx-auto grid min-h-dvh grid-cols-1 items-stretch justify-center gap-6 p-6 md:grid-cols-2">
       <div className="flex flex-col items-start justify-center gap-4 rounded-3xl border bg-neutral-900 p-6 shadow-[0_20px_40px_rgba(0,0,0,0.4)]">
         <h2 className="mb-4 text-2xl font-bold">Chat Overlay</h2>
-        <p className="text-center text-sm text-white/80">Connect to Twitch</p>
 
         <form onSubmit={handleSetup} className="flex w-full flex-col gap-4">
-          <input
-            type="text"
-            placeholder="Enter Twitch Channel (e.g., vladiantio)"
-            value={inputTwitch}
-            onChange={(e) => setInputTwitch(e.target.value)}
-            autoFocus
-            required
-            className="font-inherit box-border w-full rounded-xl border border-white/20 bg-white/5 px-5 py-[14px] text-base text-white transition-all duration-300 ease-in-out outline-none focus:border-purple-400 focus:bg-white/10 focus:ring-2 focus:ring-purple-400"
-          />
+          <div className="flex flex-col gap-2">
+            <label htmlFor="twitchChannel" className="text-sm text-white/80">Twitch Channel</label>
+            <input
+              type="text"
+              placeholder="Enter Twitch Channel (e.g., vladiantio)"
+              value={inputTwitch}
+              onChange={(e) => setInputTwitch(e.target.value)}
+              autoFocus
+              required
+              className="font-inherit box-border w-full rounded-xl border border-white/20 bg-white/5 px-5 py-[14px] text-base text-white transition-all duration-300 ease-in-out outline-none focus:border-purple-400 focus:bg-white/10 focus:ring-2 focus:ring-purple-400"
+            />
+          </div>
 
-          <Snippet text={url} placeholder={location.href} />
+          <div className="flex flex-col gap-2">
+            <label className="text-sm text-white/80">Overlay URL</label>
+            <Snippet text={url} title="Copy Overlay URL" placeholder={location.href} />
+          </div>
 
           <button
             type="submit"
