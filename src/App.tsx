@@ -1,5 +1,5 @@
-import { ChatSection } from "./components/chat-section";
 import { Setup } from "./components/setup";
+import { ChatSection } from "./features/chat/chat-section";
 
 const CHANNEL = import.meta.env.VITE_CHANNEL;
 const YOUTUBE_CHANNEL_ID = import.meta.env.VITE_YOUTUBE_CHANNEL_ID;
