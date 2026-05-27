@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useMemo, useRef, useState } from "react";
 
 import { ChatSection } from "@/features/chat/chat-section";
 import { cn } from "@/utils/cn";
@@ -8,6 +8,7 @@ import { Snippet } from "./snippet";
 export function Setup() {
   const [inputTwitch, setInputTwitch] = useState("");
   const [previewTwitch, setPreviewTwitch] = useState("");
+  const chatSectionRef = useRef<HTMLDivElement>(null);
 
   const url = useMemo(() => {
     if (!inputTwitch) return;
@@ -22,18 +23,25 @@ export function Setup() {
 
   const handleSetup = (e: React.SubmitEvent) => {
     e.preventDefault();
+    if (chatSectionRef.current)
+      chatSectionRef.current.scrollIntoView({
+        behavior: "smooth",
+        block: "start",
+      });
     setPreviewTwitch(inputTwitch.trim());
   };
 
   // Show setup screen if no channels configured
   return (
-    <div className="container mx-auto grid min-h-dvh grid-cols-1 items-stretch justify-center gap-6 p-6 md:grid-cols-2">
+    <div className="container mx-auto flex min-h-dvh flex-col gap-6 p-6 md:grid md:grid-cols-2 md:items-stretch md:justify-center">
       <div className="flex flex-col items-start justify-center gap-4 rounded-3xl border bg-neutral-900 p-6 shadow-[0_20px_40px_rgba(0,0,0,0.4)]">
         <h2 className="mb-4 text-2xl font-bold">Chat Overlay</h2>
 
         <form onSubmit={handleSetup} className="flex w-full flex-col gap-4">
           <div className="flex flex-col gap-2">
-            <label htmlFor="twitchChannel" className="text-sm text-white/80">Twitch Channel</label>
+            <label htmlFor="twitchChannel" className="text-sm text-white/80">
+              Twitch Channel
+            </label>
             <input
               type="text"
               placeholder="Enter Twitch Channel (e.g., vladiantio)"
@@ -47,7 +55,11 @@ export function Setup() {
 
           <div className="flex flex-col gap-2">
             <label className="text-sm text-white/80">Overlay URL</label>
-            <Snippet text={url} title="Copy Overlay URL" placeholder={location.href} />
+            <Snippet
+              text={url}
+              title="Copy Overlay URL"
+              placeholder={location.href}
+            />
           </div>
 
           <button
@@ -61,7 +73,10 @@ export function Setup() {
           </button>
         </form>
       </div>
-      <div className="flex flex-col items-center justify-center gap-4 rounded-3xl border bg-neutral-900 p-6 shadow-[0_20px_40px_rgba(0,0,0,0.4)]">
+      <div
+        ref={chatSectionRef}
+        className="flex flex-col items-center justify-center gap-4 rounded-3xl border bg-neutral-900 p-6 shadow-[0_20px_40px_rgba(0,0,0,0.4)]"
+      >
         {previewTwitch ? (
           <ChatSection
             className="h-[calc(100dvh-var(--spacing)*28)] w-full"
