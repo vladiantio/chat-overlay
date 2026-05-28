@@ -1,6 +1,6 @@
 import tmi from "tmi.js";
 
-import type { ChatMessage } from "@/types/chat";
+import type { ChatMessage, ChatReplyTo } from "@/types/chat";
 
 import { parseBadges } from "@/features/badges/parse-badges";
 import { generateColorFromUsername } from "@/utils/color";
@@ -34,6 +34,20 @@ export function createTwitchClient(
     const isSamePreviousUser = lastSender === username;
     lastSender = username;
 
+    const replyParentId = tags["reply-parent-msg-id"];
+    const replyTo: ChatReplyTo | undefined = replyParentId
+      ? {
+          id: replyParentId,
+          username: tags["reply-parent-display-name"] || "Unknown",
+          message: tags["reply-parent-msg-body"] || "",
+        }
+      : undefined;
+
+    message =
+      replyTo && replyTo.username && replyTo.username !== "Unknown"
+        ? message.slice(replyTo.username.length + 1).trim()
+        : message;
+
     onMessage({
       id: messageId,
       username,
@@ -44,6 +58,7 @@ export function createTwitchClient(
       isSamePreviousUser,
       platform: "twitch",
       timestamp: Date.now(),
+      replyTo,
     });
   });
 

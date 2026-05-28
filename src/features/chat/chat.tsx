@@ -161,6 +161,11 @@ export function ChatMessages() {
               } as React.CSSProperties
             }
           >
+            {msg.replyTo && (
+              <div className="mb-1 line-clamp-1 text-sm leading-snug break-all opacity-65">
+                ↪ <strong>{msg.replyTo.username}</strong> {msg.replyTo.message}
+              </div>
+            )}
             <MessageRenderer message={msg.message} emotes={msg.emotes} />
           </div>
         </div>

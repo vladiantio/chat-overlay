@@ -13,6 +13,12 @@ export interface UserBadge {
   url: string;
 }
 
+export interface ChatReplyTo {
+  id: string;
+  username: string;
+  message: string;
+}
+
 export interface ChatMessage {
   id: string;
   username: string;
@@ -23,4 +29,5 @@ export interface ChatMessage {
   isSamePreviousUser?: boolean;
   platform: Platform;
   timestamp: number;
+  replyTo?: ChatReplyTo;
 }

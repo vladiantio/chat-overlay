@@ -101,6 +101,21 @@ export function OgChatPreview({
                   .join(", "),
               }}
             >
+              {msg.replyTo && (
+                <div
+                  style={{
+                    display: "flex",
+                    marginBottom: 4,
+                    fontSize: 15,
+                    opacity: 0.65,
+                    lineHeight: 1.3,
+                    overflow: "hidden",
+                  }}
+                >
+                  ↪ <strong>{msg.replyTo.username}</strong>{" "}
+                  {msg.replyTo.message}
+                </div>
+              )}
               {msg.message}
             </div>
             {showUser && (
