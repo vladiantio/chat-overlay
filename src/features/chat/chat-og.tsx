@@ -8,6 +8,8 @@ type OgChatPreviewProps = {
   showPlatform?: boolean;
 };
 
+const borderColor = "#ffffff1a";
+
 function parseHex(hex: string) {
   const normalized = hex.replace("#", "");
   const value =
@@ -37,9 +39,9 @@ function messageColors(color: string) {
     b: Math.round(base.b * 0.4 + 255 * 0.6),
   };
   const subtleRgb = {
-    r: Math.round(base.r * 0.1 + 23 * 0.9),
-    g: Math.round(base.g * 0.1 + 23 * 0.9),
-    b: Math.round(base.b * 0.1 + 23 * 0.9),
+    r: Math.round(base.r * 0.05 + 23 * 0.95),
+    g: Math.round(base.g * 0.05 + 23 * 0.95),
+    b: Math.round(base.b * 0.05 + 23 * 0.95),
   };
   return {
     tint: `rgb(${tintRgb.r}, ${tintRgb.g}, ${tintRgb.b})`,
@@ -86,9 +88,9 @@ export function OgChatPreview({
             <div
               style={{
                 display: "flex",
-                maxWidth: "85%",
                 marginTop: showUser ? 28 : -12,
                 padding: "8px 12px",
+                border: `1px solid ${borderColor}`,
                 borderRadius: 12,
                 backgroundColor: subtle,
                 color: "#f5f5f5",

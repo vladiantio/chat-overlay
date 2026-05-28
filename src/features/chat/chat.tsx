@@ -87,7 +87,7 @@ export function ChatMessages() {
             {
               "--color": msg.color,
               "--subtle-color":
-                "color-mix(in oklab, var(--color) 10%, var(--color-neutral-900))",
+                "color-mix(in oklab, var(--color) 5%, var(--color-neutral-900))",
               "--tint-color": "color-mix(in oklab, var(--color) 60%, #fff)",
               animation:
                 fadeSeconds > 0
@@ -100,11 +100,9 @@ export function ChatMessages() {
         >
           {(!msg.isSamePreviousUser || i == 0) && (
             <div
-              data-slot="chat-message-user"
-              className="relative z-1 flex w-fit animate-slide-in items-center gap-1.5 rounded-xl bg-(--tint-color) px-2 py-1 font-bold shadow-[0_4px_16px_rgba(0,0,0,0.3)]"
+              className="relative z-1 flex w-fit animate-slide-in items-center gap-2"
               style={
                 {
-                  color: "contrast-color(var(--tint-color))",
                   marginLeft: "if(style(--align: right): auto; else: 0)",
                   marginRight: "if(style(--align: right): 0; else: auto)",
                   transformOrigin:
@@ -112,20 +110,35 @@ export function ChatMessages() {
                 } as React.CSSProperties
               }
             >
-              {/* Platform Indicator */}
-              {showPlatform && (
-                <span
-                  aria-label={msg.platform}
-                  data-slot="chat-message-user-platform"
-                  className="flex items-center"
-                >
-                  {msg.platform === "twitch" ? <TwitchIcon /> : <YouTubeIcon />}
-                </span>
-              )}
+              <div
+                data-slot="chat-message-user"
+                className="flex h-8 items-center gap-1.5 rounded-xl bg-(--tint-color) px-2 leading-none font-bold shadow-[0_4px_16px_rgba(0,0,0,0.3)]"
+                style={
+                  {
+                    color: "contrast-color(var(--tint-color))",
+                  } as React.CSSProperties
+                }
+              >
+                {/* Platform Indicator */}
+                {showPlatform && (
+                  <span
+                    aria-label={msg.platform}
+                    data-slot="chat-message-user-platform"
+                    className="flex items-center"
+                  >
+                    {msg.platform === "twitch" ? (
+                      <TwitchIcon />
+                    ) : (
+                      <YouTubeIcon />
+                    )}
+                  </span>
+                )}
+                <span data-slot="chat-message-user-name">{msg.username}</span>
+              </div>
               {msg.badges && msg.badges.length > 0 && (
-                <span
+                <div
+                  className="flex gap-1"
                   data-slot="chat-message-user-badges"
-                  className="flex items-center gap-1"
                 >
                   {msg.badges.map((badge, index) => (
                     <img
@@ -134,22 +147,21 @@ export function ChatMessages() {
                       src={badge.url}
                       alt={badge.description}
                       title={badge.description}
-                      className="size-[24px] drop-shadow-sm drop-shadow-black/30"
+                      className="size-8 object-contain drop-shadow-sm drop-shadow-black/30"
                       onError={(e) => {
                         e.currentTarget.style.opacity = "0";
                       }}
                     />
                   ))}
-                </span>
+                </div>
               )}
-              <span data-slot="chat-message-user-name">{msg.username}</span>
             </div>
           )}
 
           <div
             data-slot="chat-message-text"
             className={cn(
-              "relative w-fit animate-slide-in rounded-xl bg-(--subtle-color) px-3 py-2 font-medium text-pretty shadow-[0_3px_12px_rgba(0,0,0,0.4)] group-last:ring-2 group-last:ring-(--tint-color)",
+              "relative w-fit animate-slide-in rounded-xl border bg-(--subtle-color) px-3 py-2 font-medium text-pretty shadow-[0_3px_12px_rgba(0,0,0,0.4)] group-last:ring-2 group-last:ring-(--tint-color)",
               msg.isSamePreviousUser && i > 0 ? "-mt-3" : "-mt-1",
             )}
             style={
