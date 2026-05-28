@@ -6,6 +6,20 @@
     "Cascadia Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
     "Liberation Mono", "Courier New", monospace;
   --animate-slide-in: slideIn 250ms cubic-bezier(0.4, 0, 0.2, 1) forwards;
+
+  --text-base: 18px;
+  --text-xs: calc(0.75 * var(--text-base));
+  --text-sm: calc(0.875 * var(--text-base));
+  --text-lg: calc(1.125 * var(--text-base));
+  --text-xl: calc(1.25 * var(--text-base));
+  --text-2xl: calc(1.5 * var(--text-base));
+  --text-3xl: calc(1.875 * var(--text-base));
+  --text-4xl: calc(2.25 * var(--text-base));
+  --text-5xl: calc(3 * var(--text-base));
+  --text-6xl: calc(3.75 * var(--text-base));
+  --text-7xl: calc(4.5 * var(--text-base));
+  --text-8xl: calc(6 * var(--text-base));
+  --text-9xl: calc(8 * var(--text-base));
 }
 
 @layer base {
@@ -46,7 +60,7 @@
     padding: 0;
     background: transparent; /* Transparent background for OBS */
     color: rgba(255, 255, 255, 0.95);
-    font-size: 18px;
+    font-size: var(--text-base);
     font-synthesis: none;
     text-rendering: optimizeLegibility;
     -webkit-font-smoothing: antialiased;
