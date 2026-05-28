@@ -1,4 +1,4 @@
-import { useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 
 import { ChatSection } from "@/features/chat/chat-section";
 import { cn } from "@/utils/cn";
@@ -23,13 +23,16 @@ export function Setup() {
 
   const handleSetup = (e: React.SubmitEvent) => {
     e.preventDefault();
+    setPreviewTwitch(inputTwitch.trim());
+  };
+
+  useEffect(() => {
     if (chatSectionRef.current)
       chatSectionRef.current.scrollIntoView({
         behavior: "smooth",
         block: "start",
       });
-    setPreviewTwitch(inputTwitch.trim());
-  };
+  }, [previewTwitch]);
 
   // Show setup screen if no channels configured
   return (
