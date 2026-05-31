@@ -3,6 +3,8 @@ import type { ChatUserstate } from "tmi.js";
 import Markdown, { ReactRenderer } from "marked-react";
 import { isValidElement } from "react";
 
+import type { ChatReplyTo } from "@/types/chat";
+
 import { cn } from "@/utils/cn";
 
 import { isEmoteImage, parseMarkdown } from "./parsers";
@@ -83,10 +85,18 @@ const renderer: Partial<ReactRenderer> = {
 interface MessageRendererProps {
   message: string;
   emotes?: ChatUserstate["emotes"];
+  replyTo?: ChatReplyTo;
 }
 
-export function MessageRenderer({ message, emotes }: MessageRendererProps) {
+export function MessageRenderer({
+  message,
+  emotes,
+  replyTo,
+}: MessageRendererProps) {
   return (
-    <Markdown renderer={renderer} value={parseMarkdown(message, emotes)} />
+    <Markdown
+      renderer={renderer}
+      value={parseMarkdown(message, emotes, replyTo)}
+    />
   );
 }

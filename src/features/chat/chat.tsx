@@ -178,7 +178,11 @@ export function ChatMessages() {
                 ↪ <strong>{msg.replyTo.username}</strong> {msg.replyTo.message}
               </div>
             )}
-            <MessageRenderer message={msg.message} emotes={msg.emotes} />
+            <MessageRenderer
+              message={msg.message}
+              emotes={msg.emotes}
+              replyTo={msg.replyTo}
+            />
           </div>
         </div>
       ))}

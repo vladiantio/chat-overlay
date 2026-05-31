@@ -43,11 +43,6 @@ export function createTwitchClient(
         }
       : undefined;
 
-    message =
-      replyTo && replyTo.username && replyTo.username !== "Unknown"
-        ? message.slice(replyTo.username.length + 1).trim()
-        : message;
-
     onMessage({
       id: messageId,
       username,
