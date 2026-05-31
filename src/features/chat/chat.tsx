@@ -174,8 +174,8 @@ export function ChatMessages() {
             }
           >
             {msg.replyTo && (
-              <div className="mb-1 line-clamp-1 text-sm leading-snug break-all opacity-65">
-                ↪ <strong>{msg.replyTo.username}</strong> {msg.replyTo.message}
+              <div className="mb-1 line-clamp-1 border-l-2 border-white/50 pl-2 text-sm leading-snug break-all opacity-75">
+                <strong>{msg.replyTo.username}:</strong> {msg.replyTo.message}
               </div>
             )}
             <MessageRenderer
