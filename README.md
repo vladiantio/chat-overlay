@@ -1,8 +1,8 @@
-# Chat Overlay
+# ![Chat Overlay](./public/og.jpg)
 
-A sleek, transparent chat overlay for OBS that supports both **Twitch** and _experimental_ **YouTube Live** chat simultaneously. Built with React, TypeScript, and Vite.
+A chat overlay for OBS that supports both **Twitch** and _(experimental)_ **YouTube Live** chat simultaneously. Built with React, TypeScript, and Vite.
 
-## Features
+## ✨ Features
 
 - 🔴 **Twitch Chat** - Real-time chat via TMI.js
 - ▶️ **YouTube Live Chat (experimental)** - Real-time chat via YouTube Data API
@@ -13,20 +13,42 @@ A sleek, transparent chat overlay for OBS that supports both **Twitch** and _exp
 - 🎯 **Platform Indicators** - Visual badges showing message source
 - 🎮 **OBS Optimized** - Transparent background, no scrollbars
 
-## Development
+## 🔧 OBS Setup
+
+### Instructions
+
+1. Add a **Browser Source** to your scene
+2. Set the URL to your configured endpoint
+3. Set dimensions (recommended: 400x600 or adjust as needed)
+4. Enable **Custom CSS** if you want to customize further
+5. Check **Shutdown source when not visible** to save resources
+
+### Recommended Browser Source Settings
+
+- **Minimum Width**: 400
+- **Minimum Height**: 600
+- **Custom CSS**: None needed (transparent by default)
+
+## 🚀 Development
 
 ### 1. Installation
 
 ```bash
 # Clone the repository
-git clone <repo-url>
-cd feedback-chat-twitch
+git clone https://github.com/vladiantio/chat-overlay.git
+cd chat-overlay
 
 # Install dependencies
 pnpm install
 
 # Start development server
 pnpm dev
+
+# Build for production
+pnpm build
+
+# Preview production build
+pnpm preview
 ```
 
 ### 2. Configuration
@@ -50,13 +72,13 @@ Configure directly in the OBS Browser Source URL:
 
 ```
 # Twitch only
-http://localhost:5173/?twitch=shroud
+http://localhost:5173/?twitch=vladiantio
 
 # YouTube only
 http://localhost:5173/?youtube=UCxxxxxxxxxxxxxxxxxxx&youtubeKey=your_api_key
 
 # Both platforms simultaneously
-http://localhost:5173/?twitch=shroud&youtube=UCxxxxxxxxxxxxxxxxxxx&youtubeKey=your_api_key
+http://localhost:5173/?twitch=vladiantio&youtube=UCxxxxxxxxxxxxxxxxxxx&youtubeKey=your_api_key
 ```
 
 ### 3. Getting a YouTube Data API Key (optional)
@@ -80,7 +102,7 @@ Alternatively, if you have a custom URL (`@handle`), you can:
 - View page source and search for `"channelId":"UC`
 - Or use a [Channel ID finder tool](https://www.streamweasels.com/tools/youtube-channel-id-and-user-id-convertor/)
 
-## URL Parameters
+## 🔗 URL Parameters
 
 | Parameter           | Description                             | Default       |
 | ------------------- | --------------------------------------- | ------------- |
@@ -96,47 +118,16 @@ Alternatively, if you have a custom URL (`@handle`), you can:
 
 ```
 # Twitch with 10 second fade
-/?twitch=shroud&fade=10
+/?twitch=vladiantio&fade=10
 
 # YouTube with custom alignment
 /?youtube=UCxxxxxxxx&youtubeKey=key&chatAlignment=right
 
 # Both platforms with ignored users
-/?twitch=shroud&youtube=UCxxx&youtubeKey=key&ignore=bot1,bot2
+/?twitch=vladiantio&youtube=UCxxx&youtubeKey=key&ignore=bot1,bot2
 ```
 
-## OBS Setup
-
-1. Add a **Browser Source** to your scene
-2. Set the URL to your configured endpoint
-3. Set dimensions (recommended: 400x600 or adjust as needed)
-4. Enable **Custom CSS** if you want to customize further
-5. Check **Shutdown source when not visible** to save resources
-
-### Recommended Browser Source Settings
-
-- **Width**: 400
-- **Height**: 600
-- **FPS**: 30
-- **Custom CSS**: None needed (transparent by default)
-
-## Development
-
-```bash
-# Install dependencies
-pnpm install
-
-# Start dev server
-pnpm dev
-
-# Build for production
-pnpm build
-
-# Preview production build
-pnpm preview
-```
-
-## Project Structure
+## 🌳 Project Structure
 
 ```
 src/
@@ -151,14 +142,12 @@ src/
 │   └── chat.ts               # Shared type definitions
 ├── utils/
 │   ├── audio.ts              # Notification sounds
-│   ├── badges.ts             # Twitch badge parsing
-│   ├── cn.ts                 # Tailwind class merging
-│   └── emotes.ts             # Twitch emote parsing
+│   └── cn.ts                 # Tailwind class merging
 ├── App.tsx                   # Main application component
 └── index.css                 # Global styles
 ```
 
-## API Quota Considerations
+## ⚠️ API Quota Considerations
 
 ### YouTube Data API
 
@@ -177,16 +166,16 @@ This means you can run approximately **2.7 hours** of continuous polling per day
 
 Twitch chat uses WebSocket connections with no API quota limits.
 
-## Customization
+## 🎨 Customization
 
 ### Colors and Styling
 
 The overlay uses Tailwind CSS. Modify `src/index.css` or use custom CSS in OBS:
 
 ```css
-/* Example: Change message background opacity */
-[data-slot="chat-message-text"] > div {
-  background-color: rgba(0, 0, 0, 0.8) !important;
+/* Example: Change message color */
+[data-slot="chat-message"] {
+  --color: #3fa0fa;
 }
 ```
 
@@ -201,15 +190,7 @@ The default font is Figtree (loaded from Google Fonts). Change it in `index.html
 />
 ```
 
-## Browser Support
-
-- Chrome/Edge 88+
-- Firefox 78+
-- Safari 14+
-
-Requires ES2020 and CSS Custom Properties support.
-
-## Troubleshooting
+## 🔍 Troubleshooting
 
 ### YouTube chat not connecting
 
@@ -231,11 +212,11 @@ Requires ES2020 and CSS Custom Properties support.
 2. Disable notification sounds
 3. Reduce fade animation duration
 
-## License
+## 📄 License
 
 MIT License - feel free to use for personal and commercial streaming!
 
-## Credits
+## 🌐 Credits
 
 - Built with [Vite](https://vitejs.dev/) + [React](https://react.dev/) + [TypeScript](https://www.typescriptlang.org/)
 - Styled with [Tailwind CSS](https://tailwindcss.com/)

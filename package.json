@@ -7,14 +7,14 @@
     "dev": "vite",
     "download-badges": "node scripts/download-badges.js",
     "generate:og": "tsx --tsconfig tsconfig.app.json src/generate-og.tsx",
-    "generate:og:watch": "tsx watch --tsconfig tsconfig.app.json src/generate-og.tsx --force",
-    "build": "pnpm download-badges && pnpm generate:og && tsc -b && vite build",
+    "generate:og:watch": "tsx watch --tsconfig tsconfig.app.json src/generate-og.tsx",
+    "build": "pnpm download-badges && tsc -b && vite build",
     "format": "oxfmt",
     "format:check": "oxfmt --check",
     "lint": "oxlint",
     "lint:fix": "oxlint --fix",
     "lint:github": "oxlint --format=github",
-    "postinstall": "pnpm download-badges && pnpm generate:og",
+    "postinstall": "pnpm download-badges",
     "preview": "vite preview"
   },
   "dependencies": {

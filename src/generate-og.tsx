@@ -66,15 +66,6 @@ function getIconCode(emoji: string) {
   return codePoints;
 }
 
-async function fileExists(path: string) {
-  try {
-    await fs.access(path);
-    return true;
-  } catch {
-    return false;
-  }
-}
-
 function OG() {
   return (
     <div
@@ -151,14 +142,7 @@ function OG() {
 }
 
 try {
-  if (await fileExists(OG_PATH)) {
-    if (process.argv.includes("--force")) {
-      console.log("✔ Forcing overwrite...");
-    } else {
-      console.log(`✔ File already exists: ${OG_PATH}. Overwrite using --force`);
-      process.exit(0);
-    }
-  }
+  console.log("* Generating OG...");
 
   const fonts: Font[] = [
     {
