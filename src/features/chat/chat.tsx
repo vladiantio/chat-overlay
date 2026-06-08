@@ -112,7 +112,7 @@ export function ChatMessages() {
             >
               <div
                 data-slot="chat-message-user"
-                className="flex h-8 items-center gap-1.5 rounded-xl bg-(--tint-color) px-2 leading-none font-bold shadow-[0_4px_16px_rgba(0,0,0,0.3)]"
+                className="flex h-8 items-center gap-1.5 rounded-2xl bg-(--tint-color) px-2 leading-none font-bold shadow-[0_4px_16px_rgba(0,0,0,0.3)] [corner-shape:squircle]"
                 style={
                   {
                     color: "contrast-color(var(--tint-color))",
@@ -161,7 +161,7 @@ export function ChatMessages() {
           <div
             data-slot="chat-message-text"
             className={cn(
-              "relative w-fit animate-slide-in rounded-xl border bg-(--subtle-color) px-3 py-2 font-medium text-pretty shadow-[0_3px_12px_rgba(0,0,0,0.4)] group-last:ring-2 group-last:ring-(--tint-color)",
+              "relative w-fit animate-slide-in rounded-2xl border bg-(--subtle-color) px-3 py-2 font-medium text-pretty shadow-[0_3px_12px_rgba(0,0,0,0.4)] [corner-shape:squircle] group-last:ring-2 group-last:ring-(--tint-color)",
               msg.isSamePreviousUser && i > 0 ? "-mt-3" : "-mt-1",
             )}
             style={

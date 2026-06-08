@@ -29,7 +29,7 @@ const renderer: Partial<ReactRenderer> = {
   },
   codespan(code) {
     return (
-      <code className="-my-0.5 inline-block rounded-md bg-white/10 px-2 py-0.5">
+      <code className="-my-0.5 inline-block rounded-xl bg-white/10 px-2 py-0.5 [corner-shape:squircle]">
         {code}
       </code>
     );
