@@ -4,14 +4,18 @@ Purely client-side SPA (React 19, Vite 8, Tailwind v4). Zero server.
 
 ## Commands
 
-| Command         | Purpose                                               |
-| --------------- | ----------------------------------------------------- |
-| `pnpm dev`      | Dev server (HMR)                                      |
-| `pnpm build`    | `download-badges → generate:og → tsc -b → vite build` |
-| `pnpm lint`     | oxlint                                                |
-| `pnpm lint:fix` | oxlint --fix                                          |
-| `pnpm format`   | oxfmt                                                 |
-| `pnpm preview`  | Serve `dist/` on port **4210** (strict)               |
+| Command                    | Purpose                                                       |
+| -------------------------- | ------------------------------------------------------------- |
+| `pnpm dev`                 | Dev server (HMR)                                              |
+| `pnpm download-7tv-emotes` | Download 7TV global emotes                                    |
+| `pnpm download-badges`     | Download Twitch global badges                                 |
+| `pnpm build`               | `download-badges → download-7tv-emotes → tsc -b → vite build` |
+| `pnpm generate:og`         | Generate OG image                                             |
+| `pnpm generate:og:watch`   | Generate OG image (watch mode)                                |
+| `pnpm lint`                | oxlint                                                        |
+| `pnpm lint:fix`            | oxlint --fix                                                  |
+| `pnpm format`              | oxfmt                                                         |
+| `pnpm preview`             | Serve `dist/` on port **4210** (strict)                       |
 
 No test framework exists, no test command.
 
@@ -23,14 +27,15 @@ No test framework exists, no test command.
 - **`@/` alias** → `./src/` (e.g. `@/types/chat`).
 - **`base: "./"`** — built app uses relative paths (for OBS `file://` sources). Transparent `body` background.
 
-## Build requires network
+## Build & OG generation requires network
 
-`pnpm build` (and `pnpm postinstall`) run:
+- `pnpm build` (and `pnpm postinstall`) run:
+  1. `download-badges` — fetches Twitch global badges from `api.streamdatabase.com` → `src/features/badges/badges.json` (gitignored)
+  2. `download-7tv-emotes` — fetches 7TV global emotes from `api.7tv.app` → `src/features/emotes/stv-emotes.json` (gitignored)
 
-1. `download-badges` — fetches Twitch badges from `api.streamdatabase.com` → `src/features/badges/badges.json` (gitignored)
-2. `generate:og` — fetches Twemoji SVGs from CDN → `public/og.jpg` (gitignored)
+  Both skip if output already exists unless `--force`.
 
-Both skip if output already exists unless `--force`.
+- `generate:og` fetches Twemoji SVGs from CDN → `public/og.jpg` (gitignored)
 
 ## Configuration
 
