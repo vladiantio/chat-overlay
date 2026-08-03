@@ -5,10 +5,11 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
+    "download-7tv-emotes": "node scripts/download-7tv-emotes.js",
     "download-badges": "node scripts/download-badges.js",
     "generate:og": "tsx --tsconfig tsconfig.app.json src/generate-og.tsx",
     "generate:og:watch": "tsx watch --tsconfig tsconfig.app.json src/generate-og.tsx",
-    "build": "pnpm download-badges && tsc -b && vite build",
+    "build": "pnpm download-badges && pnpm download-7tv-emotes && tsc -b && vite build",
     "format": "oxfmt",
     "format:check": "oxfmt --check",
     "lint": "oxlint",

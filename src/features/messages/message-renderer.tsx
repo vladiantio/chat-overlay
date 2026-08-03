@@ -7,7 +7,7 @@ import type { ChatReplyTo } from "@/types/chat";
 
 import { cn } from "@/utils/cn";
 
-import { isEmoteImage, parseMarkdown } from "./parsers";
+import { parseMarkdown } from "./parsers";
 
 const renderer: Partial<ReactRenderer> = {
   paragraph(children) {
@@ -67,10 +67,7 @@ const renderer: Partial<ReactRenderer> = {
         src={src}
         alt={alt}
         title={title ?? undefined}
-        className={cn(
-          "mx-[2px] -mt-[0.25lh] inline-block h-lh align-middle",
-          isEmoteImage(src) && "aspect-square object-contain",
-        )}
+        className="mx-0.5 -my-[0.25lh] inline-block h-lh min-w-[1lh] object-contain align-middle"
         onError={(e) => {
           e.currentTarget.style.opacity = "0";
         }}

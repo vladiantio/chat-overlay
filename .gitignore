@@ -26,3 +26,6 @@ dist-ssr
 
 # Global badges
 badges.json
+
+# 7TV emotes
+stv-emotes.json
