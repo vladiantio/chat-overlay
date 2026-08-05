@@ -2,7 +2,7 @@ import { createContext, useContext, useRef } from "react";
 
 import type { ChatMessage } from "@/types/chat";
 
-import { MessageRenderer } from "@/features/messages/message-renderer";
+import { MessageRenderer } from "@/features/messages/message-renderer.tsx";
 import { useAutoScroll } from "@/hooks/useAutoScroll";
 import { cn } from "@/utils/cn";
 
