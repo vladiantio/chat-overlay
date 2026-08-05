@@ -165,7 +165,7 @@ export class ChatOverlayElement extends HTMLElement {
       parseMarkdown(msg.message, msg.emotes, msg.replyTo),
     );
 
-    return `<div class="chat-message" data-slot="chat-message" data-platform="${msg.platform}"${animation}>${userRow}<div class="chat-bubble${stacked ? " chat-bubble--stacked" : ""}" data-slot="chat-message-text">${reply}${content}</div></div>`;
+    return `<div class="chat-message" data-slot="chat-message" data-platform="${msg.platform}"${animation}>${userRow}<div class="chat-bubble${stacked ? " chat-bubble--stacked" : ""}" data-slot="chat-message-text">${reply}<div>${content}</div></div></div>`;
   }
 
   private get fadeSeconds(): number {
