@@ -25,7 +25,7 @@ function contrastText(r: number, g: number, b: number) {
   return luminance > 0.55 ? "#111111" : "#ffffff";
 }
 
-function messageColors(color: string) {
+export function messageColors(color: string) {
   const base = parseHex(color);
   const tintRgb = {
     r: Math.round(base.r * 0.4 + 255 * 0.6),
