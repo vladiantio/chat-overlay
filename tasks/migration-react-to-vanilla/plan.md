@@ -131,3 +131,70 @@ Existing pure modules gain colocated tests in Phase 1: `parsers.test.ts`, `color
 
 - Whether `<chat-overlay>` needs `ignore`/`notification-sound` attributes or stays URL-config-only (current behavior: URL params — keep).
 - Whether CI runs `pnpm test` as a separate job or extends the existing lint workflow — extend existing workflow with one extra step (Task 2).
+
+---
+
+## Results (2026-08-05)
+
+All tasks completed. React is fully removed: `src/` contains only TypeScript +
+Web Components (`<chat-overlay>`, `<chat-setup>`, `<copy-snippet>`), plain CSS,
+and pure modules.
+
+### Verification
+
+- `pnpm test` — 96 tests across 13 files (4 characterize suites, markdown golden
+  HTML, controller suites with fake timers, happy-dom element suites)
+- `pnpm lint` — 0 warnings, 0 errors
+- `pnpm build` — passes (badges + 7TV emotes download, `tsc -b`, `vite build`)
+- Clean checkout: `rm -rf node_modules dist && pnpm install && pnpm build && pnpm test` — passes
+- `pnpm preview` — port 4210, strict — serves the env-configured overlay
+- Visual diff vs baseline (headless Chromium, RMSE, 0 = identical):
+
+  | View | RMSE |
+  |---|---|
+  | chat-left | 6.20 |
+  | chat-right | 7.89 |
+  | setup | 1.09 |
+
+  Capture-to-capture noise for the same page is RMSE 1.1–4.4 (network-loaded
+  badge/emote images and font fallback rendering). The React build itself
+  measures 3.24 vs baseline with the same harness. Residual chat differences:
+  network-image subpixel rendering and the documented 3.8 px reply-box quirk
+  (see below). Setup page is pixel-close (1.09).
+
+### `dist/` size delta
+
+| Metric | Before (React) | After (vanilla) | Delta |
+|---|---|---|---|
+| JS raw | 452.40 kB | 233.75 kB | −48% |
+| JS gzip | 150.94 kB | 77.36 kB | −49% |
+
+### Issues found & fixed during conversion
+
+- **Raw HTML XSS**: `marked-react` displayed raw HTML as escaped text via React;
+  the marked rewrite adds an explicit `html` renderer escape (golden test with
+  `<script>` input). No behavior change.
+- **Demo data emote offset**: demo message m2 declares `Kappa` at 18–22 instead of
+  20–24, so "e Kap" becomes the emote text and the "Kappa" image never shows.
+  Reproduced identically in the React build — pre-existing, kept for parity.
+- **Reply box clipping (3.8 px)**: Chrome's legacy `-webkit-box` intrinsic sizing
+  drops the leading space after the reply `<strong>`, making the line-clamped
+  reply box ~3.8 px narrower than its text and clipping the trailing glyph in the
+  React version. The vanilla renderer emits the same DOM but the box sizes to the
+  full text (trailing "!" visible). Byte-identical DOM/CSS/fonts verified between
+  builds; the deviation is a fix, not a regression.
+- **`line-clamp` no-op**: `line-clamp: 1` computes to `-webkit-line-clamp: none`
+  in Chrome (the shorthand needs `display: -webkit-box` + `-webkit-box-orient:
+  vertical`); both old and new versions render single-line replies only because
+  the reply text never wraps. Left as-is for parity.
+- **Demo capture harness**: CDP `Emulation.setDeviceMetricsOverride` applied
+  before navigation is ignored (viewport 780×493); apply it after navigation with
+  `--window-size` set at launch.
+
+### Files removed
+
+`App.tsx`, `main.tsx`, `demo-main.tsx`, `demo-setup.tsx`, `chat.tsx`,
+`chat-section.tsx`, `chat-icons.tsx`, `message-renderer.tsx`, `snippet.tsx`,
+`setup.tsx`, `src/hooks/*`; deps `react`, `react-dom`, `@types/react`,
+`@types/react-dom`, `@vitejs/plugin-react`, `marked-react`, `lucide-react`,
+`clsx`.

@@ -1,6 +1,6 @@
 # Chat Overlay
 
-Purely client-side SPA (React 19, Vite 8, vanilla CSS). Zero server.
+Purely client-side SPA (TypeScript, Vite 8, vanilla CSS, native Web Components). Zero server, zero framework.
 
 ## Commands
 
@@ -16,8 +16,10 @@ Purely client-side SPA (React 19, Vite 8, vanilla CSS). Zero server.
 | `pnpm lint:fix`            | oxlint --fix                                                  |
 | `pnpm format`              | oxfmt                                                         |
 | `pnpm preview`             | Serve `dist/` on port **4210** (strict)                       |
+| `pnpm test`                | Vitest run (colocated `src/**/*.test.ts`)                     |
+| `pnpm test:watch`          | Vitest watch                                                  |
 
-No test framework exists, no test command.
+No test framework config file: Vitest defaults + per-file `// @vitest-environment happy-dom` docblocks where a DOM is needed (controllers and pure modules run in node).
 
 ## Toolchain quirks
 
@@ -26,6 +28,7 @@ No test framework exists, no test command.
 - **`erasableSyntaxOnly`** in tsconfig — no enums, namespaces, parameter properties.
 - **`@/` alias** → `./src/` (e.g. `@/types/chat`).
 - **`base: "./"`** — built app uses relative paths (for OBS `file://` sources). Transparent `body` background.
+- **No test globals**: tests import `describe/it/expect` from `vitest` explicitly; test files live under `src/` so `tsc -b` keeps type-checking them.
 
 ## Build & OG generation requires network
 
@@ -43,12 +46,21 @@ URL query params override env vars at runtime:
 
 - `?twitch=CHANNEL&youtube=CHANNEL_ID&fade=120&ignore=user1,user2`
 - Falls back to `VITE_CHANNEL`, `VITE_YOUTUBE_CHANNEL_ID`, etc. in `.env*`
+- `src/config.ts` `parseConfig(url, env)` is a pure, unit-tested function; `src/main.ts` runs it once and sets `<chat-overlay>` attributes from the result
 
-When no channels configured, the `Setup` component renders.
+When no channels configured, `<chat-setup>` renders.
+
+## Web Components
+
+Light DOM, no shadow roots (OBS `file://` + external CSS must style `data-slot` internals):
+
+- `<chat-overlay>` — observed attributes `twitch`, `youtube`, `youtube-key`, `fade`, `alignment`, `show-platform`, `ignore`, `notification-sound`; owns a `ChatController` store; re-renders the message list on every `change` event; `seedMessages()` supports demo mode
+- `<chat-setup>` — channel form → overlay URL snippet + live preview
+- `<copy-snippet>` — copy button with `data-copied` state
 
 ## CI
 
-`.github/workflows/lint.yml` — `pnpm lint:github` only, on PR and push to `main`.
+`.github/workflows/lint.yml` — `pnpm lint:github` and `pnpm test` jobs, on PR and push to `main`.
 
 ## YouTube polling
 
@@ -56,7 +68,8 @@ Default 5s interval. Free API tier: ~10k units/day, ~2.7h runtime. Badge code is
 
 ## Architecture notes
 
-- `useTwitchChat` (TMI.js WebSocket) + `useYouTubeChat` (REST polling) — each caps at **10 messages**.
-- Message fade via CSS animation driven by `fadeSeconds` param.
+- `TwitchChatController` (tmi.js WebSocket, `src/services/twitch.ts`) + `YouTubeChatController` (REST polling) — each keeps its own 10-message cap, then pushes timestamp-sorted into the shared `ChatController` (EventTarget; `change` CustomEvent drives `<chat-overlay>` re-render).
+- Message fade via CSS animation driven by `fadeSeconds` param; controllers schedule removals (YouTube offset +1s).
 - Badges are static (not fetched at runtime).
+- Markdown: `marked` with a custom HTML renderer (`src/features/messages/message-renderer.ts`) — golden-HTML tested; raw HTML input is escaped.
 - OG image generated at build time (takumi-js).

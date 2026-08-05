@@ -1,6 +1,6 @@
 # ![Chat Overlay](./public/og.jpg)
 
-A chat overlay for OBS that supports both **Twitch** and _(experimental)_ **YouTube Live** chat simultaneously. Built with React, TypeScript, and Vite.
+A chat overlay for OBS that supports both **Twitch** and _(experimental)_ **YouTube Live** chat simultaneously. Built with TypeScript, Vite, and native Web Components — no framework.
 
 ## ✨ Features
 
@@ -219,7 +219,7 @@ MIT License - feel free to use for personal and commercial streaming!
 
 ## 🌐 Credits
 
-- Built with [Vite](https://vitejs.dev/) + [React](https://react.dev/) + [TypeScript](https://www.typescriptlang.org/)
+- Built with [Vite](https://vitejs.dev/) + [TypeScript](https://www.typescriptlang.org/) + native Web Components
 - Styled with vanilla CSS (custom properties in `src/styles/theme.css`)
 - Twitch integration via [tmi.js](https://github.com/tmijs/tmi.js)
 - YouTube integration via [YouTube Data API v3](https://developers.google.com/youtube/v3)
