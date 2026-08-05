@@ -1,6 +1,6 @@
 import { Marked, type Tokens } from "marked";
 
-const escapeHtml = (value: string) =>
+export const escapeHtml = (value: string) =>
   value
     .replace(/&/g, "&amp;")
     .replace(/</g, "&lt;")

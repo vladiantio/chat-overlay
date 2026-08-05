@@ -6,7 +6,7 @@ import { MessageRenderer } from "@/features/messages/message-renderer.tsx";
 import { useAutoScroll } from "@/hooks/useAutoScroll";
 import { cn } from "@/utils/cn";
 
-import { TwitchIcon, YouTubeIcon } from "./chat-icons";
+import { TwitchIcon, YouTubeIcon } from "./chat-icons.tsx";
 
 type ChatState = {
   alignment: string;
