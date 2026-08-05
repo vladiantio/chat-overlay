@@ -1,7 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 
 import { ChatSection } from "@/features/chat/chat-section";
-import { cn } from "@/utils/cn";
 
 import { Snippet } from "./snippet";
 
@@ -36,13 +35,13 @@ export function Setup() {
 
   // Show setup screen if no channels configured
   return (
-    <div className="container mx-auto flex min-h-dvh flex-col gap-6 p-6 md:grid md:grid-cols-2 md:items-stretch md:justify-center">
-      <div className="flex flex-col items-start justify-center gap-4 rounded-3xl border bg-neutral-900 p-6 shadow-[0_20px_40px_rgba(0,0,0,0.4)]">
-        <h2 className="mb-4 text-2xl font-bold">Chat Overlay</h2>
+    <div className="setup">
+      <div className="setup-card">
+        <h2 className="setup-title">Chat Overlay</h2>
 
-        <form onSubmit={handleSetup} className="flex w-full flex-col gap-4">
-          <div className="flex flex-col gap-2">
-            <label htmlFor="twitchChannel" className="text-sm text-white/80">
+        <form onSubmit={handleSetup} className="setup-form">
+          <div className="setup-field">
+            <label htmlFor="twitchChannel" className="setup-label">
               Twitch Channel
             </label>
             <input
@@ -52,12 +51,12 @@ export function Setup() {
               onChange={(e) => setInputTwitch(e.target.value)}
               autoFocus
               required
-              className="font-inherit box-border w-full rounded-xl border border-white/20 bg-white/5 px-5 py-[14px] text-base text-white transition-all duration-300 ease-in-out outline-none focus:border-purple-400 focus:bg-white/10 focus:ring-2 focus:ring-purple-400"
+              className="setup-input"
             />
           </div>
 
-          <div className="flex flex-col gap-2">
-            <label className="text-sm text-white/80">Overlay URL</label>
+          <div className="setup-field">
+            <label className="setup-label">Overlay URL</label>
             <Snippet
               text={url}
               title="Copy Overlay URL"
@@ -68,21 +67,16 @@ export function Setup() {
           <button
             type="submit"
             disabled={!inputTwitch.trim()}
-            className={cn(
-              "w-full cursor-pointer rounded-xl bg-purple-800 px-5 py-[14px] font-semibold text-white transition-[translate,box-shadow] duration-200 hover:-translate-y-[2px] hover:shadow-[0_8px_20px_rgba(168,85,247,0.4)] active:translate-y-0 disabled:cursor-not-allowed disabled:opacity-50 disabled:hover:translate-y-0 disabled:hover:shadow-none",
-            )}
+            className="setup-button"
           >
             Preview
           </button>
         </form>
       </div>
-      <div
-        ref={chatSectionRef}
-        className="flex flex-col items-center justify-center gap-4 rounded-3xl border bg-neutral-900 p-6 shadow-[0_20px_40px_rgba(0,0,0,0.4)]"
-      >
+      <div ref={chatSectionRef} className="setup-card setup-card--center">
         {previewTwitch ? (
           <ChatSection
-            className="h-[calc(100dvh-var(--spacing)*28)] w-full"
+            className="setup-preview"
             twitchChannel={previewTwitch}
             youtubeChannel=""
             youtubeApiKey=""
@@ -93,7 +87,7 @@ export function Setup() {
             showPlatform={false}
           />
         ) : (
-          <p className="text-center">
+          <p className="setup-hint">
             Enter a Twitch channel and click "Preview" to see the chat overlay.
           </p>
         )}

@@ -1,6 +1,6 @@
 import { createRoot } from "react-dom/client";
 
-import "./index.css";
+import "./styles/global.css";
 import { ChatContainer, ChatMessages, ChatRoot } from "@/features/chat/chat";
 import type { ChatMessage } from "@/types/chat";
 
@@ -92,7 +92,7 @@ createRoot(document.getElementById("root")!).render(
     messages={demoMessages}
     showPlatform
   >
-    <ChatContainer className="h-dvh">
+    <ChatContainer className="chat-screen">
       <ChatMessages />
     </ChatContainer>
   </ChatRoot>,

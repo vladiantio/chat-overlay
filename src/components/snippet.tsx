@@ -12,14 +12,14 @@ interface SnippetProps {
 }
 
 export const Snippet = ({ text, title, placeholder, onCopy }: SnippetProps) => {
-  const [animation, setAnimation] = useState<boolean>(false);
-  const animationTimeout = useRef<NodeJS.Timeout>(null);
+  const [copied, setCopied] = useState(false);
+  const copiedTimeout = useRef<NodeJS.Timeout>(null);
 
   const onClick = () => {
     if (!text) return;
-    if (animationTimeout.current) clearTimeout(animationTimeout.current);
-    setAnimation(true);
-    animationTimeout.current = setTimeout(() => setAnimation(false), 2000);
+    if (copiedTimeout.current) clearTimeout(copiedTimeout.current);
+    setCopied(true);
+    copiedTimeout.current = setTimeout(() => setCopied(false), 2000);
 
     copyToClipboard(text);
 
@@ -27,13 +27,8 @@ export const Snippet = ({ text, title, placeholder, onCopy }: SnippetProps) => {
   };
 
   return (
-    <div className="flex w-full overflow-hidden rounded-xl border bg-neutral-800">
-      <pre
-        className={cn(
-          "flex-1 overflow-x-auto px-4 py-2.5 text-sm",
-          !text && "opacity-50",
-        )}
-      >
+    <div className="snippet" data-copied={copied}>
+      <pre className={cn("snippet-text", !text && "snippet-text--empty")}>
         {text || placeholder}
       </pre>
       <button
@@ -41,20 +36,10 @@ export const Snippet = ({ text, title, placeholder, onCopy }: SnippetProps) => {
         disabled={!text}
         title={title}
         onClick={onClick}
-        className="relative m-1 flex size-8 cursor-pointer items-center justify-center rounded-lg transition-colors hover:bg-white/10 disabled:pointer-events-none disabled:opacity-50"
+        className="snippet-button"
       >
-        <Copy
-          className={cn(
-            "size-4 scale-100 rotate-0 transition-all",
-            animation && "scale-0 -rotate-90",
-          )}
-        />
-        <Check
-          className={cn(
-            "absolute size-4 scale-0 rotate-90 text-green-500 transition-all",
-            animation && "scale-100 rotate-0",
-          )}
-        />
+        <Copy className="snippet-icon snippet-icon--copy" />
+        <Check className="snippet-icon snippet-icon--check" />
       </button>
     </div>
   );

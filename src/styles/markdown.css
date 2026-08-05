@@ -1,0 +1,82 @@
+.md-paragraph--image-only > img {
+  margin-block: 0.25lh;
+  height: 2lh;
+}
+
+.md-blockquote {
+  border-left-width: 3px;
+  border-left-style: solid;
+  padding-left: 0.75rem;
+  opacity: 0.8;
+}
+
+.md-code {
+  display: inline-block;
+  margin-block: -0.125rem;
+  padding: 0.125rem 0.5rem;
+  border-radius: var(--radius-xl);
+  background: color-mix(in oklab, var(--color-white) 10%, transparent);
+  corner-shape: squircle;
+}
+
+.md-heading-1,
+.md-heading-2,
+.md-heading-3,
+.md-heading-4,
+.md-heading-5,
+.md-heading-6 {
+  font-weight: 700;
+}
+
+.md-heading-1 {
+  font-size: var(--text-7xl);
+  line-height: var(--text-7xl--line-height);
+}
+
+.md-heading-2 {
+  font-size: var(--text-6xl);
+  line-height: var(--text-6xl--line-height);
+}
+
+.md-heading-3 {
+  font-size: var(--text-5xl);
+  line-height: var(--text-5xl--line-height);
+}
+
+.md-heading-4 {
+  font-size: var(--text-4xl);
+  line-height: var(--text-4xl--line-height);
+}
+
+.md-heading-5 {
+  font-size: var(--text-3xl);
+  line-height: var(--text-3xl--line-height);
+}
+
+.md-heading-6 {
+  font-size: var(--text-2xl);
+  line-height: var(--text-2xl--line-height);
+}
+
+.md-hr {
+  width: 10rem;
+  height: 0.125rem;
+  margin-block: 1rem;
+  background: var(--color-white);
+  opacity: 0.6;
+}
+
+.md-image {
+  display: inline-block;
+  height: 1lh;
+  min-width: 1lh;
+  margin-inline: 0.125rem;
+  margin-block: -0.25lh;
+  object-fit: contain;
+  vertical-align: middle;
+}
+
+.md-link {
+  color: var(--tint-color);
+  text-decoration: underline;
+}

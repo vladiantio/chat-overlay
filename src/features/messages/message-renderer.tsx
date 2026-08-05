@@ -19,47 +19,24 @@ const renderer: Partial<ReactRenderer> = {
           (isValidElement(child) && child.type === "img"),
       );
     return (
-      <p className={cn(hasOnlyImages && "[&>img]:my-[0.25lh] [&>img]:h-[2lh]")}>
+      <p className={cn(hasOnlyImages && "md-paragraph--image-only")}>
         {children}
       </p>
     );
   },
   blockquote(children) {
-    return <div className="border-l-3 pl-3 opacity-80">{children}</div>;
+    return <div className="md-blockquote">{children}</div>;
   },
   codespan(code) {
-    return (
-      <code className="-my-0.5 inline-block rounded-xl bg-white/10 px-2 py-0.5 [corner-shape:squircle]">
-        {code}
-      </code>
-    );
+    return <code className="md-code">{code}</code>;
   },
   heading(children, level) {
-    let className = "";
-    switch (level) {
-      case 1:
-        className = "text-7xl";
-        break;
-      case 2:
-        className = "text-6xl";
-        break;
-      case 3:
-        className = "text-5xl";
-        break;
-      case 4:
-        className = "text-4xl";
-        break;
-      case 5:
-        className = "text-3xl";
-        break;
-      case 6:
-        className = "text-2xl";
-        break;
-    }
-    return <span className={cn("font-bold", className)}>{children}</span>;
+    return (
+      <span className={`md-heading-${level}`}>{children}</span>
+    );
   },
   hr() {
-    return <hr className="my-4 h-0.5 w-40 bg-white opacity-60" />;
+    return <hr className="md-hr" />;
   },
   image(src, alt, title) {
     return (
@@ -67,7 +44,7 @@ const renderer: Partial<ReactRenderer> = {
         src={src}
         alt={alt}
         title={title ?? undefined}
-        className="mx-0.5 -my-[0.25lh] inline-block h-lh min-w-[1lh] object-contain align-middle"
+        className="md-image"
         onError={(e) => {
           e.currentTarget.style.opacity = "0";
         }}
@@ -75,7 +52,7 @@ const renderer: Partial<ReactRenderer> = {
     );
   },
   link(_href, text) {
-    return <span className="text-(--tint-color) underline">{text}</span>;
+    return <span className="md-link">{text}</span>;
   },
 };
 

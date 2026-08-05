@@ -30,3 +30,6 @@ badges.json
 
 # 7TV emotes
 stv-emotes.json
+
+# Demo screenshot build
+/dist-demo

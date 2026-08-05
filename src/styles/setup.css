@@ -1,0 +1,123 @@
+.setup {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  width: min(100%, 80rem);
+  min-height: 100dvh;
+  margin-inline: auto;
+  padding: 1.5rem;
+}
+
+@media (min-width: 48rem) {
+  .setup {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    align-items: stretch;
+    justify-content: center;
+  }
+}
+
+.setup-card {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 1rem;
+  padding: 1.5rem;
+  border-width: 1px;
+  border-style: solid;
+  border-radius: var(--radius-3xl);
+  background: var(--color-neutral-900);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+}
+
+.setup-card--center {
+  align-items: center;
+}
+
+.setup-title {
+  margin-bottom: 1rem;
+  font-size: var(--text-2xl);
+  line-height: var(--text-2xl--line-height);
+  font-weight: 700;
+}
+
+.setup-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  width: 100%;
+}
+
+.setup-field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.setup-label {
+  font-size: var(--text-sm);
+  line-height: var(--text-sm--line-height);
+  color: color-mix(in oklab, var(--color-white) 80%, transparent);
+}
+
+.setup-input {
+  box-sizing: border-box;
+  width: 100%;
+  padding: 14px 1.25rem;
+  border: 1px solid color-mix(in oklab, var(--color-white) 20%, transparent);
+  border-radius: var(--radius-xl);
+  background: color-mix(in oklab, var(--color-white) 5%, transparent);
+  font-size: var(--text-base);
+  line-height: var(--text-base--line-height);
+  color: var(--color-white);
+  outline: none;
+  transition: all 300ms ease-in-out;
+}
+
+.setup-input:focus {
+  border-color: var(--color-purple-400);
+  background: color-mix(in oklab, var(--color-white) 10%, transparent);
+  box-shadow: 0 0 0 2px var(--color-purple-400);
+}
+
+.setup-button {
+  width: 100%;
+  padding: 14px 1.25rem;
+  border-radius: var(--radius-xl);
+  background: var(--color-purple-800);
+  font-weight: 600;
+  color: var(--color-white);
+  cursor: pointer;
+  transition:
+    translate 200ms,
+    box-shadow 200ms;
+}
+
+.setup-button:hover:not(:disabled) {
+  translate: 0 -2px;
+  box-shadow: 0 8px 20px rgba(168, 85, 247, 0.4);
+}
+
+.setup-button:active {
+  translate: 0;
+}
+
+.setup-button:disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+.setup-button:disabled:hover {
+  translate: 0;
+  box-shadow: none;
+}
+
+.setup-preview {
+  width: 100%;
+  height: calc(100dvh - var(--spacing) * 28);
+}
+
+.setup-hint {
+  text-align: center;
+}

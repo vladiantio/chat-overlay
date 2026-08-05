@@ -52,10 +52,7 @@ export function ChatContainer({
 
   return (
     <div
-      className={cn(
-        "flex flex-col-reverse overflow-hidden mask-y-from-[calc(100%-var(--spacing)*4)]",
-        className,
-      )}
+      className={cn("chat-container", className)}
       data-slot="chat-container"
       ref={containerRef}
       {...props}
@@ -69,7 +66,7 @@ export function ChatMessages() {
   const { alignment, fadeSeconds, messages, showPlatform } = useChat();
   return (
     <div
-      className="space-y-4 p-4 leading-[1.4] wrap-anywhere"
+      className="chat-messages"
       data-slot="chat-messages"
       style={
         {
@@ -82,7 +79,7 @@ export function ChatMessages() {
           key={`${msg.platform}-${msg.id}`}
           data-slot="chat-message"
           data-platform={msg.platform}
-          className="group relative"
+          className="chat-message"
           style={
             {
               "--color": msg.color,
@@ -100,7 +97,7 @@ export function ChatMessages() {
         >
           {(!msg.isSamePreviousUser || i == 0) && (
             <div
-              className="relative z-1 flex w-fit animate-slide-in items-center gap-2"
+              className="chat-user-row"
               style={
                 {
                   marginLeft: "if(style(--align: right): auto; else: 0)",
@@ -112,7 +109,7 @@ export function ChatMessages() {
             >
               <div
                 data-slot="chat-message-user"
-                className="flex h-8 items-center gap-1.5 rounded-2xl bg-(--tint-color) px-2 leading-none font-bold shadow-[0_4px_16px_rgba(0,0,0,0.3)] [corner-shape:squircle]"
+                className="chat-user"
                 style={
                   {
                     color: "contrast-color(var(--tint-color))",
@@ -124,7 +121,7 @@ export function ChatMessages() {
                   <span
                     aria-label={msg.platform}
                     data-slot="chat-message-user-platform"
-                    className="flex items-center"
+                    className="chat-user-platform"
                   >
                     {msg.platform === "twitch" ? (
                       <TwitchIcon />
@@ -136,10 +133,7 @@ export function ChatMessages() {
                 <span data-slot="chat-message-user-name">{msg.username}</span>
               </div>
               {msg.badges && msg.badges.length > 0 && (
-                <div
-                  className="flex gap-1"
-                  data-slot="chat-message-user-badges"
-                >
+                <div className="chat-badges" data-slot="chat-message-user-badges">
                   {msg.badges.map((badge, index) => (
                     <img
                       data-slot="chat-message-badge"
@@ -147,7 +141,7 @@ export function ChatMessages() {
                       src={badge.url}
                       alt={badge.description}
                       title={badge.description}
-                      className="size-8 object-contain drop-shadow-sm drop-shadow-black/30"
+                      className="chat-badge"
                       onError={(e) => {
                         e.currentTarget.style.opacity = "0";
                       }}
@@ -161,8 +155,8 @@ export function ChatMessages() {
           <div
             data-slot="chat-message-text"
             className={cn(
-              "relative w-fit animate-slide-in rounded-2xl border bg-(--subtle-color) px-3 py-2 font-medium text-pretty shadow-[0_3px_12px_rgba(0,0,0,0.4)] [corner-shape:squircle] group-last:ring-2 group-last:ring-(--tint-color)",
-              msg.isSamePreviousUser && i > 0 ? "-mt-3" : "-mt-1",
+              "chat-bubble",
+              msg.isSamePreviousUser && i > 0 && "chat-bubble--stacked",
             )}
             style={
               {
@@ -174,7 +168,7 @@ export function ChatMessages() {
             }
           >
             {msg.replyTo && (
-              <div className="mb-1 line-clamp-1 border-l-2 border-white/50 pl-2 text-sm leading-snug break-all opacity-75">
+              <div className="chat-reply">
                 <strong>{msg.replyTo.username}:</strong> {msg.replyTo.message}
               </div>
             )}

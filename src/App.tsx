@@ -43,7 +43,7 @@ export function App() {
 
   return (
     <ChatSection
-      className="h-dvh"
+      className="chat-screen"
       twitchChannel={twitchChannel}
       youtubeChannel={youtubeChannel}
       youtubeApiKey={youtubeApiKey}
