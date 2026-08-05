@@ -15,11 +15,6 @@
       "unknown"
     ]
   },
-  "sortTailwindcss": {
-    "stylesheet": "./src/index.css",
-    "functions": ["cn"],
-    "preserveWhitespace": true
-  },
   "tabWidth": 2,
   "useTabs": false
 }
