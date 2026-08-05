@@ -1,6 +1,6 @@
 import fs from "node:fs/promises";
 
-const EMOTE_PATH = "./src/features/emotes/global-stv.json";
+const EMOTE_PATH = "./src/features/emotes/stv-emotes.json";
 const STV_QUERY = `
   query EmoteSearch(
     $query: String,
