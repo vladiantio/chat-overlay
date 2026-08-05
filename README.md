@@ -142,10 +142,10 @@ src/
 │   └── chat.ts               # Shared type definitions
 ├── utils/
 │   ├── audio.ts              # Notification sounds
-│   └── cn.ts                 # Tailwind class merging
+│   └── cn.ts                 # Conditional class name helper
 ├── App.tsx                   # Main application component
 ├── generate-og.ts            # Takumi OG image generation
-└── index.css                 # Global styles
+└── styles/                   # Global styles (theme, reset, components)
 ```
 
 ## ⚠️ API Quota Considerations
@@ -171,7 +171,7 @@ Twitch chat uses WebSocket connections with no API quota limits.
 
 ### Colors and Styling
 
-The overlay uses Tailwind CSS. Modify `src/index.css` or use custom CSS in OBS:
+The overlay uses vanilla CSS. Modify the styles in `src/styles/` or use custom CSS in OBS:
 
 ```css
 /* Example: Change message color */
@@ -220,6 +220,6 @@ MIT License - feel free to use for personal and commercial streaming!
 ## 🌐 Credits
 
 - Built with [Vite](https://vitejs.dev/) + [React](https://react.dev/) + [TypeScript](https://www.typescriptlang.org/)
-- Styled with [Tailwind CSS](https://tailwindcss.com/)
+- Styled with vanilla CSS (custom properties in `src/styles/theme.css`)
 - Twitch integration via [tmi.js](https://github.com/tmijs/tmi.js)
 - YouTube integration via [YouTube Data API v3](https://developers.google.com/youtube/v3)

@@ -29,31 +29,31 @@ Full reference: `docs/migration-tailwind-to-vanilla.md`.
 ## Task List
 
 ### Phase 0: Baseline
-- [ ] Task 1: Baseline snapshot
+- [x] Task 1: Baseline snapshot
 
 ### Phase 1: Theme variables + entry point
-- [ ] Task 2: Create `src/styles/` structure (theme + global) and delete `src/index.css`
+- [x] Task 2: Create `src/styles/` structure (theme + global) and delete `src/index.css`
 
 ### Phase 2: Component conversion (one PR each, parallelizable)
-- [ ] Task 3: Convert `snippet.tsx`
-- [ ] Task 4: Convert `message-renderer.tsx`
-- [ ] Task 5: Convert `chat.tsx`
-- [ ] Task 6: Convert `setup.tsx`
+- [x] Task 3: Convert `snippet.tsx`
+- [x] Task 4: Convert `message-renderer.tsx`
+- [x] Task 5: Convert `chat.tsx`
+- [x] Task 6: Convert `setup.tsx`
 
 ### Checkpoint: Components
-- [ ] `pnpm lint` passes
+- [x] `pnpm lint` passes
 - [ ] `pnpm build` passes
-- [ ] Setup screen + overlay visually match baseline screenshots
+- [x] Setup screen + overlay visually match baseline screenshots
 
 ### Phase 3: Remove Tailwind
-- [ ] Task 7: Remove Tailwind deps and plugin; rewrite `cn.ts`
+- [x] Task 7: Remove Tailwind deps and plugin; rewrite `cn.ts`
 
 ### Checkpoint: Cleanup
-- [ ] `pnpm lint` + `pnpm build` pass
-- [ ] `dist/` CSS size delta reviewed
+- [x] `pnpm lint` + `pnpm build` pass
+- [x] `dist/` CSS size delta reviewed
 
 ### Phase 4: Verification
-- [ ] Task 8: Final visual + build verification
+- [x] Task 8: Final visual + build verification
 
 ## Risks and Mitigations
 

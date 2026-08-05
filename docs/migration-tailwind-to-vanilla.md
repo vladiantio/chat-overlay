@@ -69,3 +69,53 @@ Special mappings to handle:
 - Check `dist/` CSS size delta
 
 **Suggested order**: `snippet` → `message-renderer` → `chat` → `setup` (leaf → root, each step compiles).
+
+---
+
+## Results (2026-08-05)
+
+All phases completed. Baseline screenshots in `tasks/baseline/` were regenerated during
+Phase 2 — the original demo build lacked the Tailwind Vite plugin and captured unstyled
+pages; the true baseline now reflects the real pre-migration rendering.
+
+### Verification
+
+- `pnpm lint` — 0 errors, 0 warnings
+- `pnpm build` — passes (badges + 7TV emotes download, `tsc -b`, `vite build`)
+- Visual diff vs baseline (headless Chromium, RMSE metric, 0 = identical):
+
+  | View | RMSE |
+  |---|---|
+  | chat-left (badges, emotes, markdown, reply) | 0.0029 |
+  | chat-right | 0.0029 |
+  | chat-fade (mid-animation frame, phase-sensitive) | 0.0002 |
+  | setup | 0.0029 |
+
+  Residual differences are single-pixel antialiasing noise (subpixel glyph/shadow
+  edges), not layout or color changes.
+
+### `dist/` CSS size delta
+
+| Metric | Before (Tailwind) | After (vanilla) | Delta |
+|---|---|---|---|
+| CSS raw | 24.27 kB | 11.58 kB | −52% |
+| CSS gzip | 5.32 kB | 3.29 kB | −38% |
+| JS raw | 481.83 kB | 452.40 kB | −6% (tailwind-merge dropped) |
+
+### Issues found & fixed during conversion
+
+- **Shorthand `border` resets border-color**: `border: 1px solid` resets the color to
+  `currentColor` (bright white), while Tailwind's `border` utility only sets width+style
+  and lets the universal `border-color: oklch(1 0 0 / 0.1)` rule apply. Fixed by using
+  `border-width` + `border-style` in `chat.css`/`setup.css`/`markdown.css`.
+- **`--text-N--line-height` tokens missing**: Tailwind v4 keeps default per-size
+  line-height ratios (`calc(1.25 / 0.875)` for `text-sm`, etc.) even when the app
+  overrides only the font size. Missing ratios caused 1–2 px vertical layout shifts.
+  Ratios added to `theme.css` and referenced from `setup.css`, `snippet.css`,
+  `markdown.css`.
+- **`md:` card alignment split**: the two setup cards use different `align-items`
+  (`flex-start` vs `center`); one shared class wrongly unified them. Split via a
+  `.setup-card--center` modifier.
+- **Demo baseline capture**: screenshots of the demo harness must build with the Tailwind
+  plugin for a valid pre-migration reference (the committed `vite.demo.config.ts` is
+  plugin-free — fine after Task 7).

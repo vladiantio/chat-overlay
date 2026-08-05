@@ -1,7 +1,6 @@
 /*
-  Reset/base styles modeled on Tailwind Preflight:
-  https://github.com/tailwindlabs/tailwindcss/blob/main/packages/tailwindcss/src/preflight.css
-  Tailwind-specific `--theme(...)` calls replaced with plain var() tokens.
+  Reset/base styles modeled on the Preflight reset (semantics copied,
+  framework-specific `--theme(...)` calls replaced with plain var() tokens).
 */
 
 *,

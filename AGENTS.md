@@ -1,6 +1,6 @@
 # Chat Overlay
 
-Purely client-side SPA (React 19, Vite 8, Tailwind v4). Zero server.
+Purely client-side SPA (React 19, Vite 8, vanilla CSS). Zero server.
 
 ## Commands
 
