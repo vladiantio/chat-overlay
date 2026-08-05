@@ -144,6 +144,7 @@ src/
 │   ├── audio.ts              # Notification sounds
 │   └── cn.ts                 # Tailwind class merging
 ├── App.tsx                   # Main application component
+├── generate-og.ts            # Takumi OG image generation
 └── index.css                 # Global styles
 ```
 

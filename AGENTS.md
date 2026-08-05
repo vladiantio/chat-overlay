@@ -35,7 +35,7 @@ No test framework exists, no test command.
 
   Both skip if output already exists unless `--force`.
 
-- `generate:og` fetches Twemoji SVGs from CDN → `public/og.jpg` (gitignored)
+- `generate:og` renders with `takumi-js` (native Rust, no headless browser) → `public/og.jpg` (gitignored). Emoji are handled by Takumi's built-in twemoji provider.
 
 ## Configuration
 
@@ -59,4 +59,4 @@ Default 5s interval. Free API tier: ~10k units/day, ~2.7h runtime. Badge code is
 - `useTwitchChat` (TMI.js WebSocket) + `useYouTubeChat` (REST polling) — each caps at **10 messages**.
 - Message fade via CSS animation driven by `fadeSeconds` param.
 - Badges are static (not fetched at runtime).
-- OG image generated at build time (satori + sharp).
+- OG image generated at build time (takumi-js).
