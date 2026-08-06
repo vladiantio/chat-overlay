@@ -36,10 +36,10 @@ export class ChatOverlayElement extends HTMLElement {
 
   constructor() {
     super();
-    this.classList.add("chat-container", "chat-screen");
   }
 
   connectedCallback() {
+    this.classList.add("chat-container", "chat-screen");
     if (!this.querySelector(".chat-messages")) {
       const messages = document.createElement("div");
       messages.className = "chat-messages";
