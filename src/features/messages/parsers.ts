@@ -65,7 +65,6 @@ export function parseMarkdown(
 
       const stvEmote = stvEmotes.find((e) => e.name === word);
       if (!stvEmote) continue;
-      console.log(word, start, end, stvEmote.id);
 
       emoteBoundaries.push({
         provider: "stv",
