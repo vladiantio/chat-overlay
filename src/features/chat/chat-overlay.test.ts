@@ -198,6 +198,35 @@ describe("chat-overlay", () => {
     const after = overlay.querySelectorAll("[data-slot='chat-message']").length;
     expect(after).toBe(2);
   });
+
+  it("does not replace existing message elements when a message is added", () => {
+    const overlay = document.createElement("chat-overlay") as ChatOverlayElement;
+    overlay.seedMessages([message({ id: "m1", message: "first" })]);
+    container.append(overlay);
+
+    const first = overlay.querySelector("[data-slot='chat-message']")!;
+    overlay.store.add(
+      message({ id: "m2", username: "other", timestamp: 2, message: "second" }),
+    );
+
+    const nodes = overlay.querySelectorAll("[data-slot='chat-message']");
+    expect(nodes).toHaveLength(2);
+    expect(nodes[0]).toBe(first);
+    expect(nodes[1].textContent).toContain("second");
+  });
+
+  it("removes the message element when a message is removed from the store", () => {
+    const overlay = document.createElement("chat-overlay") as ChatOverlayElement;
+    overlay.seedMessages([message({ id: "m1" }), message({ id: "m2" })]);
+    container.append(overlay);
+
+    const first = overlay.querySelector("[data-slot='chat-message']")!;
+    overlay.store.removeById("m2");
+
+    const nodes = overlay.querySelectorAll("[data-slot='chat-message']");
+    expect(nodes).toHaveLength(1);
+    expect(nodes[0]).toBe(first);
+  });
 });
 
 declare global {

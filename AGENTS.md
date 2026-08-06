@@ -54,7 +54,7 @@ When no channels configured, `<chat-setup>` renders.
 
 Light DOM, no shadow roots (OBS `file://` + external CSS must style `data-slot` internals):
 
-- `<chat-overlay>` — observed attributes `twitch`, `youtube`, `youtube-key`, `fade`, `alignment`, `show-platform`, `ignore`, `notification-sound`; owns a `ChatController` store; re-renders the message list on every `change` event; `seedMessages()` supports demo mode
+- `<chat-overlay>` — observed attributes `twitch`, `youtube`, `youtube-key`, `fade`, `alignment`, `show-platform`, `ignore`, `notification-sound`; owns a `ChatController` store; incrementally updates the message list on every `change` event (existing message elements are reused, only new/removed/changed ones are touched); `seedMessages()` supports demo mode
 - `<chat-setup>` — channel form → overlay URL snippet + live preview
 - `<copy-snippet>` — copy button with `data-copied` state
 

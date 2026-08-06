@@ -26,10 +26,12 @@ export class ChatOverlayElement extends HTMLElement {
     "notification-sound",
   ];
 
-  private store = new ChatController();
+  store = new ChatController();
   private twitchController: TwitchChatController | undefined;
   private youtubeController: YouTubeChatController | undefined;
   private initialMessages: ChatMessage[] = [];
+  private nodesById = new Map<string, HTMLElement>();
+  private htmlById = new Map<string, string>();
   private readonly handleStoreChange = () => this.renderMessages();
 
   constructor() {
@@ -116,26 +118,61 @@ export class ChatOverlayElement extends HTMLElement {
     if (!list) return;
 
     const messages = this.store.messages;
-    list.innerHTML = messages
-      .map((msg, index) => this.messageHtml(msg, index))
-      .join("");
+    const ids = new Set(messages.map((msg) => msg.id));
 
-    const messageNodes = list.querySelectorAll("[data-slot='chat-message']");
-    messageNodes.forEach((node, index) => {
-      const style = (node as HTMLElement).style;
-      const msg = messages[index];
-      style.setProperty("--color", msg.color);
-      style.setProperty(
-        "--subtle-color",
-        `color-mix(in oklab, ${msg.color} 5%, var(--color-neutral-900))`,
-      );
-      style.setProperty(
-        "--tint-color",
-        `color-mix(in oklab, ${msg.color} 60%, #fff)`,
-      );
+    for (const [id, node] of this.nodesById) {
+      if (ids.has(id)) continue;
+      node.remove();
+      this.nodesById.delete(id);
+      this.htmlById.delete(id);
+    }
+
+    messages.forEach((msg, index) => {
+      const html = this.messageHtml(msg, index);
+      const existing = this.nodesById.get(msg.id);
+      if (existing) {
+        if (this.htmlById.get(msg.id) === html) return;
+        const replacement = this.messageElement(html);
+        existing.replaceWith(replacement);
+        this.nodesById.set(msg.id, replacement);
+        this.htmlById.set(msg.id, html);
+        this.applyMessageColors(replacement, msg);
+        return;
+      }
+
+      const node = this.messageElement(html);
+      const anchor = messages
+        .slice(index + 1)
+        .map((next) => this.nodesById.get(next.id))
+        .find((nextNode) => nextNode !== undefined);
+      if (anchor) list.insertBefore(node, anchor);
+      else list.append(node);
+      this.nodesById.set(msg.id, node);
+      this.htmlById.set(msg.id, html);
+      this.applyMessageColors(node, msg);
     });
 
     this.scrollTop = this.scrollHeight;
+  }
+
+  private messageElement(html: string): HTMLElement {
+    const wrapper = document.createElement("div");
+    wrapper.innerHTML = html;
+    const element = wrapper.firstElementChild as HTMLElement;
+    wrapper.removeChild(element);
+    return element;
+  }
+
+  private applyMessageColors(node: HTMLElement, msg: ChatMessage) {
+    node.style.setProperty("--color", msg.color);
+    node.style.setProperty(
+      "--subtle-color",
+      `color-mix(in oklab, ${msg.color} 5%, var(--color-neutral-900))`,
+    );
+    node.style.setProperty(
+      "--tint-color",
+      `color-mix(in oklab, ${msg.color} 60%, #fff)`,
+    );
   }
 
   private messageHtml(msg: ChatMessage, index: number): string {
