@@ -175,7 +175,7 @@ The overlay uses vanilla CSS. Modify the styles in `src/styles/` or use custom C
 
 ```css
 /* Example: Change message color */
-[data-slot="chat-message"] {
+.chat-message {
   --color: #3fa0fa;
 }
 ```

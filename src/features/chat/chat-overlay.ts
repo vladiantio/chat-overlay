@@ -40,10 +40,9 @@ export class ChatOverlayElement extends HTMLElement {
   }
 
   connectedCallback() {
-    if (!this.querySelector("[data-slot='chat-messages']")) {
+    if (!this.querySelector(".chat-messages")) {
       const messages = document.createElement("div");
       messages.className = "chat-messages";
-      messages.setAttribute("data-slot", "chat-messages");
       this.append(messages);
     }
     this.store.addEventListener("change", this.handleStoreChange);
@@ -114,7 +113,7 @@ export class ChatOverlayElement extends HTMLElement {
   }
 
   private renderMessages() {
-    const list = this.querySelector("[data-slot='chat-messages']");
+    const list = this.querySelector(".chat-messages");
     if (!list) return;
 
     const messages = this.store.messages;
@@ -187,22 +186,22 @@ export class ChatOverlayElement extends HTMLElement {
         ? `<div class="chat-reply"><strong>${escapeHtml(msg.replyTo.username)}:</strong> ${escapeHtml(msg.replyTo.message)}</div>`
         : "";
     const badges = msg.badges?.length
-      ? `<div class="chat-badges" data-slot="chat-message-user-badges">${msg.badges.map((badge) => `<img data-slot="chat-message-badge" src="${escapeHtml(badge.url)}" alt="${escapeHtml(badge.description)}" title="${escapeHtml(badge.description)}" class="chat-badge" onerror="this.style.opacity='0'" />`).join("")}</div>`
+      ? `<div class="chat-badges chat-message-user-badges">${msg.badges.map((badge) => `<img class="chat-badge chat-message-badge" src="${escapeHtml(badge.url)}" alt="${escapeHtml(badge.description)}" title="${escapeHtml(badge.description)}" onerror="this.style.opacity='0'" />`).join("")}</div>`
       : "";
     const platformIcon =
       msg.platform === "twitch" ? twitchIcon() : youTubeIcon();
     const userRow = showUser
-      ? `<div class="chat-user-row"><div class="chat-user" data-slot="chat-message-user">${
+      ? `<div class="chat-user-row"><div class="chat-user chat-message-user">${
           this.showPlatform
-            ? `<span aria-label="${msg.platform}" data-slot="chat-message-user-platform" class="chat-user-platform">${platformIcon}</span>`
+            ? `<span aria-label="${msg.platform}" class="chat-user-platform chat-message-user-platform">${platformIcon}</span>`
             : ""
-        }<span data-slot="chat-message-user-name">${escapeHtml(msg.username)}</span></div>${badges}</div>`
+        }<span class="chat-message-user-name">${escapeHtml(msg.username)}</span></div>${badges}</div>`
       : "";
     const content = renderMarkdown(
       parseMarkdown(msg.message, msg.emotes, msg.replyTo),
     );
 
-    return `<div class="chat-message" data-slot="chat-message" data-platform="${msg.platform}"${animation}>${userRow}<div class="chat-bubble${stacked ? " chat-bubble--stacked" : ""}" data-slot="chat-message-text">${reply}<div>${content}</div></div></div>`;
+    return `<div class="chat-message" data-platform="${msg.platform}"${animation}>${userRow}<div class="chat-bubble${stacked ? " chat-bubble--stacked" : ""} chat-message-text">${reply}<div>${content}</div></div></div>`;
   }
 
   private get fadeSeconds(): number {

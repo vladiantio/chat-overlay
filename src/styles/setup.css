@@ -113,7 +113,7 @@
   box-shadow: none;
 }
 
-.setup-preview {
+.setup-preview-overlay {
   width: 100%;
   height: calc(100dvh - var(--spacing) * 28);
 }

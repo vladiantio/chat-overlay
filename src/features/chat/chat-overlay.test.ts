@@ -36,17 +36,17 @@ afterEach(() => {
 });
 
 describe("chat-overlay", () => {
-  it("renders seeded messages with data-slot and data-platform attributes", () => {
+  it("renders seeded messages with class and data-platform attributes", () => {
     const overlay = document.createElement("chat-overlay") as ChatOverlayElement;
     overlay.seedMessages([message({ message: "check" })]);
     container.append(overlay);
 
-    const msgEl = overlay.querySelector("[data-slot='chat-message']");
+    const msgEl = overlay.querySelector(".chat-message");
     expect(msgEl).not.toBeNull();
     expect(msgEl!.getAttribute("data-platform")).toBe("twitch");
     expect(msgEl!.textContent).toContain("check");
     expect(
-      overlay.querySelector("[data-slot='chat-message-user-name']")!.textContent,
+      overlay.querySelector(".chat-message-user-name")!.textContent,
     ).toBe("vladiantio");
     expect(overlay.dataset.align).toBe("left");
   });
@@ -65,7 +65,7 @@ describe("chat-overlay", () => {
     container.append(overlay);
 
     const msgEl = overlay.querySelector<HTMLElement>(
-      "[data-slot='chat-message']",
+      ".chat-message",
     )!;
     expect(msgEl.style.getPropertyValue("--color")).toBe("#8b5cf6");
     expect(msgEl.style.getPropertyValue("--subtle-color")).toBe(
@@ -76,14 +76,14 @@ describe("chat-overlay", () => {
     );
   });
 
-  it("renders badges with the badge data-slot", () => {
+  it("renders badges with the badge class", () => {
     const overlay = document.createElement("chat-overlay") as ChatOverlayElement;
     overlay.seedMessages([
       message({ badges: [badge("broadcaster", "Broadcaster", "https://x/1.png")] }),
     ]);
     container.append(overlay);
 
-    const badgeEl = overlay.querySelector("[data-slot='chat-message-badge']");
+    const badgeEl = overlay.querySelector(".chat-message-badge");
     expect(badgeEl!.getAttribute("src")).toBe("https://x/1.png");
     expect(badgeEl!.getAttribute("alt")).toBe("Broadcaster");
   });
@@ -122,7 +122,7 @@ describe("chat-overlay", () => {
     ]);
     container.append(overlay);
     expect(
-      overlay.querySelectorAll("[data-slot='chat-message-user-name']"),
+      overlay.querySelectorAll(".chat-message-user-name"),
     ).toHaveLength(1);
   });
 
@@ -131,7 +131,7 @@ describe("chat-overlay", () => {
     overlay.seedMessages([message()]);
     container.append(overlay);
     expect(
-      overlay.querySelector("[data-slot='chat-message-user-platform']"),
+      overlay.querySelector(".chat-message-user-platform"),
     ).toBeNull();
 
     const withIcons = document.createElement(
@@ -144,7 +144,7 @@ describe("chat-overlay", () => {
     ]);
     container.append(withIcons);
     expect(
-      withIcons.querySelectorAll("[data-slot='chat-message-user-platform']"),
+      withIcons.querySelectorAll(".chat-message-user-platform"),
     ).toHaveLength(2);
   });
 
@@ -155,7 +155,7 @@ describe("chat-overlay", () => {
     container.append(overlay);
 
     const msgEl = overlay.querySelector<HTMLElement>(
-      "[data-slot='chat-message']",
+      ".chat-message",
     )!;
     expect(msgEl.style.animation).toContain("fadeOut");
     expect(msgEl.style.animation).toContain("2750ms");
@@ -167,7 +167,7 @@ describe("chat-overlay", () => {
     container.append(overlay);
 
     const msgEl = overlay.querySelector<HTMLElement>(
-      "[data-slot='chat-message']",
+      ".chat-message",
     )!;
     expect(msgEl.style.animation).toBe("");
   });
@@ -178,7 +178,7 @@ describe("chat-overlay", () => {
       message({ username: "<script>", message: "hello" }),
     ]);
     container.append(overlay);
-    expect(overlay.querySelector("[data-slot='chat-message-user-name']")!.textContent).toBe(
+    expect(overlay.querySelector(".chat-message-user-name")!.textContent).toBe(
       "<script>",
     );
     expect(overlay.innerHTML).not.toContain("<script>");
@@ -188,14 +188,14 @@ describe("chat-overlay", () => {
     const overlay = document.createElement("chat-overlay") as ChatOverlayElement;
     overlay.seedMessages([message({ id: "m1" })]);
     container.append(overlay);
-    const before = overlay.querySelectorAll("[data-slot='chat-message']").length;
+    const before = overlay.querySelectorAll(".chat-message").length;
     expect(before).toBe(1);
 
     overlay.seedMessages([
       message({ id: "m1" }),
       message({ id: "m2" }),
     ]);
-    const after = overlay.querySelectorAll("[data-slot='chat-message']").length;
+    const after = overlay.querySelectorAll(".chat-message").length;
     expect(after).toBe(2);
   });
 
@@ -204,12 +204,12 @@ describe("chat-overlay", () => {
     overlay.seedMessages([message({ id: "m1", message: "first" })]);
     container.append(overlay);
 
-    const first = overlay.querySelector("[data-slot='chat-message']")!;
+    const first = overlay.querySelector(".chat-message")!;
     overlay.store.add(
       message({ id: "m2", username: "other", timestamp: 2, message: "second" }),
     );
 
-    const nodes = overlay.querySelectorAll("[data-slot='chat-message']");
+    const nodes = overlay.querySelectorAll(".chat-message");
     expect(nodes).toHaveLength(2);
     expect(nodes[0]).toBe(first);
     expect(nodes[1].textContent).toContain("second");
@@ -220,10 +220,10 @@ describe("chat-overlay", () => {
     overlay.seedMessages([message({ id: "m1" }), message({ id: "m2" })]);
     container.append(overlay);
 
-    const first = overlay.querySelector("[data-slot='chat-message']")!;
+    const first = overlay.querySelector(".chat-message")!;
     overlay.store.removeById("m2");
 
-    const nodes = overlay.querySelectorAll("[data-slot='chat-message']");
+    const nodes = overlay.querySelectorAll(".chat-message");
     expect(nodes).toHaveLength(1);
     expect(nodes[0]).toBe(first);
   });

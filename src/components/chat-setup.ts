@@ -13,7 +13,7 @@ export class ChatSetupElement extends HTMLElement {
       const input = this.querySelector<HTMLInputElement>("#twitchChannel");
       this.previewChannel = input?.value.trim() || "";
       this.renderPreview();
-      this.querySelector("[data-slot='setup-preview']")?.scrollIntoView({
+      this.querySelector(".setup-preview")?.scrollIntoView({
         behavior: "smooth",
         block: "start",
       });
@@ -45,17 +45,15 @@ export class ChatSetupElement extends HTMLElement {
   }
 
   private renderPreview() {
-    const container = this.querySelector<HTMLElement>(
-      "[data-slot='setup-preview']",
-    );
+    const container = this.querySelector<HTMLElement>(".setup-preview");
     if (!container) return;
     container.innerHTML = this.previewChannel
-      ? `<chat-overlay class="setup-preview" twitch="${escapeAttr(this.previewChannel)}"></chat-overlay>`
+      ? `<chat-overlay class="setup-preview-overlay" twitch="${escapeAttr(this.previewChannel)}"></chat-overlay>`
       : '<p class="setup-hint">Enter a Twitch channel and click "Preview" to see the chat overlay.</p>';
   }
 
   private render() {
-    this.innerHTML = `<div class="setup"><div class="setup-card"><h2 class="setup-title">Chat Overlay</h2><form class="setup-form"><div class="setup-field"><label class="setup-label" for="twitchChannel">Twitch Channel</label><input class="setup-input" id="twitchChannel" type="text" placeholder="Enter Twitch Channel (e.g., vladiantio)" autofocus required /></div><div class="setup-field"><label class="setup-label">Overlay URL</label><copy-snippet title="Copy Overlay URL" placeholder="${escapeAttr(location.href)}"></copy-snippet></div><button type="submit" class="setup-button" disabled>Preview</button></form></div><div class="setup-card setup-card--center" data-slot="setup-preview">${this.previewChannel ? `<chat-overlay class="setup-preview" twitch="${escapeAttr(this.previewChannel)}"></chat-overlay>` : '<p class="setup-hint">Enter a Twitch channel and click "Preview" to see the chat overlay.</p>'}</div></div>`;
+    this.innerHTML = `<div class="setup"><div class="setup-card"><h2 class="setup-title">Chat Overlay</h2><form class="setup-form"><div class="setup-field"><label class="setup-label" for="twitchChannel">Twitch Channel</label><input class="setup-input" id="twitchChannel" type="text" placeholder="Enter Twitch Channel (e.g., vladiantio)" autofocus required /></div><div class="setup-field"><label class="setup-label">Overlay URL</label><copy-snippet title="Copy Overlay URL" placeholder="${escapeAttr(location.href)}"></copy-snippet></div><button type="submit" class="setup-button" disabled>Preview</button></form></div><div class="setup-card setup-card--center setup-preview">${this.previewChannel ? `<chat-overlay class="setup-preview-overlay" twitch="${escapeAttr(this.previewChannel)}"></chat-overlay>` : '<p class="setup-hint">Enter a Twitch channel and click "Preview" to see the chat overlay.</p>'}</div></div>`;
   }
 }
 

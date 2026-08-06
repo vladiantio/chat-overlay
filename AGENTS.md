@@ -52,7 +52,7 @@ When no channels configured, `<chat-setup>` renders.
 
 ## Web Components
 
-Light DOM, no shadow roots (OBS `file://` + external CSS must style `data-slot` internals):
+Light DOM, no shadow roots (OBS `file://` + external CSS must style class-marked internals):
 
 - `<chat-overlay>` — observed attributes `twitch`, `youtube`, `youtube-key`, `fade`, `alignment`, `show-platform`, `ignore`, `notification-sound`; owns a `ChatController` store; incrementally updates the message list on every `change` event (existing message elements are reused, only new/removed/changed ones are touched); `seedMessages()` supports demo mode
 - `<chat-setup>` — channel form → overlay URL snippet + live preview
