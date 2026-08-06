@@ -1,8 +1,8 @@
 import { copyToClipboard } from "@/utils/clipboard";
 
-const copyIcon = `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>`;
+const copyIcon = `<svg xmlns="http://www.w3.org/2000/svg" class="snippet-icon snippet-icon--copy" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>`;
 
-const checkIcon = `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>`;
+const checkIcon = `<svg xmlns="http://www.w3.org/2000/svg" class="snippet-icon snippet-icon--check" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>`;
 
 export class CopySnippetElement extends HTMLElement {
   static readonly observedAttributes = ["text", "title", "placeholder"];
@@ -17,16 +17,23 @@ export class CopySnippetElement extends HTMLElement {
 
   connectedCallback() {
     this.render();
-    this.querySelector("button")?.addEventListener("click", this.handleClick);
+    this.querySelector(".snippet-button")?.addEventListener(
+      "click",
+      this.handleClick,
+    );
   }
 
   disconnectedCallback() {
-    this.querySelector("button")?.removeEventListener("click", this.handleClick);
+    this.querySelector(".snippet-button")?.removeEventListener(
+      "click",
+      this.handleClick,
+    );
     if (this.copiedTimeout) clearTimeout(this.copiedTimeout);
   }
 
-  attributeChangedCallback() {
-    if (this.isConnected) this.render();
+  attributeChangedCallback(name: string) {
+    if (name !== "text" || !this.isConnected) return;
+    this.updateText();
   }
 
   private onClick() {
@@ -42,6 +49,17 @@ export class CopySnippetElement extends HTMLElement {
 
     void copyToClipboard(text);
     this.dispatchEvent(new CustomEvent("copy", { detail: text }));
+  }
+
+  private updateText() {
+    const text = this.getAttribute("text") || "";
+    const placeholder = this.getAttribute("placeholder") || "";
+    this.querySelector(".snippet-text")?.classList.toggle(
+      "snippet-text--empty",
+      !text,
+    );
+    this.querySelector(".snippet-text")!.textContent = text || placeholder;
+    this.querySelector(".snippet-button")?.toggleAttribute("disabled", !text);
   }
 
   private render() {

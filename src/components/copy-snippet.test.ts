@@ -28,7 +28,9 @@ describe("copy-snippet", () => {
 
     const pre = snippet.querySelector(".snippet-text");
     expect(pre!.textContent).toBe("https://example.com");
-    expect(snippet.querySelector(".snippet-button")!.hasAttribute("disabled")).toBe(false);
+    expect(
+      snippet.querySelector(".snippet-button")!.hasAttribute("disabled"),
+    ).toBe(false);
   });
 
   it("shows the placeholder and disables the button without text", () => {
@@ -39,7 +41,9 @@ describe("copy-snippet", () => {
     const pre = snippet.querySelector(".snippet-text");
     expect(pre!.textContent).toBe("https://fallback.com");
     expect(pre!.classList.contains("snippet-text--empty")).toBe(true);
-    expect(snippet.querySelector(".snippet-button")!.hasAttribute("disabled")).toBe(true);
+    expect(
+      snippet.querySelector(".snippet-button")!.hasAttribute("disabled"),
+    ).toBe(true);
   });
 
   it("copies to the clipboard and marks the snippet as copied", async () => {
@@ -91,11 +95,21 @@ describe("copy-snippet", () => {
     expect(snippet.dataset.copied).toBeUndefined();
   });
 
-  it("re-renders when the text attribute changes", () => {
+  it("updates the text in place when the text attribute changes", () => {
     const snippet = document.createElement("copy-snippet");
     snippet.setAttribute("text", "one");
     container.append(snippet);
     snippet.setAttribute("text", "two");
     expect(snippet.querySelector(".snippet-text")!.textContent).toBe("two");
+  });
+
+  it("keeps the button functional after a text attribute change", () => {
+    const snippet = document.createElement("copy-snippet");
+    snippet.setAttribute("text", "one");
+    container.append(snippet);
+    snippet.setAttribute("text", "two");
+
+    snippet.querySelector<HTMLButtonElement>(".snippet-button")!.click();
+    expect(navigator.clipboard.writeText).toHaveBeenCalledWith("two");
   });
 });
