@@ -28,7 +28,7 @@ const STV_QUERY = `
   }
 `;
 const NAMES_EXCLUDED =
-  "0|????|((|)|aza|job|LO|mion|o|ok|oop|papa|que|SON|sus|vp|w|WAS|yo|Yo";
+  "0|????|((|)|aza|job|LO|mion|o|ok|oop|papa|que|SON|sus|vp|w|WAS|work|yo|Yo";
 
 async function fileExists(path) {
   try {
