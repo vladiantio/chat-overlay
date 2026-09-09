@@ -2,6 +2,8 @@
 
 Purely client-side SPA (TypeScript, Vite 8, vanilla CSS, native Web Components). Zero server, zero framework.
 
+> Code conventions: see [CODESTYLE.md](./CODESTYLE.md).
+
 ## Commands
 
 | Command                    | Purpose                                                       |
