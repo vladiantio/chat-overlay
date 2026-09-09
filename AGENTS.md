@@ -15,6 +15,7 @@ Purely client-side SPA (TypeScript, Vite 8, vanilla CSS, native Web Components).
 | `pnpm lint`                | oxlint                                                        |
 | `pnpm lint:fix`            | oxlint --fix                                                  |
 | `pnpm format`              | oxfmt                                                         |
+| `pnpm format:check`        | oxfmt --check                                                 |
 | `pnpm preview`             | Serve `dist/` on port **4210** (strict)                       |
 | `pnpm test`                | Vitest run (colocated `src/**/*.test.ts`)                     |
 | `pnpm test:watch`          | Vitest watch                                                  |
