@@ -17,6 +17,7 @@ const message = (id: string, username = "user"): ChatMessage => ({
 interface FakeClient {
   onMessage: (msg: ChatMessage) => void;
   onDeleted: (id: string) => void;
+  onUserBanned: (username: string) => void;
   disconnect: ReturnType<typeof vi.fn>;
 }
 
@@ -26,8 +27,9 @@ const makeFakeFactory = () => {
     _channel: string,
     onMessage: (msg: ChatMessage) => void,
     onDeleted: (id: string) => void,
+    onUserBanned: (username: string) => void = () => {},
   ) => {
-    client = { onMessage, onDeleted, disconnect: vi.fn() };
+    client = { onMessage, onDeleted, onUserBanned, disconnect: vi.fn() };
     return client;
   };
   return {
@@ -123,6 +125,57 @@ describe("TwitchChatController", () => {
     fake.getClient().onMessage(message("m1"));
     fake.getClient().onDeleted("m1");
     expect(controller.messages).toHaveLength(0);
+  });
+
+  it("removes all messages from a banned user", () => {
+    const { controller, chat, fake } = setup();
+    chat.start();
+    fake.getClient().onMessage(message("m1", "troll"));
+    fake.getClient().onMessage(message("m2", "ok"));
+    fake.getClient().onMessage(message("m3", "troll"));
+    fake.getClient().onUserBanned("troll");
+    expect(controller.messages.map((m) => m.id)).toEqual(["m2"]);
+  });
+
+  it("removes all messages from a timed out user case-insensitively", () => {
+    const { controller, chat, fake } = setup();
+    chat.start();
+    fake.getClient().onMessage(message("m1", "Troll"));
+    fake.getClient().onMessage(message("m2", "ok"));
+    fake.getClient().onUserBanned("troll");
+    expect(controller.messages.map((m) => m.id)).toEqual(["m2"]);
+  });
+
+  it("emits a single change event when removing a banned user", () => {
+    const { controller, chat, fake } = setup();
+    chat.start();
+    fake.getClient().onMessage(message("m1", "troll"));
+    fake.getClient().onMessage(message("m2", "troll"));
+    const listener = vi.fn();
+    controller.addEventListener("change", listener);
+    fake.getClient().onUserBanned("troll");
+    expect(controller.messages).toHaveLength(0);
+    expect(listener).toHaveBeenCalledTimes(1);
+  });
+
+  it("does not emit change when banning a user with no messages", () => {
+    const { controller, chat, fake } = setup();
+    chat.start();
+    fake.getClient().onMessage(message("m1", "ok"));
+    const listener = vi.fn();
+    controller.addEventListener("change", listener);
+    fake.getClient().onUserBanned("ghost");
+    expect(controller.messages.map((m) => m.id)).toEqual(["m1"]);
+    expect(listener).not.toHaveBeenCalled();
+  });
+
+  it("keeps youtube messages from the same username when banning a twitch user", () => {
+    const { controller, chat, fake } = setup();
+    chat.start();
+    fake.getClient().onMessage(message("m1", "troll"));
+    controller.add({ ...message("m2", "troll"), platform: "youtube" });
+    fake.getClient().onUserBanned("troll");
+    expect(controller.messages.map((m) => m.id)).toEqual(["m2"]);
   });
 
   it("removes messages after the fade delay", () => {

@@ -29,6 +29,15 @@ export class ChatController extends EventTarget {
     this.dispatchChange();
   }
 
+  removeByIds(ids: readonly string[] | ReadonlySet<string>) {
+    const idSet = ids instanceof Set ? ids : new Set(ids);
+    if (idSet.size === 0) return;
+    const filtered = this.items.filter((message) => !idSet.has(message.id));
+    if (filtered.length === this.items.length) return;
+    this.items = filtered;
+    this.dispatchChange();
+  }
+
   clear() {
     if (this.items.length === 0) return;
     this.items = [];

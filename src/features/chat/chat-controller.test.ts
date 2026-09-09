@@ -62,6 +62,36 @@ describe("ChatController", () => {
     expect(listener).not.toHaveBeenCalled();
   });
 
+  it("removes multiple messages by ids and emits a single change", () => {
+    const controller = new ChatController();
+    controller.add(message("m1", 1));
+    controller.add(message("m2", 2));
+    controller.add(message("m3", 3));
+    const listener = vi.fn();
+    controller.addEventListener("change", listener);
+    controller.removeByIds(["m1", "m3"]);
+    expect(controller.messages.map((m) => m.id)).toEqual(["m2"]);
+    expect(listener).toHaveBeenCalledTimes(1);
+  });
+
+  it("does not emit change when removing unknown ids", () => {
+    const controller = new ChatController();
+    controller.add(message("m1", 1));
+    const listener = vi.fn();
+    controller.addEventListener("change", listener);
+    controller.removeByIds(["nope"]);
+    expect(listener).not.toHaveBeenCalled();
+  });
+
+  it("does not emit change when removing an empty id list", () => {
+    const controller = new ChatController();
+    controller.add(message("m1", 1));
+    const listener = vi.fn();
+    controller.addEventListener("change", listener);
+    controller.removeByIds([]);
+    expect(listener).not.toHaveBeenCalled();
+  });
+
   it("clears all messages and emits change", () => {
     const controller = new ChatController();
     controller.add(message("m1", 1));

@@ -51,6 +51,7 @@ export class TwitchChatController {
       this.channel,
       (msg) => this.handleMessage(msg),
       (id) => this.handleDeleted(id),
+      (username) => this.handleUserBanned(username),
     );
   }
 
@@ -91,5 +92,17 @@ export class TwitchChatController {
   private handleDeleted(id: string) {
     this.platformMessages = this.platformMessages.filter((m) => m.id !== id);
     this.controller.removeById(id);
+  }
+
+  private handleUserBanned(username: string) {
+    const normalized = username.toLowerCase();
+    const bannedIds = this.platformMessages
+      .filter((m) => m.username.toLowerCase() === normalized)
+      .map((m) => m.id);
+    if (bannedIds.length === 0) return;
+    this.platformMessages = this.platformMessages.filter(
+      (m) => m.username.toLowerCase() !== normalized,
+    );
+    this.controller.removeByIds(bannedIds);
   }
 }

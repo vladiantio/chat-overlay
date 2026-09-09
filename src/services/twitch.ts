@@ -11,6 +11,7 @@ export function createTwitchClient(
   channel: string,
   onMessage: (msg: ChatMessage) => void,
   onDeleted: (deletedMessageId: string) => void,
+  onUserBanned: (username: string) => void = () => {},
 ) {
   let lastSender: string | null = null;
   const client = new tmi.Client({
@@ -66,6 +67,14 @@ export function createTwitchClient(
       }
     },
   );
+
+  client.on("ban", (_channel, username) => {
+    onUserBanned(username);
+  });
+
+  client.on("timeout", (_channel, username) => {
+    onUserBanned(username);
+  });
 
   return {
     disconnect: () => {
