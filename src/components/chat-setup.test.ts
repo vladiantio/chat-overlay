@@ -55,7 +55,9 @@ describe("chat-setup", () => {
     input.value = "";
     input.dispatchEvent(new Event("input"));
 
-    expect(setup.querySelector("copy-snippet")!.hasAttribute("text")).toBe(false);
+    expect(setup.querySelector("copy-snippet")!.hasAttribute("text")).toBe(
+      false,
+    );
     expect(
       setup.querySelector<HTMLButtonElement>(".setup-button")!.disabled,
     ).toBe(true);
@@ -68,9 +70,9 @@ describe("chat-setup", () => {
     const input = setup.querySelector<HTMLInputElement>("#twitchChannel")!;
     input.value = "myChannel";
     input.dispatchEvent(new Event("input"));
-    setup.querySelector<HTMLFormElement>("form")!.dispatchEvent(
-      new Event("submit", { cancelable: true }),
-    );
+    setup
+      .querySelector<HTMLFormElement>("form")!
+      .dispatchEvent(new Event("submit", { cancelable: true }));
 
     const preview = setup.querySelector("chat-overlay");
     expect(preview).not.toBeNull();

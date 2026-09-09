@@ -11,7 +11,9 @@ describe("extractChannelId", () => {
 
   it("extracts the channel ID from a /channel/ URL", () => {
     expect(
-      extractChannelId("https://www.youtube.com/channel/UCX6Wc6iura2Yy2F0vBY9BzA"),
+      extractChannelId(
+        "https://www.youtube.com/channel/UCX6Wc6iura2Yy2F0vBY9BzA",
+      ),
     ).toBe("UCX6Wc6iura2Yy2F0vBY9BzA");
   });
 

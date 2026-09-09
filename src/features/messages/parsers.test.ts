@@ -60,9 +60,7 @@ describe("parseMarkdown", () => {
   });
 
   it("bolds @mentions", () => {
-    expect(parseMarkdown("thanks @vladiantio")).toBe(
-      "thanks **@vladiantio**",
-    );
+    expect(parseMarkdown("thanks @vladiantio")).toBe("thanks **@vladiantio**");
   });
 
   it("combines reply strip, codespan, and mention bold", () => {

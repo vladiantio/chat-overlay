@@ -1,10 +1,10 @@
 // @vitest-environment happy-dom
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 
-import type { ChatMessage } from "@/types/chat";
+import type { ChatOverlayElement } from "@/features/chat/chat-overlay";
 
 import "@/features/chat/chat-overlay";
-import type { ChatOverlayElement } from "@/features/chat/chat-overlay";
+import type { ChatMessage } from "@/types/chat";
 
 const badge = (id: string, description: string, url: string) => ({
   id,
@@ -37,7 +37,9 @@ afterEach(() => {
 
 describe("chat-overlay", () => {
   it("renders seeded messages with class and data-platform attributes", () => {
-    const overlay = document.createElement("chat-overlay") as ChatOverlayElement;
+    const overlay = document.createElement(
+      "chat-overlay",
+    ) as ChatOverlayElement;
     overlay.seedMessages([message({ message: "check" })]);
     container.append(overlay);
 
@@ -45,14 +47,16 @@ describe("chat-overlay", () => {
     expect(msgEl).not.toBeNull();
     expect(msgEl!.getAttribute("data-platform")).toBe("twitch");
     expect(msgEl!.textContent).toContain("check");
-    expect(
-      overlay.querySelector(".chat-message-user-name")!.textContent,
-    ).toBe("vladiantio");
+    expect(overlay.querySelector(".chat-message-user-name")!.textContent).toBe(
+      "vladiantio",
+    );
     expect(overlay.dataset.align).toBe("left");
   });
 
   it("sets data-align from the alignment attribute", () => {
-    const overlay = document.createElement("chat-overlay") as ChatOverlayElement;
+    const overlay = document.createElement(
+      "chat-overlay",
+    ) as ChatOverlayElement;
     overlay.setAttribute("alignment", "right");
     overlay.seedMessages([message()]);
     container.append(overlay);
@@ -60,13 +64,13 @@ describe("chat-overlay", () => {
   });
 
   it("sets --color, --subtle-color, and --tint-color on each message", () => {
-    const overlay = document.createElement("chat-overlay") as ChatOverlayElement;
+    const overlay = document.createElement(
+      "chat-overlay",
+    ) as ChatOverlayElement;
     overlay.seedMessages([message({ color: "#8b5cf6" })]);
     container.append(overlay);
 
-    const msgEl = overlay.querySelector<HTMLElement>(
-      ".chat-message",
-    )!;
+    const msgEl = overlay.querySelector<HTMLElement>(".chat-message")!;
     expect(msgEl.style.getPropertyValue("--color")).toBe("#8b5cf6");
     expect(msgEl.style.getPropertyValue("--subtle-color")).toBe(
       "color-mix(in oklab, #8b5cf6 5%, var(--color-neutral-900))",
@@ -77,9 +81,13 @@ describe("chat-overlay", () => {
   });
 
   it("renders badges with the badge class", () => {
-    const overlay = document.createElement("chat-overlay") as ChatOverlayElement;
+    const overlay = document.createElement(
+      "chat-overlay",
+    ) as ChatOverlayElement;
     overlay.seedMessages([
-      message({ badges: [badge("broadcaster", "Broadcaster", "https://x/1.png")] }),
+      message({
+        badges: [badge("broadcaster", "Broadcaster", "https://x/1.png")],
+      }),
     ]);
     container.append(overlay);
 
@@ -89,7 +97,9 @@ describe("chat-overlay", () => {
   });
 
   it("renders a reply block when the message has a replyTo", () => {
-    const overlay = document.createElement("chat-overlay") as ChatOverlayElement;
+    const overlay = document.createElement(
+      "chat-overlay",
+    ) as ChatOverlayElement;
     overlay.seedMessages([
       message({
         replyTo: { id: "m0", username: "other", message: "original" },
@@ -102,7 +112,9 @@ describe("chat-overlay", () => {
   });
 
   it("stacks the bubble for a same-user follow-up message", () => {
-    const overlay = document.createElement("chat-overlay") as ChatOverlayElement;
+    const overlay = document.createElement(
+      "chat-overlay",
+    ) as ChatOverlayElement;
     overlay.seedMessages([
       message({ id: "m1" }),
       message({ id: "m2", isSamePreviousUser: true }),
@@ -115,24 +127,24 @@ describe("chat-overlay", () => {
   });
 
   it("hides the user row for stacked messages", () => {
-    const overlay = document.createElement("chat-overlay") as ChatOverlayElement;
+    const overlay = document.createElement(
+      "chat-overlay",
+    ) as ChatOverlayElement;
     overlay.seedMessages([
       message({ id: "m1" }),
       message({ id: "m2", isSamePreviousUser: true }),
     ]);
     container.append(overlay);
-    expect(
-      overlay.querySelectorAll(".chat-message-user-name"),
-    ).toHaveLength(1);
+    expect(overlay.querySelectorAll(".chat-message-user-name")).toHaveLength(1);
   });
 
   it("renders platform icons only when show-platform is true", () => {
-    const overlay = document.createElement("chat-overlay") as ChatOverlayElement;
+    const overlay = document.createElement(
+      "chat-overlay",
+    ) as ChatOverlayElement;
     overlay.seedMessages([message()]);
     container.append(overlay);
-    expect(
-      overlay.querySelector(".chat-message-user-platform"),
-    ).toBeNull();
+    expect(overlay.querySelector(".chat-message-user-platform")).toBeNull();
 
     const withIcons = document.createElement(
       "chat-overlay",
@@ -149,34 +161,34 @@ describe("chat-overlay", () => {
   });
 
   it("applies the fade-out animation when fade is set", () => {
-    const overlay = document.createElement("chat-overlay") as ChatOverlayElement;
+    const overlay = document.createElement(
+      "chat-overlay",
+    ) as ChatOverlayElement;
     overlay.setAttribute("fade", "3");
     overlay.seedMessages([message()]);
     container.append(overlay);
 
-    const msgEl = overlay.querySelector<HTMLElement>(
-      ".chat-message",
-    )!;
+    const msgEl = overlay.querySelector<HTMLElement>(".chat-message")!;
     expect(msgEl.style.animation).toContain("fadeOut");
     expect(msgEl.style.animation).toContain("2750ms");
   });
 
   it("does not apply the fade-out animation when fade is 0", () => {
-    const overlay = document.createElement("chat-overlay") as ChatOverlayElement;
+    const overlay = document.createElement(
+      "chat-overlay",
+    ) as ChatOverlayElement;
     overlay.seedMessages([message()]);
     container.append(overlay);
 
-    const msgEl = overlay.querySelector<HTMLElement>(
-      ".chat-message",
-    )!;
+    const msgEl = overlay.querySelector<HTMLElement>(".chat-message")!;
     expect(msgEl.style.animation).toBe("");
   });
 
   it("escapes user-controlled text in the rendered output", () => {
-    const overlay = document.createElement("chat-overlay") as ChatOverlayElement;
-    overlay.seedMessages([
-      message({ username: "<script>", message: "hello" }),
-    ]);
+    const overlay = document.createElement(
+      "chat-overlay",
+    ) as ChatOverlayElement;
+    overlay.seedMessages([message({ username: "<script>", message: "hello" })]);
     container.append(overlay);
     expect(overlay.querySelector(".chat-message-user-name")!.textContent).toBe(
       "<script>",
@@ -185,22 +197,23 @@ describe("chat-overlay", () => {
   });
 
   it("re-renders the message list when the store changes", () => {
-    const overlay = document.createElement("chat-overlay") as ChatOverlayElement;
+    const overlay = document.createElement(
+      "chat-overlay",
+    ) as ChatOverlayElement;
     overlay.seedMessages([message({ id: "m1" })]);
     container.append(overlay);
     const before = overlay.querySelectorAll(".chat-message").length;
     expect(before).toBe(1);
 
-    overlay.seedMessages([
-      message({ id: "m1" }),
-      message({ id: "m2" }),
-    ]);
+    overlay.seedMessages([message({ id: "m1" }), message({ id: "m2" })]);
     const after = overlay.querySelectorAll(".chat-message").length;
     expect(after).toBe(2);
   });
 
   it("does not replace existing message elements when a message is added", () => {
-    const overlay = document.createElement("chat-overlay") as ChatOverlayElement;
+    const overlay = document.createElement(
+      "chat-overlay",
+    ) as ChatOverlayElement;
     overlay.seedMessages([message({ id: "m1", message: "first" })]);
     container.append(overlay);
 
@@ -216,7 +229,9 @@ describe("chat-overlay", () => {
   });
 
   it("removes the message element when a message is removed from the store", () => {
-    const overlay = document.createElement("chat-overlay") as ChatOverlayElement;
+    const overlay = document.createElement(
+      "chat-overlay",
+    ) as ChatOverlayElement;
     overlay.seedMessages([message({ id: "m1" }), message({ id: "m2" })]);
     container.append(overlay);
 

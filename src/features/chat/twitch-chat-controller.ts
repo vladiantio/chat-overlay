@@ -75,16 +75,13 @@ export class TwitchChatController {
     this.controller.add(msg);
 
     if (this.fadeSeconds > 0) {
-      const timeout = setTimeout(
-        () => {
-          this.timeouts.delete(timeout);
-          this.platformMessages = this.platformMessages.filter(
-            (m) => m.id !== msg.id,
-          );
-          this.controller.removeById(msg.id);
-        },
-        this.fadeSeconds * 1000,
-      );
+      const timeout = setTimeout(() => {
+        this.timeouts.delete(timeout);
+        this.platformMessages = this.platformMessages.filter(
+          (m) => m.id !== msg.id,
+        );
+        this.controller.removeById(msg.id);
+      }, this.fadeSeconds * 1000);
       this.timeouts.add(timeout);
     }
   }

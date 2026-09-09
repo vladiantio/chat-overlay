@@ -1,5 +1,6 @@
-import { describe, expect, it } from "vitest";
 import type { ContainerNode } from "takumi-js";
+
+import { describe, expect, it } from "vitest";
 
 import type { ChatMessage } from "@/types/chat";
 
@@ -38,16 +39,22 @@ describe("ogChatPreviewNode", () => {
     const node = ogChatPreviewNode([message]) as ContainerNode;
     const row = node.children![0] as ContainerNode;
     expect(row.style!.alignItems).toBe("flex-start");
-    const pill = (row.children ?? []).find((c) => c.style?.position === "absolute");
+    const pill = (row.children ?? []).find(
+      (c) => c.style?.position === "absolute",
+    );
     expect(pill!.style!.left).toBe(0);
     expect(pill!.style!.right).toBeUndefined();
   });
 
   it("flips alignment and the user pill to the right side", () => {
-    const node = ogChatPreviewNode([message], { alignment: "right" }) as ContainerNode;
+    const node = ogChatPreviewNode([message], {
+      alignment: "right",
+    }) as ContainerNode;
     const row = node.children![0] as ContainerNode;
     expect(row.style!.alignItems).toBe("flex-end");
-    const pill = (row.children ?? []).find((c) => c.style?.position === "absolute");
+    const pill = (row.children ?? []).find(
+      (c) => c.style?.position === "absolute",
+    );
     expect(pill!.style!.left).toBeUndefined();
     expect(pill!.style!.right).toBe(0);
   });

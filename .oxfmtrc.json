@@ -1,7 +1,7 @@
 {
   "$schema": "./node_modules/oxfmt/configuration_schema.json",
   "endOfLine": "lf",
-  "ignorePatterns": ["pnpm-lock.yaml", "package-lock.json"],
+  "ignorePatterns": ["*.md", "pnpm-lock.yaml", "package-lock.json"],
   "printWidth": 80,
   "semi": true,
   "sortImports": {

@@ -3,7 +3,10 @@ import { afterEach, describe, expect, it, vi } from "vitest";
 import type { ChatMessage } from "@/types/chat";
 
 import { ChatController } from "./chat-controller";
-import { TwitchChatController, type TwitchChatControllerOptions } from "./twitch-chat-controller";
+import {
+  TwitchChatController,
+  type TwitchChatControllerOptions,
+} from "./twitch-chat-controller";
 
 const message = (id: string, username = "user"): ChatMessage => ({
   id,
@@ -33,7 +36,8 @@ const makeFakeFactory = () => {
     return client;
   };
   return {
-    factory: factory as unknown as typeof import("@/services/twitch").createTwitchClient,
+    factory:
+      factory as unknown as typeof import("@/services/twitch").createTwitchClient,
     getClient: () => client,
   };
 };

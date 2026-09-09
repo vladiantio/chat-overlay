@@ -1,5 +1,4 @@
 import "@/features/chat/chat-overlay";
-
 import "./styles/global.css";
 import type { ChatMessage } from "@/types/chat";
 
@@ -7,7 +6,12 @@ const params = new URLSearchParams(location.search);
 const alignment = params.get("align") ?? "left";
 const fade = Number(params.get("fade")) || 0;
 
-const badge = (id: string, version: string, description: string, url: string) => ({
+const badge = (
+  id: string,
+  version: string,
+  description: string,
+  url: string,
+) => ({
   id,
   version,
   description,
@@ -38,7 +42,11 @@ const demoMessages: ChatMessage[] = [
     color: "#8b5cf6",
     timestamp: 2,
     isSamePreviousUser: true,
-    replyTo: { id: "m1", username: "vladiantio", message: "Welcome to the stream!" },
+    replyTo: {
+      id: "m1",
+      username: "vladiantio",
+      message: "Welcome to the stream!",
+    },
     message: "@vladiantio !uptime Kappa",
     emotes: { "25": ["18-22"] },
   },
@@ -62,7 +70,8 @@ const demoMessages: ChatMessage[] = [
         "https://static-cdn.jtvnw.net/badges/v1/5d9f2208-5dd8-11e7-8513-2ff4adfae661/2",
       ),
     ],
-    message: "## Schedule\n\n> Monday: ranked grind\n\nNice play @vladiantio `!follow`",
+    message:
+      "## Schedule\n\n> Monday: ranked grind\n\nNice play @vladiantio `!follow`",
   },
   {
     id: "m4",
@@ -84,9 +93,11 @@ const demoMessages: ChatMessage[] = [
   },
 ];
 
-const overlay = document.querySelector<HTMLElement & {
-  seedMessages: (messages: ChatMessage[]) => void;
-}>("chat-overlay")!;
+const overlay = document.querySelector<
+  HTMLElement & {
+    seedMessages: (messages: ChatMessage[]) => void;
+  }
+>("chat-overlay")!;
 overlay.seedMessages(demoMessages);
 overlay.setAttribute("alignment", alignment);
 overlay.setAttribute("fade", String(fade));

@@ -27,8 +27,7 @@ export function parseConfig(
     urlParams.get("youtubeKey") || env.VITE_YOUTUBE_API_KEY || "";
   const fadeSeconds =
     Number(urlParams.get("fade")) || Number(env.VITE_FADE) || 0;
-  const ignoreParam =
-    urlParams.get("ignore") || env.VITE_IGNORE_USERS || "";
+  const ignoreParam = urlParams.get("ignore") || env.VITE_IGNORE_USERS || "";
   const chatAlignment =
     urlParams.get("chatAlignment") || env.VITE_CHAT_ALIGNMENT || "left";
   const notificationSound = Boolean(

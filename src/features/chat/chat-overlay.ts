@@ -6,8 +6,8 @@ import {
 } from "@/features/messages/message-renderer";
 import { parseMarkdown } from "@/features/messages/parsers";
 
-import { twitchIcon, youTubeIcon } from "./chat-icons";
 import { ChatController } from "./chat-controller";
+import { twitchIcon, youTubeIcon } from "./chat-icons";
 import { TwitchChatController } from "./twitch-chat-controller";
 import { YouTubeChatController } from "./youtube-chat-controller";
 

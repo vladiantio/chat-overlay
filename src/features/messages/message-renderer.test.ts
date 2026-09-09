@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 
-import { parseMarkdown } from "./parsers";
 import { renderMarkdown } from "./message-renderer";
+import { parseMarkdown } from "./parsers";
 
 describe("renderMarkdown", () => {
   it("renders paragraphs without extra classes", () => {
@@ -34,7 +34,8 @@ describe("renderMarkdown", () => {
   });
 
   it("renders a paragraph of only images with the image-only class", () => {
-    const src = "https://static-cdn.jtvnw.net/emoticons/v2/305954156/default/dark/2.0";
+    const src =
+      "https://static-cdn.jtvnw.net/emoticons/v2/305954156/default/dark/2.0";
     expect(renderMarkdown(`![PogChamp](${src})`)).toBe(
       `<p class="md-paragraph--image-only"><img src="${src}" alt="PogChamp" class="md-image" onerror="this.style.opacity='0'" /></p>`,
     );
@@ -73,7 +74,9 @@ describe("renderMarkdown", () => {
   });
 
   it("renders the full demo message shape", () => {
-    const md = parseMarkdown("## Schedule\n\n> Monday: ranked grind\n\nNice play @vladiantio `!follow`");
+    const md = parseMarkdown(
+      "## Schedule\n\n> Monday: ranked grind\n\nNice play @vladiantio `!follow`",
+    );
     expect(renderMarkdown(md)).toBe(
       '<span class="md-heading-2">Schedule</span><div class="md-blockquote"><p>Monday: ranked grind</p></div><p>Nice play <strong>@vladiantio</strong> <code class="md-code">!follow</code></p>',
     );

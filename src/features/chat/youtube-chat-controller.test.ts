@@ -3,7 +3,10 @@ import { afterEach, describe, expect, it, vi } from "vitest";
 import type { ChatMessage } from "@/types/chat";
 
 import { ChatController } from "./chat-controller";
-import { YouTubeChatController, type YouTubeChatControllerOptions } from "./youtube-chat-controller";
+import {
+  YouTubeChatController,
+  type YouTubeChatControllerOptions,
+} from "./youtube-chat-controller";
 
 const message = (id: string, username = "viewer"): ChatMessage => ({
   id,
@@ -34,7 +37,8 @@ const makeFakeFactory = () => {
     return client;
   };
   return {
-    factory: factory as unknown as typeof import("@/services/youtube").createYouTubeClient,
+    factory:
+      factory as unknown as typeof import("@/services/youtube").createYouTubeClient,
     getClient: () => client,
     getChannelId: () => receivedChannelId,
   };

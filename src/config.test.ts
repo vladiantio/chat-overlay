@@ -47,9 +47,11 @@ describe("parseConfig", () => {
   });
 
   it("trims and lowercases the ignore list", () => {
-    expect(parseConfig("?ignore=User1, user2,User3", {}).ignoredUsers).toEqual(
-      ["user1", "user2", "user3"],
-    );
+    expect(parseConfig("?ignore=User1, user2,User3", {}).ignoredUsers).toEqual([
+      "user1",
+      "user2",
+      "user3",
+    ]);
   });
 
   it("returns an empty ignore list when not configured", () => {
